@@ -1,3 +1,5 @@
+java.runtime.version=11
+
 server:
   error:
     include-message: always
