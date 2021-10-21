@@ -1,1 +1,17 @@
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+  port: 8091
+Spring:
+  datasource:
+    password: 255fb8efd1a463833e777fcace655b844f4c8f24dab49fba10613fee7fc3b0fd
+    url: jdbc:postgresql://ec2-52-17-1-206.eu-west-1.compute.amazonaws.com:5432/d7abb1j9ru78j2
+    username: hywvwfjxjqkned
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
 
