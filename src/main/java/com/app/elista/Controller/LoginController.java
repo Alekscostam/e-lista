@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LoginController {
-    @GetMapping("/login")
+    @GetMapping("https://e-lista.herokuapp.com/login")
     public String login(){
         return "login";
     }
