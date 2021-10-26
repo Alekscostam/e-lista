@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated().and()
                 .formLogin()
-                .loginPage("/e-lista.herokuapp.com/login")
+                .loginPage("/login")
                 .permitAll()
                 .defaultSuccessUrl("/message",true)
                 .and()
