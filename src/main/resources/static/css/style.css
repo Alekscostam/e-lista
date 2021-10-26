@@ -33,26 +33,26 @@ body{
 }
 .navbar-nav li{
     padding:  0 10px;
-    font-size: 13px;
+    font-size: 15px;
 }
 .navbar-nav li a{
     color: #fff !important ;
-font-weight: 600;
-float: right;
-text-align: left;
+    font-weight: 600;
+    float: right;
+    text-align: left;
 }
- .fa-bars{
-     color: #fff;
-     font-size: 30px;
- }
- .navbar-toggler
- {
-     outline: none!important;
- }
- /*  baner section */
+.fa-bars{
+    color: #fff;
+    font-size: 30px;
+}
+.navbar-toggler
+{
+    outline: none!important;
+}
+/*  baner section */
 
- #banner
- {
+#banner
+{
     background-image: linear-gradient(to right, #4c47a0, #222049);
     color: #fff;
 
@@ -61,7 +61,7 @@ text-align: left;
 .promo-title{
     font-size: 40px;
     font-weight: 600;
-    margin-top:100px;
+    margin-top:50px;
 }
 
 .play-btn{
@@ -79,7 +79,7 @@ text-align: left;
 
 #services
 {
-    padding: 80px 0;
+    padding: 50px 0;
 }
 .service-img{
     width: 100px;
@@ -88,7 +88,7 @@ text-align: left;
 .services{
     padding: 20px;
 }
-.services h4{
+.services h5{
     padding: 5px;
     margin-top: 25px;
     text-transform: uppercase;
@@ -147,12 +147,12 @@ text-align: left;
 
 /* testimonials  sction*/
 #testimonials{
-    margin:100px 0px;
+    margin:50px 0px;
 
 }
 
 .testimonials{
-    border-left: 4px solid #222049;
+    /* border-left: 4px solid #222049; */
     margin-top: 50px;
     margin-bottom: 50px;
 
@@ -205,8 +205,8 @@ text-align: left;
 .footer-box img{
     width: 120px;
     margin-bottom:20p
-    
-    
+
+
 }
 
 .icons-bottom{
@@ -217,11 +217,11 @@ text-align: left;
     text-align: center;
     padding-top: 2px;
     border-radius: 2px;
-    
-   
+
+
 }
 .footer-box .form-control{
- 
+
     margin-top:  25px;
     max-width: 250;
 
@@ -239,6 +239,41 @@ text-align: left;
 hr{
     background-color:#fff ;
 }
+.copyright
+{
+    margin-bottom: 0;
+    padding-bottom: 20px;
+    text-align: center;
+
+}
+
+.table{
+    width: 100%;
+    border-collapse: collapse;
+
+}
+
+.table td,.table th{
+    font-weight: 600;
+    padding:1px 1px;
+    border:1px solid #ddd;
+    text-align: center;
+    font-size:20px;
+}
+
+.table th{
+    background-color: #4c47a0;
+    color:#ffffff;
+}
+
+.table tbody tr:nth-child(even){
+    background-color: #f5f5f5;
+}
+
+/*responsive*/
+
+
+
 .copyright
 {
     margin-bottom: 0;
