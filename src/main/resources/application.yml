@@ -1,8 +1,9 @@
+
 server:
   error:
     include-message: always
     include-binding-errors: always
-  port: 8091
+#  port: 8095
 Spring:
   datasource:
     password: 255fb8efd1a463833e777fcace655b844f4c8f24dab49fba10613fee7fc3b0fd

@@ -1,19 +1,47 @@
 package com.app.elista.registration;
 
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.app.elista.model.Offer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("api/v1/registration")
-@AllArgsConstructor
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@Controller
+@RequestMapping("registration")
 public class RegistrationController {
 
+    private final RegistrationService registrationService;
 
-    private RegistrationService registrationService;
-
-    public String register(@RequestBody RegistrationRequest request){
+    @Autowired
+    public RegistrationController(RegistrationService registrationService) {
+        this.registrationService = registrationService;
+    }
+    @GetMapping
+    public String registration()
+    {
+        return "registration";
+    }
+    @PostMapping
+    @ResponseBody
+    public String register( @RequestParam String name,
+                            @RequestParam String email,
+                            @RequestParam String password,
+                            @RequestParam String address,
+                            @RequestParam String phone,
+                            @RequestParam String offer
+                            ) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        RegistrationRequest request = new RegistrationRequest(name,email,password,address,phone,Offer.valueOf(offer));
+        LocalDateTime now = LocalDateTime.now();
+        request.setCreationDate(dtf.format(now));
         return registrationService.register(request);
+    }
+
+    @GetMapping(path = "confirm")
+    @ResponseBody
+    public String confirm(@RequestParam("token") String token) {
+        return registrationService.confirmToken(token);
     }
 }

@@ -1,4 +1,4 @@
-package com.app.elista.appuser;
+package com.app.elista.appcompany;
 
 public enum AppCompanyRole {
     USER,
