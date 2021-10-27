@@ -75,20 +75,21 @@ body{
     width:100%;
 }
 
-/* Services section */
+/* for-whom section */
 
-#services
+#for-whom
 {
-    padding: 50px 0;
+    padding-top: 75px;
+    padding-bottom: 25px;
 }
 .service-img{
     width: 100px;
     margin-top: 20px;
 }
-.services{
+.for-whom{
     padding: 20px;
 }
-.services h5{
+.for-whom h5{
     padding: 5px;
     margin-top: 25px;
     text-transform: uppercase;
@@ -116,7 +117,7 @@ body{
     transform: translateY(8px);
 }
 
-#services .btn-primary{
+#for-whom .btn-primary{
     box-shadow: none;
     padding: 8px 25px;
     border: none;
@@ -125,10 +126,10 @@ body{
 }
 
 /* ABOUT US section */
-#about-us{
+#functions{
     background: #f8f9fa;
     padding-bottom: 50px;
-    padding-top: 50px;
+    padding-top: 75px;
 }
 
 .about-title{
@@ -137,28 +138,29 @@ body{
     margin-top: 8%;
 }
 
-#about-us ul li {
+#functions ul li {
     margin: 10px 0;
 }
-#about-us ul{
+#functions ul{
     margin-left: 20px;
 }
 
 
-/* testimonials  sction*/
-#testimonials{
-    margin:50px 0px;
+/* price  sction*/
+#price{
+    /* margin:50px 0px; */
 
+    padding-top: 100px;
 }
 
-.testimonials{
+.price{
     /* border-left: 4px solid #222049; */
     margin-top: 50px;
     margin-bottom: 50px;
 
 }
 
-.testimonials img{
+.price img{
     height: 60px;
     width: 60px;
     border-radius:50% ;
@@ -204,7 +206,7 @@ body{
 }
 .footer-box img{
     width: 120px;
-    margin-bottom:20p
+    margin-bottom:20px;
 
 
 }
@@ -223,7 +225,7 @@ body{
 .footer-box .form-control{
 
     margin-top:  25px;
-    max-width: 250;
+    max-width: 250px;
 
 }
 

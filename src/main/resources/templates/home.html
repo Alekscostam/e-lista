@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-
-    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <link rel="stylesheet" href="./style.css" />
     <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
@@ -60,22 +58,24 @@
                     <a class="nav-link" href="/login">Logowanie </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#services">Rejestracja</a>
+                    <a class="nav-link" href="/registration">Rejestracja</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="https://e-lista.herokuapp.com/home#functions">Funkcje</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#about-us">Funkcje</a>
+                    <a class="nav-link" href="https://e-lista.herokuapp.com/home#for-whom">Dla kogo?</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="https://e-lista.herokuapp.com/home#prices">Cennik</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#services">Dla kogo?</a>
+                    <a class="nav-link" href="https://e-lista.herokuapp.com/home#functions">Zapisz się na zajęcia</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#footer">Cennik</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#services">Zapisz się na zajęcia</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#services">Kontakt</a>
+                    <a class="nav-link" href="https://e-lista.herokuapp.com/home#footer">Kontakt</a>
                 </li>
             </ul>
         </div>
@@ -107,43 +107,46 @@
     <img src="images/wave1.png" class="bottom-img" />
 </section>
 <!-- END BANNER SECTION -->
-
 <!-- SERVICE SECTION -->
-<section id="services">
+<section id="for-whom">
     <div class="container text-center">
         <h1 class="title">Dla kogo?</h1>
         <div class="row text-center">
 
-            <div class="col-md-3 services">
+            <div class="col-md-3 for-whom">
                 <img src="./images/service2.png" class="service-img" />
                 <h5>Kluby sportowe oraz siłownie</h5>
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text
+
                 </p>
             </div>
-            <div class="col-md-3 services">
+            <div class="col-md-3 for-whom">
                 <img src="./images/service1.png" class="service-img" />
                 <h5>Własne potrzeby</h5>
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text
+
                 </p>
             </div>
-            <div class="col-md-3 services">
+            <div class="col-md-3 for-whom">
                 <img src="./images/service1.png" class="service-img" />
                 <h5>Obozy oraz kolonie</h5>
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text
+
                 </p>
             </div>
-            <div class="col-md-3 services">
+            <div class="col-md-3 for-whom">
                 <img src="./images/service3.png" class="service-img" />
                 <h5>Przedszkola oraz szkoły</h5>
                 <p>
                     Lorem Ipsum is simply dummy text of the printing and typesetting
                     industry. Lorem Ipsum has been the industry's standard dummy text
+
                 </p>
             </div>
         </div>
@@ -153,13 +156,14 @@
     </div>
 </section>
 <!-- END SERVICE SECTION -->
+<!-- <section id="functions"></section> -->
 <!-- ABOUT US -->
-<section id="about-us">
+<section id="functions">
     <div class="container">
         <h1 class="title text-center">Dostępne funkcje</h1>
 
         <div class="row">
-            <div class="col-md-6 about-us">
+            <div class="col-md-6 functions">
                 <p class="about-title">Co aplikacja udostepnia naszym klientom:</p>
                 <ul style="font-size: 13px;line-height: 1.3;">
                     <li>Kalendarz umozliwiający przeglądanie zaplanownych zajęć</li>
@@ -186,7 +190,7 @@
 <!-- END ABOUT US -->
 
 <!--TESTIMONIALS  -->
-<section id="testimonials">
+<section id="price">
     <div class="container">
         <h1 class="title text-center">Cennik </h1>
         <div class="row ">
@@ -200,7 +204,7 @@
                 Co-founder at xyz
               </p>
             </div> -->
-            <div class="col-md-12 testimonials">
+            <div class="col-md-12 price">
                 <p>
                 <table class="table" style="border-radius: 10px;">
                     <thead>
@@ -304,4 +308,3 @@
 <!-- end smooth scroll -->
 </body>
 </html>
-
