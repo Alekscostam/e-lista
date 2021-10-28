@@ -41,9 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .defaultSuccessUrl("/app/calendar",true)
+                .defaultSuccessUrl("/app/attendanceList",true)
                 .and()
-                .logout().permitAll();
+                .logout().permitAll()
+                .logoutSuccessUrl("/login");
     }
 
     @Override

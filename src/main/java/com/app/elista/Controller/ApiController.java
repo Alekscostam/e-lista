@@ -13,4 +13,12 @@ public class ApiController {
 
         return "calendar";
     }
+
+    @GetMapping("attendanceList")
+    public String attendanceList() {
+
+        return "attendanceList";
+    }
+
+
 }

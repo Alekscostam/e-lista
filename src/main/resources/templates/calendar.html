@@ -2,18 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymleaf.org">
 
 <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <meta charset="UTF-8">
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <div th:replace="~{fragments/headApp :: head}"></div>
 </head>
 <body>
-<div th:replace="~{fragments/header :: navigation}"></div>
+<div th:replace="~{fragments/navbarApp :: navigation}"></div>
+
 
 </body>
 </html>

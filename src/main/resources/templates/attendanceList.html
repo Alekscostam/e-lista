@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+
+<head>
+    <div th:replace="~{fragments/headApp :: head}"></div>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</head>
+<body>
+<div th:replace="~{fragments/navbarApp :: navigation}"></div>
+<div class="container-fluid hello" style="">
+    <div class="">
+        <span class="my-4"> <h4>Lista obecności  <a href="#" class=""> <i style="font-size: 0.7em;"
+                                                                          class='bx bxs-info-circle info'> </i></a> </h4>  </span>
+        <hr>
+        <span class="my-4 text-center">
+          <button id="open-close" href="#" class="edit" onclick="changePanel(this)">Przełącz na listę obecności z konkretnych miesięcy</button>
+
+        </span>
+        <br>
+        <div id="month-form" style="display: none;">
+            <form lang="pl" class="form-inline my-0 my-lg-0">
+                <label for="group" style="font-weight:bold;"></label>
+                <input class="form-control my-1 mr-sm-2" type="search" placeholder="Imie" aria-label="Search">
+                <input class="form-control  mr-sm-2" type="search" placeholder="Nazwisko" aria-label="Search">
+                <div class="md-form mb-0 m-1  form-group form-field">
+                    <select name="group" id="group" class="form-control select-input mr-sm-2">
+                        <option value="">Wybierz grupe</option>
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="mercedes">Mercedes</option>
+                        <option value="audi">Audi</option>
+                        <option value="audi">Bez grupy</option>
+                    </select>
+                </div>
+
+                <div class="md-form mb-0 m-1  form-group form-field">
+                    <select name="group" id="groupFrom" class="form-control select-input mr-sm-2">
+                        <option value="1">Styczeń</option>
+                        <option value="2">Luty</option>
+                        <option value="3">Marzec</option>
+                        <option value="4">Kwiecień</option>
+                        <option value="5">Maj</option>
+                        <option value="6">Czerwiec</option>
+                        <option value="7">Lipiec</option>
+                        <option value="8">Sierpień</option>
+                        <option value="9">Wrzesień</option>
+                        <option value="10">Październik</option>
+                        <option value="11">Listopad</option>
+                        <option value="12">Grudzień</option>
+                    </select>
+                </div>
+
+                <div class="md-form mb-0 m-1  form-group form-field">
+                    <select name="group" id="groupTo" class="form-control select-input mr-sm-2">
+                        <option value="1">Styczeń</option>
+                        <option value="2">Luty</option>
+                        <option value="3">Marzec</option>
+                        <option value="4">Kwiecień</option>
+                        <option value="5">Maj</option>
+                        <option value="6">Czerwiec</option>
+                        <option value="7">Lipiec</option>
+                        <option value="8">Sierpień</option>
+                        <option value="9">Wrzesień</option>
+                        <option value="10">Październik</option>
+                        <option value="11">Listopad</option>
+                        <option value="12">Grudzień</option>
+                    </select>
+                </div>
+                <script type="text/javascript">
+
+                    window.onload = dataChange();
+                </script>
+
+                <div class="form-group">
+
+                </div>
+                &nbsp; &nbsp;
+                <button class="btn btn-outline-success my-2 my-sm-0 form-control" type="submit">Wyszukaj</button>
+                <br><br>
+            </form>
+        </div>
+
+        <div id="day-form">
+            <form lang="pl" class="form-inline my-0 my-lg-0">
+                <label for="group" style="font-weight:bold;"></label>
+                <input class="form-control my-1 mr-sm-2" type="search" placeholder="Imie" aria-label="Search">
+                <input class="form-control  mr-sm-2" type="search" placeholder="Nazwisko" aria-label="Search">
+                <div class="md-form mb-0 m-1  form-group form-field">
+                    <select name="group" id="group" class="form-control select-input mr-sm-2">
+                        <option value="">Wybierz grupe</option>
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="mercedes">Mercedes</option>
+                        <option value="audi">Audi</option>
+                    </select>
+                </div>
+                <input type="date" lang="fr-CA" data-date="" id="date-picker" data-date-format="DD MMMM YYYY">
+                <script type="text/javascript">
+                    window.onload = dataChange();
+                </script>
+                <div class="form-group">
+                </div>
+                &nbsp; &nbsp
+                <button class="btn btn-outline-success my-2 my-sm-0 form-control" type="submit">Wyszukaj</button>
+                <br><br>
+            </form>
+        </div>
+        <script src="main.js"></script>
+    </div>
+</div>
+</body>
+</html>

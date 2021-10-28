@@ -315,6 +315,7 @@ th{
 
 }
 
+
 input {
     color: white;
     border-radius: 4px;
@@ -327,6 +328,10 @@ input[type="date"]::-webkit-datetime-edit, input[type="date"]::-webkit-inner-spi
     color: #fff;
     position: relative;
     font-size: 0.8em;
+}
+.navbar-toggler
+{
+    outline: none!important;
 }
 
 input[type="date"]::-webkit-datetime-edit-year-field{
