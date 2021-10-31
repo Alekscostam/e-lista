@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .defaultSuccessUrl("/app/attendanceList",true)
+                .defaultSuccessUrl("/app/calendar",true)
                 .and()
                 .logout().permitAll()
                 .logoutSuccessUrl("/login");
