@@ -35,25 +35,23 @@
         <div class="container">
             <ul class="navbar-nav mr-auto text-center">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class='bx bx-grid-alt'> <span class="">Kalendarz</span></i>
-                    </a>
+                    <a class="nav-link" href="#"> <li>
+                <i class='bx bxs-calendar'><span class=""> Kalendarz</span></i>
+            </li></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link " id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false">
-                        <i class='bx bxs-user'> <span class=""> Uczestnicy</span></i>
+                    <a class="nav-link " href="http://127.0.0.1:5500/Uczesasdstnicy.html#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-user'><span class=""> Uczestnicy</span></i>
                     </a>
-                    <div style="font-size: 0.7em;" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div  style="font-size: 0.7em;"  class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Dodaj użytkownika</a>
                         <a class="dropdown-item" href="#">Lista uzytkowników</a>
-                        <a class="dropdown-item" href="#">Opcje wyświetlania</a>
                     </div>
                 </li>
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link " href="http://127.0.0.1:5500/Uczesasdstnicy.html#" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class='bx bxs-group'> <span class=""> Grupy</span></i>
+                    <a class="nav-link " href="http://127.0.0.1:5500/Uczesasdstnicy.html#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class='bx bxs-group'><span class=""> Grupy</span></i>
                     </a>
                     <div style="font-size: 0.7em;" class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Dodaj grupe</a>
@@ -62,26 +60,37 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <i class='bx bx-list-ul'><span class=""> Lista obecności</span></i>
+                        <i class='bx bx-list-ol'><span class=""> Lista obecności</span></i>
 
                     </a>
                 </li>
+
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <i class='bx bx-grid-alt'> <span class="">Kalendarz</span></i>
+                        <i class='bx bx-mail-send' ><span class=""> Maile</span></i>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class='bx bxs-dashboard' ><span class=""> Ustawienia</span>  </i>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" style="color: white;" href="#">
-                        <i class='bx bxs-message-dots'> <span class="">Kontakt</span></i>
+                        <i class='bx bxs-message-dots'><span class=""> Kontakt</span></i>
 
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <i class='bx bxs-help-circle'> <span class="">Pomoc</span></i>
+                        <i class='bx bxs-help-circle'><span class=""> Pomoc</span></i>
                     </a>
                 </li>
+
             </ul>
         </div>
         <form class="form-inline my-2 my-lg-0 text-center" th:action="@{/logout}" method="post" >

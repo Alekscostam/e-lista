@@ -14,39 +14,27 @@ import javax.mail.internet.MimeMessage;
 
 
 @Service
-public class EmailService implements EmailSender {
-    @Override
-    public void send(String to, String email) {
+public class EmailService {
 
+    private JavaMailSender mailSender;
+
+    @Autowired
+    public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
     }
 
+    // TODO: 23.10.2021
 
-//    private final static Logger LOGGER = LoggerFactory
-//            .getLogger(EmailService.class);
-//
-//    private final JavaMailSender mailSender;
-//@Autowired
-//    public EmailService(JavaMailSender mailSender) {
-//        this.mailSender = mailSender;
-//    }
-//    // TODO: 23.10.2021
-//
-//
-//    @Override
-//    @Async
-//    public void send(String to, String email) {
-//        try {
-//            MimeMessage mimeMessage = mailSender.createMimeMessage();
-//            MimeMessageHelper helper =
-//                    new MimeMessageHelper(mimeMessage, "utf-8");
-//            helper.setText(email, true);
-//            helper.setTo(to);
-//            helper.setSubject("Confirm your email");
-//            helper.setFrom("hello@amigoscode.com");
-//            mailSender.send(mimeMessage);
-//        } catch (MessagingException e) {
-//            LOGGER.error("failed to send email", e);
-//            throw new IllegalStateException("failed to send email");
-//        }
-//    }
+
+    public void sendMail(String to,
+                         String subject,
+                         String text,
+                         boolean isHtmlContent) throws MessagingException {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+        mimeMessageHelper.setTo(to);
+        mimeMessageHelper.setSubject(subject);
+        mimeMessageHelper.setText(text, isHtmlContent);
+        mailSender.send(mimeMessage);
+    }
 }
