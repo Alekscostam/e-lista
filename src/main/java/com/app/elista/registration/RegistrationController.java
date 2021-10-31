@@ -25,7 +25,7 @@ public class RegistrationController {
         return "registration";
     }
     @PostMapping
-//    @ResponseBody
+    @ResponseBody
     public String register( @RequestParam String name,
                             @RequestParam String email,
                             @RequestParam String password,
@@ -38,7 +38,7 @@ public class RegistrationController {
         LocalDateTime now = LocalDateTime.now();
         request.setCreationDate(dtf.format(now));
         String registerMSG = registrationService.register(request);
-        return "registration";
+        return  registrationService.register(request);
     }
 
     @GetMapping(path = "confirm")

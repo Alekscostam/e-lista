@@ -41,29 +41,29 @@ public class RegistrationService {
             throw new IllegalStateException("email not valid");
         }
         String token = "";
-     try{
-          token = appCompanyService.signUpCompany(
-                 new AppCompany(
-                         request.getName(),
-                         request.getEmail(),
-                         request.getPassword(),
-                         request.getAddress(),
-                         request.getPhone(),
-                         request.getOffer(),
-                         request.getCreationDate(),
-                         AppCompanyRole.USER
-                 )
-         );
-         String link = "http://localhost:8095/registration/confirm?token=" + token;
-         emailService.sendMail(
-                 request.getEmail(),"Potwierdzaj to!",link,false);
-         return token;
-     }
-     catch (IllegalStateException illegalStateException)
-     {
-         return "Email jest już zajęty! proszę wrócic";
-     }
-
+//     try{
+//
+//     }
+//     catch (IllegalStateException illegalStateException)
+//     {
+//         return "Email jest już zajęty! proszę wrócic";
+//     }
+        token = appCompanyService.signUpCompany(
+                new AppCompany(
+                        request.getName(),
+                        request.getEmail(),
+                        request.getPassword(),
+                        request.getAddress(),
+                        request.getPhone(),
+                        request.getOffer(),
+                        request.getCreationDate(),
+                        AppCompanyRole.USER
+                )
+        );
+        String link = "http://localhost:8095/registration/confirm?token=" + token;
+        emailService.sendMail(
+                request.getEmail(),"Potwierdzaj to!",link,false);
+        return token;
 
 
 
