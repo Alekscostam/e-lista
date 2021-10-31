@@ -60,9 +60,14 @@ public class RegistrationService {
                         AppCompanyRole.USER
                 )
         );
-        String link = "http://localhost:8095/registration/confirm?token=" + token;
+        String link = "https://e-lista.herokuapp.com/registration/confirm?token=" + token;
+//        String link = "http://localhost:8095/registration/confirm?token=" + token;
         emailService.sendMail(
                 request.getEmail(),"Potwierdzaj to!",link,false);
+
+
+
+
         return token;
 
 
