@@ -80,15 +80,15 @@ public class RegistrationService {
                         new IllegalStateException("token not found"));
 
         if (confirmationToken.getConfirmedAt() != null) {
-//            throw new IllegalStateException("email already confirmed");
-        return "Email został juz potwierdzony";
+            throw new IllegalStateException("Email został już potwierdzony");
+//        return "Email został juz potwierdzony";
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-//            throw new IllegalStateException("token expired");
-        return "Sesja wygasła";
+            throw new IllegalStateException("Sesja wygasła");
+
         }
 
         confirmationTokenService.setConfirmedAt(token);
