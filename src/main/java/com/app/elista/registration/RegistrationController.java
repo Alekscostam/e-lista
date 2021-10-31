@@ -37,7 +37,7 @@ public class RegistrationController {
         RegistrationRequest request = new RegistrationRequest(name,email,password,address,phone,Offer.valueOf(offer));
         LocalDateTime now = LocalDateTime.now();
         request.setCreationDate(dtf.format(now));
-        String registerMSG = registrationService.register(request);
+//        String registerMSG = registrationService.register(request);
         return  registrationService.register(request);
     }
 

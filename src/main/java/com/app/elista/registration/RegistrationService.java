@@ -65,12 +65,7 @@ public class RegistrationService {
         emailService.sendMail(
                 request.getEmail(),"Potwierdzaj to!",link,false);
 
-
-
-
         return token;
-
-
 
 //        return token;
     }
