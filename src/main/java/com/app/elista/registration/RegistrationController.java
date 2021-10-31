@@ -25,7 +25,6 @@ public class RegistrationController {
         return "registration";
     }
     @PostMapping
-    @ResponseBody
     public String register( @RequestParam String name,
                             @RequestParam String email,
                             @RequestParam String password,
@@ -42,9 +41,9 @@ public class RegistrationController {
     }
 
     @GetMapping(path = "confirm")
-    @ResponseBody
+//    @ResponseBody
     public String confirm(@RequestParam("token") String token) {
-
-            return registrationService.confirmToken(token);
+        String confirmTokenLogin = registrationService.confirmToken(token);
+        return confirmTokenLogin;
     }
 }

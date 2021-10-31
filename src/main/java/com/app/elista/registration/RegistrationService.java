@@ -41,31 +41,33 @@ public class RegistrationService {
             throw new IllegalStateException("email not valid");
         }
         String token = "";
-//     try{
-//
-//     }
-//     catch (IllegalStateException illegalStateException)
-//     {
-//         return "Email jest już zajęty! proszę wrócic";
-//     }
-        token = appCompanyService.signUpCompany(
-                new AppCompany(
-                        request.getName(),
-                        request.getEmail(),
-                        request.getPassword(),
-                        request.getAddress(),
-                        request.getPhone(),
-                        request.getOffer(),
-                        request.getCreationDate(),
-                        AppCompanyRole.USER
-                )
-        );
-        String link = "https://e-lista.herokuapp.com/registration/confirm?token=" + token;
+     try{
+         token = appCompanyService.signUpCompany(
+                 new AppCompany(
+                         request.getName(),
+                         request.getEmail(),
+                         request.getPassword(),
+                         request.getAddress(),
+                         request.getPhone(),
+                         request.getOffer(),
+                         request.getCreationDate(),
+                         AppCompanyRole.USER
+                 )
+         );
+         String link = "https://e-lista.herokuapp.com/registration/confirm?token=" + token;
 //        String link = "http://localhost:8095/registration/confirm?token=" + token;
-        emailService.sendMail(
-                request.getEmail(),"Potwierdzaj to!",link,false);
+         emailService.sendMail(
+                 request.getEmail(),"Proszę potwierdzić email!",link,false);
 
-        return token;
+         return "Proszę potwierdzić adres email";
+     }
+     catch (IllegalStateException illegalStateException)
+     {
+         return "Emial został już wzięty";
+     }
+
+
+
 
 //        return token;
     }
@@ -78,19 +80,21 @@ public class RegistrationService {
                         new IllegalStateException("token not found"));
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
+//            throw new IllegalStateException("email already confirmed");
+        return "Email został juz potwierdzony";
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
+//            throw new IllegalStateException("token expired");
+        return "Sesja wygasła";
         }
 
         confirmationTokenService.setConfirmedAt(token);
         appCompanyService.enableAppCompany(
                 confirmationToken.getAppCompany().getEmail());
-        return "Adres email został potwierdzony! Wróć na stronę: https://e-lista.herokuapp.com/";
+        return "loginapp";
     }
 
 
