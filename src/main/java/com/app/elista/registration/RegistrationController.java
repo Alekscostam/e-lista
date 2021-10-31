@@ -25,6 +25,7 @@ public class RegistrationController {
         return "registration";
     }
     @PostMapping
+    @ResponseBody
     public String register( @RequestParam String name,
                             @RequestParam String email,
                             @RequestParam String password,
