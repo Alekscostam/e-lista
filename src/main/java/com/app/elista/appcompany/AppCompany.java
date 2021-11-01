@@ -42,7 +42,6 @@ public class AppCompany implements UserDetails {
     private String creationDate;
     @Enumerated(EnumType.STRING)
     private Offer offer;
-
     @Enumerated(EnumType.STRING)
     private AppCompanyRole appCompanyRole;
     private Boolean locked = false;
