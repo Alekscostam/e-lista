@@ -64,7 +64,7 @@ public class RegistrationService {
      }
      catch (Exception exception)
      {
-         return "BUSY";
+         return "BUSY" +exception.getMessage();
      }
 
 
