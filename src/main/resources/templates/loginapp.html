@@ -75,9 +75,11 @@
                         <input class="login-form__input" type="email" required name="username" placeholder="e-mail">
                         <input class="login-form__input" type="password"  required name="password" placeholder="hasło">
                         <button class="login-form__button" type="submit">Zaloguj się</button>
-                        <div class="login-form__links">
+                        <br><br>
+                        <p style="font-size: 0.8em; color: #dc2f55;font-weight: 600" th:text="${error}" />
+
                             <a class="login-form__link" href="./">Zapomniałeś hasła?</a>
-                        </div>
+
                     </div>
                 </form>
             </div>

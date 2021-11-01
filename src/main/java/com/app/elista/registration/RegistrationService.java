@@ -38,7 +38,8 @@ public class RegistrationService {
                 test(request.getEmail());
 
         if (!isValidEmail) {
-            throw new IllegalStateException("email not valid");
+//            throw new IllegalStateException("notValid");
+            return "NOTVALID";
         }
         String token = "";
      try{
@@ -59,11 +60,11 @@ public class RegistrationService {
          emailService.sendMail(
                  request.getEmail(),"Proszę potwierdzić email!",link,false);
 
-         return "Proszę potwierdzić adres email";
+         return "CONFIRM";
      }
-     catch (IllegalStateException illegalStateException)
+     catch (Exception exception)
      {
-         return "Emial został już wzięty";
+         return "BUSY";
      }
 
 
