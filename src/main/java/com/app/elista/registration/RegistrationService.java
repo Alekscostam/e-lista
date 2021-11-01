@@ -3,15 +3,12 @@ package com.app.elista.registration;
 import com.app.elista.appcompany.AppCompany;
 import com.app.elista.appcompany.AppCompanyRole;
 import com.app.elista.appcompany.AppCompanyService;
-import com.app.elista.email.EmailSender;
 import com.app.elista.email.EmailService;
 import com.app.elista.registration.token.ConfirmationToken;
 import com.app.elista.registration.token.ConfirmationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+
 
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
@@ -19,6 +16,11 @@ import java.time.LocalDateTime;
 
 @Service
 public class RegistrationService {
+
+    private static final String NOTVALID="NOTVALID";
+    private static final String CONFIRM="CONFIRM";
+    private static final String BUSY="BUSY";
+
 
     private final AppCompanyService appCompanyService;
     private final EmailValidator emailValidator;
@@ -39,7 +41,7 @@ public class RegistrationService {
 
         if (!isValidEmail) {
 //            throw new IllegalStateException("notValid");
-            return "NOTVALID";
+            return NOTVALID;
         }
         String token = "";
      try{
@@ -56,21 +58,18 @@ public class RegistrationService {
                  )
          );
          String link = "https://e-lista.herokuapp.com/registration/confirm?token=" + token;
-//        String link = "http://localhost:8095/registration/confirm?token=" + token;
          emailService.sendMail(
                  request.getEmail(),"Proszę potwierdzić email!",link,false);
 
-         return "CONFIRM";
+         return CONFIRM;
      }
      catch (Exception exception)
      {
-         return "BUSY" +exception.getMessage();
+//         +exception.getMessage()
+         return BUSY;
      }
 
 
-
-
-//        return token;
     }
 
     @Transactional
@@ -81,14 +80,14 @@ public class RegistrationService {
                         new IllegalStateException("token not found"));
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("Email został już potwierdzony");
+            throw new IllegalStateException("------------->Email został już potwierdzony<-------------");
 //        return "Email został juz potwierdzony";
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("Sesja wygasła");
+            throw new IllegalStateException("------------->Sesja wygasła<-------------");
 
         }
 
