@@ -1,16 +1,13 @@
 package com.app.elista.appcompany;
 
+import com.app.elista.model.Groups;
 import com.app.elista.model.Offer;
-import org.springframework.cglib.core.KeyFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 
 @Entity
@@ -43,6 +40,8 @@ public class AppCompany implements UserDetails {
     private AppCompanyRole appCompanyRole;
     private Boolean locked = false;
     private Boolean enabled = true;
+    @OneToMany(mappedBy="appCompany")
+    private Set<Groups> groups;
 
     public AppCompany(String name,
                       String email,
@@ -62,6 +61,7 @@ public class AppCompany implements UserDetails {
         this.creationDate = creationDate;
         this.appCompanyRole = appCompanyRole;
     }
+
 
     public UUID getIdCompany() {
         return idCompany;
@@ -134,8 +134,6 @@ public class AppCompany implements UserDetails {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-
 
 
     @Override
