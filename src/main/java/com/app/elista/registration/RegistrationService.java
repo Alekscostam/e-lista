@@ -59,7 +59,7 @@ public class RegistrationService {
          );
 //         String link = "http://localhost:8096/registration/confirm?token=" + token;
 
-         String link = "http://localhost:8096/registration/confirm?token=" + token;
+         String link = "https://e-lista.herokuapp.com/confirm?token=" + token;
          emailService.sendMail(
                  request.getEmail(),"Proszę potwierdzić email!",link,false);
 
