@@ -3,10 +3,10 @@
 <html lang="en" xmlns:th="http://www.thymleaf.org">
 <head>
     <div th:replace="~{fragments/headApp :: head}"></div>
-    <link th:href="@{/css/main.css}" rel="stylesheet"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg  fixed-top " th:fragment="navigation">
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
@@ -35,33 +35,48 @@
         <div class="container">
             <ul class="navbar-nav mr-auto text-center">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"> <li>
-                <i class='bx bxs-calendar'><span class=""> Kalendarz</span></i>
-            </li></a>
+                    <a class="nav-link" href="calendar">
+                <i class='bx bxs-calendar'><span class=""> Kalendarz</span></i></a>
+            </li>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link " href="http://127.0.0.1:5500/Uczesasdstnicy.html#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class='bx bxs-user'><span class=""> Uczestnicy</span></i>
                     </a>
                     <div  style="font-size: 0.7em;"  class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Dodaj użytkownika</a>
-                        <a class="dropdown-item" href="#">Lista uzytkowników</a>
+                        <a class="dropdown-item" href="attendanceList">Lista obecności</a>
+                        <a class="dropdown-item" href="options">Opcje</a>
                     </div>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link " href="http://127.0.0.1:5500/Uczesasdstnicy.html#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class='bx bxs-group'><span class=""> Grupy</span></i>
-                    </a>
-                    <div style="font-size: 0.7em;" class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Dodaj grupe</a>
-                        <a class="dropdown-item" href="#">Lista grup</a>
-                    </div>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        <i class='bx bx-list-ol'><span class=""> Lista obecności</span></i>
+                        <i class='bx bxs-landscape'><span class=""> Kolonie i obozy</span></i>
+                    </a>
+                </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class='bx bx-mail-send' ><span class=""> Maile</span></i>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class='bx bxs-dashboard' ><span class=""> Ustawienia</span>  </i>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white;" href="#">
+                        <i class='bx bxs-message-dots'><span class=""> Kontakt</span></i>
+
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class='bx bxs-help-circle'><span class=""> Pomoc</span></i>
                     </a>
                 </li>
 

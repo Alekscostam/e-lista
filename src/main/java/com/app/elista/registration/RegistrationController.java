@@ -40,20 +40,8 @@ public class RegistrationController {
             mav.addObject("message", "");
         return mav;
     }
-//    @RequestMapping( method = RequestMethod.GET)
-//    public ModelAndView registrationMSG(String message) {
-//        ModelAndView mav = new ModelAndView("registration");
-//        mav.addObject("message", message);
-//        return mav;
-//    }
-//    @GetMapping
-//    public String registration()
-//    {
-//        return "registration";
-//    }
 
     @PostMapping
-//    @ResponseBody
     public String register(@RequestParam String name,
                            @RequestParam String email,
                            @RequestParam String password,

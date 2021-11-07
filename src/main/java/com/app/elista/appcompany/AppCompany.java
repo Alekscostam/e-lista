@@ -1,6 +1,7 @@
 package com.app.elista.appcompany;
 
 import com.app.elista.model.Offer;
+import org.springframework.cglib.core.KeyFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.UUID;
 
 
 @Entity
@@ -18,17 +20,12 @@ public class AppCompany implements UserDetails {
     @Id
     @Column(name = "id_company", nullable = false)
     @SequenceGenerator(
-            name = "company_sequence",
+            name = "company_sequence_UUID",
             sequenceName = "company_sequence",
             allocationSize = 1)
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "company_sequence"
+    @GeneratedValue(generator = "UUID"
     )
-    private Long idCompany;
-
-
-
+    private UUID idCompany;
     @Column(length = 35)
     private String name;
     @Column(length = 25)
@@ -66,12 +63,11 @@ public class AppCompany implements UserDetails {
         this.appCompanyRole = appCompanyRole;
     }
 
-
-    public Long getIdCompany() {
+    public UUID getIdCompany() {
         return idCompany;
     }
 
-    public void setIdCompany(Long idFirma) {
+    public void setIdCompany(UUID idFirma) {
         this.idCompany = idFirma;
     }
 

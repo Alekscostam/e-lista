@@ -1,6 +1,10 @@
 package com.app.elista.Controller;
 
+import com.app.elista.appcompany.AppCompany;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,15 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ApiController {
 
     @GetMapping("calendar")
-    public String calendar() {
+    public String calendar(@AuthenticationPrincipal AppCompany appCompany) {
         return "calendar";
     }
-
     @GetMapping("attendanceList")
     public String attendanceList() {
         return "attendanceList";
     }
-
     @GetMapping("usersList")
     public String usersList() {
         return "usersList";
@@ -30,6 +32,4 @@ public class ApiController {
     public String optionUserList() {
         return "optionUserList";
     }
-
-
 }

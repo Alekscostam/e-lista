@@ -57,7 +57,7 @@ public class RegistrationService {
                          AppCompanyRole.USER
                  )
          );
-         String link = "https://e-lista.herokuapp.com/registration/confirm?token=" + token;
+         String link = "http://localhost:8096/registration/confirm?token=" + token;
          emailService.sendMail(
                  request.getEmail(),"Proszę potwierdzić email!",link,false);
 
@@ -79,22 +79,23 @@ public class RegistrationService {
                 .orElseThrow(() ->
                         new IllegalStateException("token not found"));
 
+
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("------------->Email został już potwierdzony<-------------");
+            throw new IllegalStateException("----------->Email został już potwierdzony<-----------");
 //        return "Email został juz potwierdzony";
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("------------->Sesja wygasła<-------------");
+            throw new IllegalStateException("----------->Sesja wygasła<-----------");
 
         }
 
         confirmationTokenService.setConfirmedAt(token);
         appCompanyService.enableAppCompany(
                 confirmationToken.getAppCompany().getEmail());
-        return "loginapp";
+        return "login";
     }
 
 

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="PL-pl">
+  <head>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+	<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="text/javascript" src="./main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+     
+    </script>
+  </head>
+  <body style="background: #f9f8ff !important">
+    <div id="header"></div>
+  
+    <br>
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class=" col-sm-12 col-md-12 col-lg-12">
+          <div class="calendar" th:fragment="calendar">
+            <style>
+              /* Google Font Link */
+              @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+              *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Poppins" , sans-serif;
+              }
+
+
+
+
+              .table{
+
+                border-spacing: 1px;
+                border-collapse: collapse;
+                background:white;
+                border-radius:6px;
+                overflow:hidden;
+                /* max-width:800px;  */
+                width:100%;
+                margin:0 auto;
+                position:relative;
+                /* border-collapse: collapse; */
+              }
+              th{
+                font-weight: 400;
+              }
+
+              .hello{
+                background: #f5f3ff;
+                padding-top: 20px;
+              }
+              .table td,.table th{
+                padding:5px 8px;
+                border:1px solid #ddd;
+                text-align: center;
+                font-size:12px;
+              }
+
+              .table th{
+                background-color: #211f3d!important;
+                color:#ffffff;
+              }
+
+              .table tbody tr:nth-child(even){
+                background-color: #f5f5f5;
+              }
+
+              /*responsive*/
+
+              .month, .day{
+                font-size: 0.6em;
+              }
+
+              .app-datepicker{
+                font-size: 0.2em;;
+
+              }
+
+              .outer {
+                position:relative;
+
+              }
+
+              .calendar {
+                margin: 0 auto;
+                /* max-width: 1280px; */
+                /* min-width: 500px; */
+                overflow: auto;
+                box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2) ,0px 3px 7px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+              }
+
+              .wrap {
+                overflow-x: hidden;
+                /* overflow-y: scroll; */
+                /* max-width: 1280px; */
+                height: auto;
+                border-radius: 8px;
+              }
+
+              thead {
+                box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+              }
+
+              thead th {
+                text-align: center;
+                width: 100%;
+              }
+
+              header {
+                background:white;
+                padding: 1rem;
+                /* color: white!important; */
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                position: relative;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                border-radius: 8px 8px 0px 0px;
+              }
+
+              header h1 {
+                font-size: 1rem;
+                text-align: center;
+                font-weight: normal;
+
+              }
+              tbody {
+                position: relative;
+                top: 0px;
+              }
+              table {
+                background: #fff;
+                width: 100%;
+                height: 100%;
+                border-collapse: collapse;
+
+                /* display: block; */
+
+                table-layout: fixed;
+
+              }
+
+              .headcol {
+                width: 60px;
+                font-size: 0.7rem;
+                font-weight: 500;
+                color: rgba(0, 0, 0, 0.7);
+                padding: 0.25rem 0;
+                text-align: center;
+                border: 0;
+                position: relative;
+                top: -12px;
+                border-bottom: 1px solid transparent;
+              }
+
+              .headcol-H{
+                width: 40px;
+                font-size: 0.7rem;
+                font-weight: 500;
+                color: rgba(0, 0, 0, 0.7);
+                /* padding: 0.25rem 0; */
+                text-align: center;
+                border: 0;
+                position: relative;
+                border-bottom: 1px solid transparent;
+              }
+
+              thead th {
+                font-size: 0.8rem;
+                font-weight: bold;
+                color: rgba(0, 0, 0, 0.9);
+                padding: 1rem;
+              }
+
+              thead {
+                z-index: 2;
+                background: white;
+                border-bottom: 2px solid #ddd;
+              }
+
+              tr, tr td {
+                height: 25px;
+              }
+              td {
+                text-align: center;
+              }
+              tr:nth-child(odd) td:not(.headcol) {
+                border-bottom: 1px solid #e8e8e8;
+              }
+
+              tr:nth-child(even) td:not(.headcol) {
+                /* border-bottom: 1px solid #eee; */
+              }
+
+              tr td {
+                border-right: 1px solid #eee;
+                padding: 0;
+                white-space: none;
+                word-wrap: nowrap;
+              }
+
+              tbody tr td {
+                position: relative;
+                vertical-align: top;
+                height: 20px;
+                width: auto;
+              }
+
+              .event {
+                /* max-width: 50px; */
+                color: white;
+                border-radius: 2px;
+                text-align: left;
+                font-size: 0.7rem;
+                z-index: 2;
+                padding: 0.2rem;
+                overflow-x: auto;
+                overflow-y: none!important;
+                transition: all 0.2s;
+
+                cursor: pointer;
+              }
+
+
+              .event.double {
+                /* max-height: 200%;
+                min-height: 150%; */
+                overflow-y: none!important;
+                height: 200%;
+                width: 100%;
+                /* min-width: 100px; */
+                /*
+
+                0.25h - 50
+                0.5h - 100
+                1h - 200
+                2h - 400
+                3h - 600
+
+                */
+              }
+              .event.triple {
+                /* max-height: 200%;
+                min-height: 150%; */
+
+                overflow-y: none!important;
+                height: 250%;
+                width: 100%;
+                /* min-width: 100px; */
+                /*
+
+                0.25h - 50
+                0.5h - 100
+                1h - 200
+                2h - 400
+                3h - 600
+
+                */
+              }
+
+              /**
+              thead {
+                  tr {
+                    display: block;
+                    position: relative;
+                  }
+                }
+              tbody {
+                  display: block;
+                  overflow: auto;
+                  width: 800px;
+                  height: 100%;
+                }
+              */
+
+
+              .icon {
+                font-size: 1.7rem;
+                margin: 0 1.1rem;
+                text-align: center;
+                cursor: pointer;
+                vertical-align: middle;
+                position: relative;
+
+              }
+
+              .icon:hover {
+                color: red;
+              }
+              .calendar-text{
+                font-size: 0.8em;
+                display: block;
+              }
+              .calendar-hour{
+                font-weight: 600;
+              }
+              /* Scrollbar */
+              ::-webkit-scrollbar {
+                width: 10px;
+              }
+
+              /* Track */
+              ::-webkit-scrollbar-track {
+                background: #f1f1f1;
+              }
+
+              /* Handle */
+              ::-webkit-scrollbar-thumb {
+                background: #c2b6fd;
+              }
+
+              /* Handle on hover */
+              ::-webkit-scrollbar-thumb:hover {
+                background: #44397c;
+              }
+              /* End scrollbar */
+            </style>
+            <script>
+              window.onload = function() {
+
+                currentlyWeek();
+              };
+              function currentlyWeek(){
+                var curr = new Date; // get current date
+                var first = curr.getDate() +1 - curr.getDay(); // First day is the day of the month - the day of the week
+                var last = first + 6; // last day is the first day + 6
+
+                var month = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+
+                var firstday = new Date(curr.setDate(first)).getDate() +" "+  month[new Date(curr.setDate(first)).getMonth()];
+
+                var lastday = new Date(curr.setDate(last)).getDate() +" "+ month[new Date(curr.setDate(last)).getMonth()];
+
+                var combiningDates = firstday +" - "+ lastday;
+                document.getElementById("dateTime").innerText=combiningDates;
+                console.log(combiningDates);
+              }
+            </script>
+            <header>
+              <!-- <button class="secondary" style="align-self: flex-start; flex: 0 0 1"></button> -->
+              <div
+                class="calendar__title"
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;">
+                <div class="icon secondary chevron_left">‹</div>
+                <h1 class="" style="flex: 1">
+                  <strong > <span id="dateTime" onload="currentlyWeek();">18 JAN – 24 JAN </span></strong>
+                </h1>
+                <div class="icon secondary chevron_left">›</div>
+              </div>
+              <div style="align-self: flex-start; flex: 0 0 1"></div>
+            </header>
+
+            <div class="outer">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="headcol-H"></th>
+                    <th id="pn">pon.</th>
+                    <th id="wt">wt.</th>
+                    <th id="śr" class="today">śr.</th>
+                    <th id="czw">czw.</th>
+                    <th id="pt">pt.</th>
+                    <!-- class="secondary"
+                         class="secondary" -->
+                    <th id="sb">sob.</th>
+                    <th id="nd">niedz.</th>
+                  </tr>
+                </thead>
+              </table>
+
+              <div class="wrap">
+                <table class="offset">
+                  <tbody>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td ></td>
+                      <td  ></td>
+                      <td   class="past"></td>
+                      <td  ></td>
+                      <td  ></td>
+                      <td  ></td>
+                      <td  ></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">6:00</td>
+                      <td ></td>
+                      <td ></td>
+                      <td  class="past"></td>
+                      <td ></td>
+                      <td ></td>
+                      <td ></td>
+                      <td ></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td class="past"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">7:00</td>
+                      <td></td>
+                      <td></td>
+                      <td class="past"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td class="now"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">8:00</td>
+                      <td ></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>
+                        
+                      </td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">9:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td> 
+                      <div  class="event double " style="background: #00B4FC;">
+                        <span  class="calendar-hour">18:00 – 19:00</span>
+                        <span class="calendar-text">PARTER Gr. Początkująca </span>
+                      </div>
+                    </td>
+                      <td></td>
+                      <td> 
+                        <div  class="event double" style="background: #00B4FC;">
+                          <span  class="calendar-hour"> 18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                      </div>
+                    </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">10:00</td>
+                      <td></td>
+                      <td></td>
+                      <td >
+                       
+                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td> <div  class="event double" style="background: #00B4FC;">
+                        <span  class="calendar-hour">18:00 – 19:00</span>
+                        <span class="calendar-text">PARTER Gr. Początkująca </span>
+                      </div></td>
+                      <td></td>
+                      <td> <div  class="event double" style="background: #00B4FC;">
+                        <span  class="calendar-hour">18:00 – 19:00</span>
+                        <span class="calendar-text">PARTER Gr. Początkująca </span>
+                      </div></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">11:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td> 
+                        <div  class="event double" style="background: #b67703; height:400%">
+                          <span  class="calendar-hour">18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                      </div>
+                    </td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">12:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">13:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">14:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">15:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">16:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">17:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">18:00</td>
+                      <td>
+                        <div  class="event double" style="background: #599100;">
+                          <span  class="calendar-hour">18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                        </div>
+                      </td>
+                      <td></td>
+                      <td>  
+                      <div  class="event double" style="background: #599100;">
+                            <span  class="calendar-hour">18:00 – 19:00</span>
+                            <span class="calendar-text">PARTER Gr. Początkująca </span>
+                      </div>
+                    </td>
+                      <td></td>
+                      <td> 
+                        <div  class="event double" style="background: #599100;">
+                          <span  class="calendar-hour">18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                      </div>
+                    </td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">19:00</td>
+                      <td>
+                        <div  class="event double" style="background: #008091;">
+                          <span  class="calendar-hour"> 18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                        </div>
+                      </td>
+                      <td>
+
+                        <div  class="event triple" style="background: #91001f;">
+                          <span  class="calendar-hour">18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                        </div>
+                       
+                      </td>
+                      <td>
+                        <div   class="event double" style="background: #008091; ">
+                          <span  class="calendar-hour">18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                      </div>
+                    </td>
+                      <td>
+
+                        <div  class="event triple" style="background: #91001f;">
+                          <span  class="calendar-hour">18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="event double" style="background: #800091;">
+                          <span  class="calendar-hour">18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                        </div>
+                      </td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">20:00</td>
+                      <td>
+                        <div  class="event triple" style="background: #91001f;">
+                          <span  class="calendar-hour">18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                        </div>
+                       
+                      </td>
+                      <td>
+                        
+                        <div  class="event double " style="background: #008091; margin-top:12px">
+                          <span  class="calendar-hour">18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                        </div>
+                      </td>
+                     
+                      <td>
+                        <div  class="event triple" style="background: #91001f;">
+                          <span  class="calendar-hour"> 18:00 – 19:00</span>
+                          <span class="calendar-text">PARTER Gr. Początkująca </span>
+                        </div>
+
+                      </td>
+                      <td> <div  class="event double " style="background: #008091; margin-top:12px">
+                        <span  class="calendar-hour"> 18:00 – 19:00</span>
+                        <span class="calendar-text">PARTER Gr. Początkująca </span>
+                      </div></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">21:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">22:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol">23:00</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="headcol"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    
+                  </tbody>
+                </table> 
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class=" col-sm-12 col-md-12 col-lg-2 right-panel">
+          <p class="links-to-copy"><a class="btn-link" href="#"> Link do kalendarza <i class='bx bxs-copy-alt'></i></a><p></p>
+            <p class="links-to-copy"> <a class="btn-link" href="#">Wstaw kalendarz na własną stronę <i class='bx bxs-copy-alt'></i> </a><p></p>
+        </div> -->
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+    </div>
+    <br>
+    <div class="container"></div>
+    <script>
+      function onClickHandler() {
+        var x = document.getElementsByClassName("option");
+
+        var primaryOption =
+          document.getElementById("primaryOption").checked === false;
+
+        var i;
+        if (primaryOption) {
+          document.getElementById("total-amount").innerText = "";
+          for (i = 0; i < x.length; i++) {
+            x[i].checked = false;
+          }
+        } else {
+          for (i = 0; i < x.length; i++) {
+            x[i].checked = true;
+            document.getElementById("total-amount").innerText =
+              "Liczba: " + x.length;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

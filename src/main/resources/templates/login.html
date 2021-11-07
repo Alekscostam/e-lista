@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:replace="~{fragments/headSite :: head}"></div>
+</head>
+<body style="background-color: #fff;">
+<section id="nav-bar">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">E-lista</a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <i class="fa fa-bars" ></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Logowanie </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/registration">Rejestracja</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://e-lista.herokuapp.com/home#functions">Funkcje</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://e-lista.herokuapp.com/home#for-whom">Dla kogo?</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://e-lista.herokuapp.com/home#prices">Cennik</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://e-lista.herokuapp.com/home#functions">Zapisz się na zajęcia</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://e-lista.herokuapp.com/home#footer">Kontakt</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</section>
+<script>
+    $('.navbar-nav>li>a').on('click', function(){
+        $('.navbar-collapse').collapse('hide');
+    });
+</script>
+<!-- banner section -->
+
+
+<!-- END BANNER SECTION -->
+
+<!-- SERVICE SECTION -->
+<section id="for-whom" >
+    <div class="container text-center">
+        <!-- <h1 class="title">Dla kogo?</h1> -->
+        <div class="row text-center">
+<!--th:action="@{/login}" -->
+            <div class="col-md-12 for-whom">
+                <form class="login-form" method="post" th:action="@{/login}">
+                    <!-- <div class="login-form__logo-container">LOGO
+                        <img class="login-form__logo" src="https://via.placeholder.com/350x150" alt="Logo">
+                    </div> --><br>
+                    <div> <h1 class="title">Logowanie</h1></div>
+                    <div class="login-form__content">
+<!--                        <div class="login-form__header">Zaloguj się do aplikacji</div>-->
+                        <input class="login-form__input" type="email" required name="username" placeholder="e-mail">
+                        <input class="login-form__input" type="password"  required name="password" placeholder="hasło">
+                        <button class="login-form__button" type="submit">Zaloguj się</button>
+                        <br><br>
+                        <p style="font-size: 0.8em; color: #dc2f55;font-weight: 600" th:text="${error}" />
+
+                        <a class="login-form__link" id="myBtn" >Zapomniałeś hasła?</a>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <a type="button" href="/registration" class="btn btn-primary text-center">
+            Zarejestruj się
+        </a>
+    </div>
+</section>
+<!-- END SERVICE SECTION -->
+<!-- ABOUT US -->
+
+<!-- MODAL -->
+<div id="myModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Odzyskiwanie hasła</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" th:action="@{/login/request}">
+            <div class="modal-body">
+                <p>Resetowanie hasła następuję poprzez maila na którym zostało załozone konto.</p>
+
+                <input class="login-form__input" type="email" required name="email" placeholder="Proszę wpisać mail">
+            </div>
+            <div class="modal-footer">
+                <button class="login-form__button" type="submit">Wyślij</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- END MODAL -->
+<!-- END FOOTER -->
+
+<!-- smooth scroll -->
+<script th:src="@{/js/smooth-scroll.js}">
+
+</script>
+<script>
+    function onClickHandler() {
+        var x = document.getElementsByClassName("option");
+
+        var primaryOption =
+            document.getElementById("primaryOption").checked === false;
+
+        var i;
+        if (primaryOption) {
+            document.getElementById("total-amount").innerText="";
+            for (i = 0; i < x.length; i++) {
+                x[i].checked = false;
+            }
+        } else {
+            for (i = 0; i < x.length; i++) {
+                x[i].checked = true;
+                document.getElementById("total-amount").innerText="Liczba: " + x.length;
+            }
+        }
+    }
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+        var issueTable = document.getElementById('myModal');
+    }
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+<script src="./smooth-scroll.js">
+
+</script>
+<script>
+var scroll = new SmoothScroll('a[href*="#"]');
+</script>
+<!-- end smooth scroll -->
+</body>
+</html>
