@@ -153,7 +153,6 @@ public class AppCompany implements UserDetails {
 
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appCompanyRole.name());

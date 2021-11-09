@@ -49,7 +49,7 @@ public class EmailService {
         AppCompany appCompany = confirmationToken.getAppCompany();
         String email = appCompany.getEmail();
         String token = confirmationToken.getToken();
-        String url =  "http://localhost:8096/login/changePassword?token=" + token;
+        String url =  "https://e-lista.herokuapp.com/changePassword?token=" + token;
         String txt = "Wejdź w link poniżej aby zmienić hasło";
         String subject = "Zmiana hasła";
         sendMail(email, subject,txt + " \r\n" + url, false);

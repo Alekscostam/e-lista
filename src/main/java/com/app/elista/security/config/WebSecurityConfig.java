@@ -36,6 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/home/**")
                 .permitAll()
+                .antMatchers("/home/calendar/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated().and()
                 .formLogin()
