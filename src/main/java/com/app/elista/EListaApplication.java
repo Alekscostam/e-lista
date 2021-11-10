@@ -25,15 +25,15 @@ public class EListaApplication {
         SpringApplication.run(EListaApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner mappingDemo(AppCompanyRepository appCompanyRepository,
-                                         TermsRepository termsRepository,
-                                         GroupsRepository groupsRepository,
-                                         GroupsTermsRepository groupsTermsRepository
-    ) {
-
-        return args -> {
-
+//    @Bean
+//    public CommandLineRunner mappingDemo(AppCompanyRepository appCompanyRepository,
+//                                         TermsRepository termsRepository,
+//                                         GroupsRepository groupsRepository,
+//                                         GroupsTermsRepository groupsTermsRepository
+//    ) {
+//
+//        return args -> {
+//
 //            AppCompany appCompany = new AppCompany(
 //                    "GoldenMMA",
 //                    "asd@wp.pl",
@@ -158,6 +158,6 @@ public class EListaApplication {
 //            pageRepository.save(new Page(1, "Introduction contents", "Introduction", book));
 //            pageRepository.save(new Page(65, "Java 8 contents", "Java 8", book));
 //            pageRepository.save(new Page(95, "Concurrency contents", "Concurrency", book));
-        };
-    }
+//        };
+//    }
 }
