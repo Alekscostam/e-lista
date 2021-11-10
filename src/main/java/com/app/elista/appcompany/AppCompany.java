@@ -1,7 +1,8 @@
 package com.app.elista.appcompany;
 
-import com.app.elista.model.Groups;
+import com.app.elista.model.Teams;
 import com.app.elista.model.Offer;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,13 +16,9 @@ public class AppCompany implements UserDetails {
 
 
     @Id
-    @Column(name = "id_company", nullable = false)
-    @SequenceGenerator(
-            name = "company_sequence_UUID",
-            sequenceName = "company_sequence",
-            allocationSize = 1)
-    @GeneratedValue(generator = "UUID"
-    )
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
     private UUID idCompany;
     @Column(length = 35)
     private String name;
@@ -41,7 +38,7 @@ public class AppCompany implements UserDetails {
     private Boolean locked = false;
     private Boolean enabled = true;
     @OneToMany(mappedBy="appCompany")
-    private Set<Groups> groups;
+    private Set<Teams> teams;
 
     public AppCompany(String name,
                       String email,

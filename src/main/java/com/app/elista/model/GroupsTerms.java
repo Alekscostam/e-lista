@@ -2,7 +2,6 @@ package com.app.elista.model;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 public class GroupsTerms {
@@ -21,8 +20,8 @@ public class GroupsTerms {
     private Long idGroupTerm;
 
     @ManyToOne
-    @JoinColumn(name = "id_group")
-    Groups groups;
+    @JoinColumn(name = "id_team")
+    Teams teams;
 
     @ManyToOne
     @JoinColumn(name = "id_term")
@@ -36,9 +35,17 @@ public class GroupsTerms {
         this.idGroupTerm = idGroupTerm;
     }
 
-    public GroupsTerms(Groups groups, Terms terms) {
-        this.groups = groups;
-        this.terms = terms;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GroupsTerms that = (GroupsTerms) o;
+        return Objects.equals(idGroupTerm, that.idGroupTerm) && Objects.equals(teams, that.teams) && Objects.equals(terms, that.terms);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idGroupTerm, teams, terms);
     }
 
     public Long getIdGroupTerm() {
@@ -49,12 +56,12 @@ public class GroupsTerms {
         this.idGroupTerm = idGroupTerm;
     }
 
-    public Groups getGroups() {
-        return groups;
+    public Teams getTeams() {
+        return teams;
     }
 
-    public void setGroups(Groups groups) {
-        this.groups = groups;
+    public void setTeams(Teams teams) {
+        this.teams = teams;
     }
 
     public Terms getTerms() {
@@ -65,16 +72,8 @@ public class GroupsTerms {
         this.terms = terms;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        GroupsTerms that = (GroupsTerms) o;
-        return Objects.equals(idGroupTerm, that.idGroupTerm) && Objects.equals(groups, that.groups) && Objects.equals(terms, that.terms);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idGroupTerm, groups, terms);
+    public GroupsTerms(Teams teams, Terms terms) {
+        this.teams = teams;
+        this.terms = terms;
     }
 }
