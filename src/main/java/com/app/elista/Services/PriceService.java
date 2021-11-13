@@ -5,6 +5,8 @@ import com.app.elista.repositories.PricesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PriceService {
 @Autowired
@@ -16,5 +18,9 @@ public class PriceService {
 
     public void addPrices(Prices price) {
         pricesRepository.save(price);
+    }
+
+    public List<Prices> findAll() {
+       return pricesRepository.findAll();
     }
 }

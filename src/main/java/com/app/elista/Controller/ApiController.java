@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("app/")
 public class ApiController {
@@ -47,12 +49,13 @@ public class ApiController {
     }
 
     @GetMapping("optionGroupList")
-    public String getGroups(@AuthenticationPrincipal AppCompany appCompany) {
+    public ModelAndView getGroups(@AuthenticationPrincipal AppCompany appCompany) {
 
-//        ModelAndView modelAndView= new ModelAndView(appCompany);
-//        modelAndView.addObject()
+        ModelAndView mav= new ModelAndView("optionGroupList");
+        List<Prices> all = priceService.findAll();
+        mav.addObject("prices",all);
 
-        return "optionGroupList";
+        return mav;
     }
 
     @PostMapping("optionGroupList")
@@ -66,11 +69,11 @@ public class ApiController {
     public void postPrice( String name,
                             Integer value,
                            Short cycle,
-                           String dataFrom,
-                           String dataTo,
+//                           String dataFrom,
+//                           String dataTo,
                            String description ){
 
-        Prices price = new Prices(name,value,cycle,dataFrom,dataTo,description);
+        Prices price = new Prices(name,value,cycle,description);
 
         priceService.addPrices(price);
 

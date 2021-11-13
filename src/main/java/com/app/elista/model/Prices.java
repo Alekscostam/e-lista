@@ -30,19 +30,26 @@ public class Prices {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Prices prices = (Prices) o;
-        return Objects.equals(idPrice, prices.idPrice) && Objects.equals(name, prices.name) && Objects.equals(value, prices.value) && Objects.equals(cycle, prices.cycle) && Objects.equals(dataFrom, prices.dataFrom) && Objects.equals(dataTo, prices.dataTo) && Objects.equals(description, prices.description);
+        return Objects.equals(idPrice, prices.idPrice) && Objects.equals(name, prices.name) && Objects.equals(value, prices.value) && Objects.equals(cycle, prices.cycle)  && Objects.equals(description, prices.description);
+    }
+
+    public Long getIdPrice() {
+        return idPrice;
+    }
+
+    public void setIdPrice(Long idPrice) {
+        this.idPrice = idPrice;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPrice, name, value, cycle, dataFrom, dataTo, description);
+        return Objects.hash(idPrice, name, value, cycle, description);
     }
 
     private String name;
     private Integer value;
     private Short cycle;
-    private String dataFrom;
-    private String dataTo;
+
     private String description;
 
     public String getName() {
@@ -69,21 +76,7 @@ public class Prices {
         this.cycle = cycle;
     }
 
-    public String getDataFrom() {
-        return dataFrom;
-    }
 
-    public void setDataFrom(String dataFrom) {
-        this.dataFrom = dataFrom;
-    }
-
-    public String getDataTo() {
-        return dataTo;
-    }
-
-    public void setDataTo(String dataTo) {
-        this.dataTo = dataTo;
-    }
 
     public String getDescription() {
         return description;
@@ -93,12 +86,11 @@ public class Prices {
         this.description = description;
     }
 
-    public Prices(String name, Integer value, Short cycle, String dataFrom, String dataTo, String description) {
+    public Prices(String name, Integer value, Short cycle, String description) {
         this.name = name;
         this.value = value;
         this.cycle = cycle;
-        this.dataFrom = dataFrom;
-        this.dataTo = dataTo;
+
         this.description = description;
     }
 }
