@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("app/")
@@ -48,11 +49,15 @@ public class ApiController {
     @GetMapping("optionGroupList")
     public String getGroups(@AuthenticationPrincipal AppCompany appCompany) {
 
+//        ModelAndView modelAndView= new ModelAndView(appCompany);
+//        modelAndView.addObject()
+
         return "optionGroupList";
     }
 
     @PostMapping("optionGroupList")
     public String postGroup(String imie) {
+
 
         return "optionGroupList";
     }
