@@ -39,11 +39,11 @@ public class Prices {
     }
 
     private String name;
-   private Integer value;
-   private Short cycle;
-   private String dataFrom;
-   private String dataTo;
-   private String description;
+    private Integer value;
+    private Short cycle;
+    private String dataFrom;
+    private String dataTo;
+    private String description;
 
     public String getName() {
         return name;
