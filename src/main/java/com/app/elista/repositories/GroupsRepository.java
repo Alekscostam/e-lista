@@ -1,4 +1,4 @@
-package com.app.elista.model.repositories;
+package com.app.elista.repositories;
 
 
 import com.app.elista.model.Teams;

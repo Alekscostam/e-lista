@@ -10,6 +10,13 @@
     background: #1e1c35!important;
 
 }
+#for-whom .btn-primary{
+    box-shadow: none;
+    padding: 8px 25px;
+    border: none;
+    border-radius: 20px;
+    background-image: linear-gradient(to right, #4c47a0, #222049);
+}
 
 .navbar li a{
 }

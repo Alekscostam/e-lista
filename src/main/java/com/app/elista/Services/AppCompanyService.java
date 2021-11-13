@@ -1,11 +1,12 @@
-package com.app.elista.appcompany;
+package com.app.elista.Services;
 
-import com.app.elista.AppProperties;
+import com.app.elista.appcompany.AppCompany;
 import com.app.elista.email.EmailService;
 import com.app.elista.registration.token.ConfirmationToken;
 import com.app.elista.registration.token.ConfirmationTokenService;
 import com.app.elista.registration.token.TokenIsExpiredException;
 import com.app.elista.registration.token.TokenNotFoundException;
+import com.app.elista.repositories.AppCompanyRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@ package com.app.elista.registration;
 
 import com.app.elista.appcompany.AppCompany;
 import com.app.elista.appcompany.AppCompanyRole;
-import com.app.elista.appcompany.AppCompanyService;
+import com.app.elista.Services.AppCompanyService;
 import com.app.elista.email.EmailService;
 import com.app.elista.registration.token.ConfirmationToken;
 import com.app.elista.registration.token.ConfirmationTokenService;

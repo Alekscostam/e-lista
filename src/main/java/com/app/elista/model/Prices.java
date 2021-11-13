@@ -1,0 +1,104 @@
+package com.app.elista.model;
+
+
+
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+public class Prices {
+
+
+    public Prices() {
+    }
+
+    @SequenceGenerator(
+            name = "Prices_sequence",
+            sequenceName = "Prices_sequence",
+            allocationSize = 1
+    )
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "Prices_sequence"
+    )
+    private Long idPrice;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Prices prices = (Prices) o;
+        return Objects.equals(idPrice, prices.idPrice) && Objects.equals(name, prices.name) && Objects.equals(value, prices.value) && Objects.equals(cycle, prices.cycle) && Objects.equals(dataFrom, prices.dataFrom) && Objects.equals(dataTo, prices.dataTo) && Objects.equals(description, prices.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idPrice, name, value, cycle, dataFrom, dataTo, description);
+    }
+
+    private String name;
+   private Integer value;
+   private Short cycle;
+   private String dataFrom;
+   private String dataTo;
+   private String description;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    public Short getCycle() {
+        return cycle;
+    }
+
+    public void setCycle(Short cycle) {
+        this.cycle = cycle;
+    }
+
+    public String getDataFrom() {
+        return dataFrom;
+    }
+
+    public void setDataFrom(String dataFrom) {
+        this.dataFrom = dataFrom;
+    }
+
+    public String getDataTo() {
+        return dataTo;
+    }
+
+    public void setDataTo(String dataTo) {
+        this.dataTo = dataTo;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Prices(String name, Integer value, Short cycle, String dataFrom, String dataTo, String description) {
+        this.name = name;
+        this.value = value;
+        this.cycle = cycle;
+        this.dataFrom = dataFrom;
+        this.dataTo = dataTo;
+        this.description = description;
+    }
+}

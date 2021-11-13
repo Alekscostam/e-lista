@@ -1,22 +1,7 @@
 package com.app.elista;
 
-import com.app.elista.appcompany.AppCompany;
-import com.app.elista.appcompany.AppCompanyRepository;
-import com.app.elista.appcompany.AppCompanyRole;
-import com.app.elista.model.Teams;
-import com.app.elista.model.GroupsTerms;
-import com.app.elista.model.Offer;
-import com.app.elista.model.Terms;
-import com.app.elista.model.repositories.GroupsRepository;
-import com.app.elista.model.repositories.GroupsTermsRepository;
-import com.app.elista.model.repositories.TermsRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import java.util.Arrays;
-import java.util.List;
 
 @SpringBootApplication
 public class EListaApplication {

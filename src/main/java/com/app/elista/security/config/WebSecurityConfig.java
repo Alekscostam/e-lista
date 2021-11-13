@@ -1,6 +1,6 @@
 package com.app.elista.security.config;
 
-import com.app.elista.appcompany.AppCompanyService;
+import com.app.elista.Services.AppCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .defaultSuccessUrl("/app/calendar",true)
+                .defaultSuccessUrl("/app/optionGroupList",true)
                 .and()
                 .logout().permitAll()
                 .logoutSuccessUrl("/login");
@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**","/*.js","/images/**");
+        web.ignoring().antMatchers("/css/**", "/js/**","/*.js","/images/**","/home/calendar/**");
     }
 
     @Bean

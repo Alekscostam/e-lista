@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:replace="~{fragments/headApp :: head}"></div>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbarApp :: navigation}"></div>
+<div class="container-fluid">
+    <div class="row hello">
+        <div class="col-12 col-md-12">
+            <div class="text">
+                <br/><br/><br/>
+                <h4>Opcje grupy</h4>
+            </div>
+            <hr/>
+            <p class="text-right">
+                <a href="#">
+                    <i class="bx bxs-trash-alt delete"><span> Usuń</span></i></a
+                >&nbsp;
+            </p>
+            <button
+
+                    class="btn btn-primary w-25"
+                    onclick="changePanel('group-list')"
+                    type="submit"
+            >
+                lista grup
+            </button>
+            <button
+
+                    class="btn btn-primary w-25"
+                    onclick="changePanel('group-add')"
+                    type="submit"
+            >
+                Dodawanie grupy
+            </button>
+            <button
+
+                    class="btn btn-primary w-25"
+                    onclick="changePanel('price-add')"
+                    type="submit"
+            >
+                Dodawanie cen
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="inside-modal ">
+            <div class="text">
+                <div class="hello">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input
+                                class="form-control mr-sm-2 my-2"
+                                type="search"
+                                placeholder="Imie"
+                                aria-label="Search"
+                        />
+                        <input
+                                class="form-control mr-sm-2"
+                                type="search"
+                                placeholder="Nazwisko"
+                                aria-label="Search"
+                        />
+                        <input
+                                class="form-control mr-sm-2 my-2"
+                                type="search"
+                                placeholder="Wiek"
+                                aria-label="Search"
+                        />
+                        <input
+                                class="form-control mr-sm-2"
+                                type="search"
+                                placeholder="Numer indywidualny"
+                                aria-label="Search"
+                        />
+
+                        <input
+                                class="form-control mr-sm-2 my-2"
+                                type="email"
+                                name="email"
+                                placeholder="E-mail"
+                        />
+                        <input
+                                class="form-control mr-sm-2 my-2"
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="Numer telefonu"
+                        />
+                        <input
+                                class="form-control mr-sm-2 my-2"
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="Rozliczenie na ten cykl"
+                        />
+
+                        <select
+                                class="form-control mr-sm-2 my-2"
+                                name="offer"
+
+                                aria-label="Default select example"
+                        >
+                            <option name="FIFTY" value="FIFTY" selected>Grupa 1</option>
+                            <option name="HUNDRED" value="HUNDRED" selected>
+                                Grupa 2
+                            </option>
+                            <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>
+                                Grupa 2
+                            </option>
+                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
+                                Grupa 2
+                            </option>
+                        </select>
+                        <div
+                                class="container"
+                                style="font-size: 0.8em; text-align: left !important"
+                        >
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                            Cena indywdualna
+                        </div>
+                        <select
+                                class="form-control mr-sm-2 my-2"
+                                name="offer"
+                                aria-label="Default select example"
+                        >
+                            <option name="FIFTY" value="FIFTY" selected>
+                                Karnet rodzina 2-os.
+                            </option>
+                            <option name="HUNDRED" value="HUNDRED" selected>
+                                Karnet rodzina 2-os.
+                            </option>
+                            <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>
+                                Karnet rodzina 2-os.
+                            </option>
+                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
+                                Karnet rodzina 2-os.
+                            </option>
+                        </select>
+                        <input
+                                class="form-control mr-sm-2 my-2"
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="Cena"
+                        />
+                        <div style="font-size: 0.8em; text-align: left !important">
+                            Cykl rozliczeniowy
+                        </div>
+                        <select
+                                class="form-control mr-sm-2 my-2"
+                                name="offer"
+                                aria-label="Default select example"
+                        >
+                            <option name="FIFTY" value="FIFTY" selected>
+                                Co zajęcia.
+                            </option>
+                            <option name="HUNDRED" value="HUNDRED" selected>
+                                1 tyg.
+                            </option>
+                            <option name="FIFTY" value="FIFTY" selected>2 tyg.</option>
+                            <option name="HUNDRED" value="HUNDRED" selected>
+                                1 msc.
+                            </option>
+                            <option name="HUNDRED" value="HUNDRED" selected>
+                                2 msc.
+                            </option>
+                            <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>
+                                3 msc.
+                            </option>
+                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
+                                6 msc.
+                            </option>
+                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
+                                12 msc.
+                            </option>
+                        </select>
+
+                        <div style="font-size: 0.8em; text-align: left !important">
+                            Data zapisu<br/>
+                            <input
+                                    type="date"
+                                    lang="fr-CA"
+                                    class="my-2"
+                                    data-date=""
+                                    id="date-picker"
+                                    data-date-format="DD MMMM YYYY"
+                            /><br/>
+                            Data pierwszej wpłaty <br/><input
+                                type="date"
+                                class="my-2"
+                                lang="fr-CA"
+                                data-date=""
+                                id="date-picker"
+                                data-date-format="DD MMMM YYYY"
+                        /><br/>
+                            Data kolejnej wpłaty <br/><input
+                                type="date"
+                                class="my-2"
+                                lang="fr-CA"
+                                data-date=""
+                                id="date-picker"
+                                data-date-format="DD MMMM YYYY"
+                        /><br/>
+                        </div>
+                        <script type="text/javascript">
+                            window.onload = dataChange();
+                        </script>
+                        <br/>
+                        <a href="#">
+                            <i class="bx bxs-edit-alt success"><span> Zapisz</span></i></a
+                        >
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="group-list">
+    <div class="container-fluid text-center">
+        <div class="row" style="padding: 10px">
+            <div class="col-lg-12 right-panel container-custom">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="colth" style="" scope="col"></th>
+                        <th class="colth" scope="col">Nazwa</th>
+                        <th class="colth" scope="col">Lokalizacja</th>
+                        <th class="colth" scope="col">Wielkość</th>
+                        <th class="colth" scope="col">Prowadzący</th>
+                        <th class="colth" scope="col">Terminy</th>
+                        <th class="colth" scope="col">Data od</th>
+                        <th class="colth" scope="col">Data do</th>
+                        <th scope="col">Edytuj</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- The Modal -->
+                    <tr>
+                        <td data-label="Obecność" scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Nazwisko">1</td>
+                        <td data-label="Name">Dinesh</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="Grupa">1A</td>
+                        <!-- <td data-label="Marks%">gvhgvjhgvh%</td> -->
+
+                        <td data-label="info.">
+                            <a href="#" class="" id="myBtn">
+                                <i class="bx bxs-edit-alt info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    <tr style="">
+                        <td scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Name">Kamal</td>
+                        <td data-label="Age">23</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="Grupa">1A</td>
+                        <!-- <td data-label="Staus">Passed</td> -->
+                        <td data-label="info.">
+                            <a href="#" class="">
+                                <i class="bx bxs-info-circle info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Name">Neha</td>
+                        <td data-label="Age">20</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="info.">
+                            <a href="#" class="">
+                                <i class="bx bxs-info-circle info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Name">Priya</td>
+                        <td data-label="Age">30</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="info.">
+                            <a href="#" class="">
+                                <i class="bx bxs-info-circle info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Name">Priya</td>
+                        <td data-label="Age">30</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="info.">
+                            <a href="#" class="">
+                                <i class="bx bxs-info-circle info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Name">Priya</td>
+                        <td data-label="Age">30</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="info.">
+                            <a href="#" class="">
+                                <i class="bx bxs-info-circle info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="group-add" style="display: none">
+    <div class="container text-center">
+        <div class="row" style="padding: 10px">
+            <div class="col-lg-12 right-panel">
+                <form class="login-form" th:action="@{/addUser}" method="POST">
+                    <!-- <p style="font-size: 1.1em">Utwórz nową grupę</p> -->
+                    <input
+                            class="form-control my-3"
+                            type="text"
+                            id="phone"
+                            name="phone"
+                            placeholder="Nazwa grupy *"
+                    />
+
+                    Dostepne ceny:
+                    <ul style="font-size: 0.7em" class="">
+                        <li class="list-group-item">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="Wtorek godzina 16 00-17 00"
+                            />
+                            Wtorek godzina 16 00-17 00
+                        </li>
+                        <li class="list-group-item">Wtorek godzina 16 00-17 00</li>
+                        <li class="list-group-item">Wtorek godzina 16 00-17 00</li>
+                        <li class="list-group-item">Wtorek godzina 16 00-17 00</li>
+                        <li class="list-group-item">Wtorek godzina 16 00-17 00</li>
+                    </ul>
+
+                    <div id="group-information">
+                        <input
+                                class="form-control my-2"
+                                type="text"
+                                id="phone"
+                                name="phone"
+                                placeholder="Miejsce"
+                        />
+                        <input
+                                class="form-control my-2"
+                                type="text"
+                                id="phone"
+                                name="phone"
+                                placeholder="Wielkość grupy"
+                        />
+
+                        <input
+                                class="form-control mr-sm-2 my-2"
+                                type="search"
+                                placeholder="Imie oraz nazwisko prowdzącego"
+                                aria-label="Search"
+                        />
+                        <span style="font-size: 0.7em"> Data od:</span>
+
+                        <input
+                                class="form-control my-2"
+                                type="date"
+                                id="phone"
+                                name="phone"
+                                placeholder="Data rozpoczęcia"
+                        />
+                        <span style="font-size: 0.7em"> Data do:</span>
+                        <input
+                                class="form-control my-2"
+                                type="date"
+                                id="phone"
+                                name="phone"
+                                placeholder="Data zakończenia"
+                        />
+                    </div>
+
+                    <textarea
+                            class="form-control mr-sm-2 my-2"
+                            type="textarea"
+                            id="phone"
+                            name="phone"
+                            placeholder="informacja dodatkowa"
+                    ></textarea>
+                    <div id="term">
+                        <div id="part-term" style="display: flex"></div>
+                    </div>
+                    <a class="btn btn-outline-edit w-100 my-3" onclick="addTerm(term)"
+                    >Dodaj termin</a
+                    >
+                    <hr/>
+                    <button class="btn btn-outline-success w-100" type="submit">
+                        Zapisz
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="price-add" style="display: none">
+    <div class="container-fluid text-center">
+        <div class="row" style="padding: 10px">
+            <div class="col-lg-9 right-panel container-custom">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="colth" style="" scope="col"></th>
+                        <th class="colth" scope="col">Cena</th>
+                        <th class="colth" scope="col">Nazwa</th>
+                        <th class="colth" scope="col">Okres wplat</th>
+                        <th class="colth" scope="col">Data do</th>
+                        <th class="colth" scope="col">Data od</th>
+                        <th class="colth" scope="col">Informacje</th>
+                        <th scope="col">Edytuj</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td data-label="Obecność" scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Nazwisko">1</td>
+                        <td data-label="Name">Dinesh</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <!-- <td data-label="Marks%">gvhgvjhgvh%</td> -->
+
+                        <td data-label="info.">
+                            <a href="#" class="" id="myBtn">
+                                <i class="bx bxs-edit-alt info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    <tr style="">
+                        <td scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Name">Kamal</td>
+                        <td data-label="Age">23</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <!-- <td data-label="Staus">Passed</td> -->
+                        <td data-label="info.">
+                            <a href="#" class="">
+                                <i class="bx bxs-info-circle info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Name">Neha</td>
+                        <td data-label="Age">20</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="info.">
+                            <a href="#" class="">
+                                <i class="bx bxs-info-circle info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Name">Priya</td>
+                        <td data-label="Age">30</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="info.">
+                            <a href="#" class="">
+                                <i class="bx bxs-info-circle info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Name">Priya</td>
+                        <td data-label="Age">30</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="info.">
+                            <a href="#" class="">
+                                <i class="bx bxs-info-circle info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <input
+                                    type="checkbox"
+                                    id="scales"
+                                    name="scales"
+                                    class="option"
+                            />
+                        </td>
+                        <td data-label="Imie">1</td>
+                        <td data-label="Name">Priya</td>
+                        <td data-label="Age">30</td>
+
+                        <td scope="row">
+                            <button class="price" onclick="changePriceStatus(this)">
+                                -140zł
+                            </button>
+                        </td>
+                        <td data-label="Name">Dinesh</td>
+                        <td data-label="Grupa">1A</td>
+                        <td data-label="info.">
+                            <a href="#" class="">
+                                <i class="bx bxs-info-circle info"> </i
+                                ></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-lg-3 right-panel">
+<!--                <form class="login-form" th:action="@{/app/optionGroupList}" method="POST">-->
+                    <p style="font-size: 1.1em">Dodaj nową cene</p>
+                    <input
+                            id="name-of-the-new-price"
+                            class="form-control my-3"
+                            type="text"
+                            name="value"
+                            placeholder="Nazwa karnetu *"
+                    />
+                    <input
+                            id="value-for-new-price"
+                            class="form-control my-3"
+                            type="number"
+                            name="value"
+                            placeholder="Cena (w zł) *"
+                    />
+                    <input
+                            id="cycle-for-new-price"
+                            class="form-control my-3"
+                            type="number"
+                            name="cycle"
+                            placeholder="Cykl rozliczeniowy (w dniach) *"
+                    />
+                    <span style="font-size: 0.7em"> Obowiązuje od daty:</span>
+                    <input
+                            id="dataFrom-for-new-price"
+                            class="form-control my-2"
+                            type="date"
+                            name="dataFrom"
+                            placeholder="Data rozpoczęcia"
+                    />
+                    <span style="font-size: 0.7em"> Obowiązuje do daty:</span>
+                    <input
+                            id="dataTo-for-new-price"
+                            class="form-control my-2"
+                            type="date"
+                            name="dataTo"
+                            placeholder="Data zakończenia"
+                    />
+                    <textarea
+                            id="description-for-new-price"
+                            class="form-control mr-sm-2 my-2"
+                            type="textarea"
+                            name="information"
+                            placeholder="informacja dodatkowa"
+                    ></textarea>
+                    <hr/>
+                    <button onclick="savePrice()" class="btn btn-outline-success w-100" type="submit">
+                        Zapisz
+                    </button>
+<!--                </form>-->
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    function saveGroup() {
+
+        var xhttp = new XMLHttpRequest();
+        var URL= "/app/postPrice";
+
+        var name= document.getElementById('name-of-the-new-price').value;
+        var value= document.getElementById('value-for-new-price').value;
+        var cycle= document.getElementById('cycle-for-new-price').value;
+        var dataFrom= document.getElementById('dataFrom-for-new-price').value;
+        var dataTo= document.getElementById('dataTo-for-new-price').value;
+        var description= document.getElementById('description-for-new-price').value;
+
+        var params =
+            "name="+name+
+            "&value="+parseInt(value)+
+            "&cycle="+parseInt(cycle)+
+            "&dataFrom="+dataFrom+
+            "&dataTo="+dataTo+
+            "&description="+description;
+
+        xhttp.open("POST", URL, true);
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                alert(xhttp.responseText);
+            }
+        }
+
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        xhttp.send(params);
+    }
+    function savePrice() {
+
+        var xhttp = new XMLHttpRequest();
+        var URL= "/app/postPrice";
+
+        var name= document.getElementById('name-of-the-new-price').value;
+        var value= document.getElementById('value-for-new-price').value;
+        var cycle= document.getElementById('cycle-for-new-price').value;
+        var dataFrom= document.getElementById('dataFrom-for-new-price').value;
+        var dataTo= document.getElementById('dataTo-for-new-price').value;
+        var description= document.getElementById('description-for-new-price').value;
+
+        var params =
+            "name="+name+
+            "&value="+parseInt(value)+
+            "&cycle="+parseInt(cycle)+
+            "&dataFrom="+dataFrom+
+            "&dataTo="+dataTo+
+            "&description="+description;
+
+        xhttp.open("POST", URL, true);
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                alert(xhttp.responseText);
+            }
+        }
+
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        xhttp.send(params);
+    }
+
+    function changePanel(element) {
+
+
+        var group_list = document.getElementById("group-list");
+        var price_add = document.getElementById("price-add");
+        var group_add = document.getElementById("group-add");
+
+        if (element === "group-add") {
+            group_list.style.display = "none";
+            price_add.style.display = "none";
+            group_add.style.display = "block";
+            return;
+        }
+        if (element === "price-add") {
+            group_list.style.display = "none";
+            price_add.style.display = "block";
+            group_add.style.display = "none";
+            return;
+        }
+        if (element === "group-list") {
+            group_list.style.display = "block";
+            price_add.style.display = "none";
+            group_add.style.display = "none";
+            return;
+        }
+    }
+
+    window.onload = dataChange();
+
+    function showOrHide(element, name) {
+        console.log(name);
+        if (element.checked) {
+            document.getElementById(name).style.display = "block";
+            return;
+        }
+
+        document.getElementById(name).style.display = "none";
+    }
+
+    function dataChange() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, "0");
+        var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+        var yyyy = today.getFullYear();
+        // 2015-08-09
+        today = yyyy + "-" + mm + "-" + dd;
+        console.log(today);
+        // 1996-06-12
+        // var today = moment().format('DD-MM-YYYY');
+        document.getElementById("date-picker").innerText = today;
+        document.getElementById("date-picker").innerHTML = today;
+        document.getElementById("date-picker").value = today;
+    }
+
+    function addTerm(element) {
+        var termIncrease = document.getElementById("term").innerHTML;
+
+        document.getElementById("term").innerHTML =
+            termIncrease +
+            '<div id="part-term" style="display: flex;">\n' +
+            '<select class="form-control mr-sm-2 my-2 w-100" name="300px" aria-label="Default select example">\n' +
+            '<option  name="SOMETHING" value="SOMETHING" selected>Poniedziałek</option>\n' +
+            '<option  name="SOMETHING" value="SOMETHING" selected>Wtorek</option>\n' +
+            '<option  name="SOMETHING" value="SOMETHING" selected>Środa</option>\n' +
+            '<option  name="SOMETHING" value="SOMETHING" selected>Czwartek</option>\n' +
+            '<option  name="SOMETHING" value="SOMETHING" selected>Piątek</option>\n' +
+            '<option  name="SOMETHING" value="SOMETHING" selected>Sobota</option>\n' +
+            '<option  name="SOMETHING" value="SOMETHING" selected>Niedziela</option>\n' +
+            "</select>\n" +
+            '<input id="appt-time" type="time" name="appt-time" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
+            "</div>";
+    }
+</script>
+</body>
+</html>

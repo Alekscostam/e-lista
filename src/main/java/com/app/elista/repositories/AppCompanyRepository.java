@@ -1,5 +1,6 @@
-package com.app.elista.appcompany;
+package com.app.elista.repositories;
 
+import com.app.elista.appcompany.AppCompany;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
