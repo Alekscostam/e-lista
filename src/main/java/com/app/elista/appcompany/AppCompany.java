@@ -14,12 +14,18 @@ import java.util.*;
 @Entity
 public class AppCompany implements UserDetails {
 
+//
+//    @Id
+//    @GeneratedValue(generator = "uuid2")
+//    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+//    @Column(columnDefinition = "BINARY(16)")
+//    private UUID idCompany;
 
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
     private UUID idCompany;
+
     @Column(length = 35)
     private String name;
     @Column(length = 25)

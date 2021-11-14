@@ -44,6 +44,14 @@
             >
                 Dodawanie cen
             </button>
+            <button
+
+                    class="btn btn-primary w-25"
+                    onclick="changePanel('price-add')"
+                    type="submit"
+            >
+                Opcje udostepniania
+            </button>
         </div>
     </div>
 </div>
@@ -445,15 +453,21 @@
 <!--                        <td><span th:text="${prices.name}"> Author </span></td>-->
 <!--                    </tr>-->
 
-                    Dostepne ceny:
+
+                    <ul  style="font-size: 0.7em" class="list-group list-unstyled list-group-flush" th:if="${prices.empty}">
+                        <li class=""  >
+                            <b> Brak cen </b>
+                        </li>
+                    </ul>
                     <ul  style="font-size: 0.7em" class="list-group list-unstyled list-group-flush" th:each="prices : ${prices}">
+                        Dostepne ceny:
                         <li class=""  >
                             <input type="checkbox" id="scales"  />
                             <span style="display: none" th:text="${prices.idPrice}">  </span>&nbsp;
                             <b> Cena: </b><span  th:text="${prices.value} + zł">  </span>&nbsp;&nbsp;
                             <b> Nazwa: </b><span th:text="${prices.name}"> </span>&nbsp;&nbsp;
                             <b> Cykl rozliczeniowy: </b><span th:text="${prices.cycle}"> </span>&nbsp;&nbsp;
-                            <b>  Opis: </b><span  th:text="${prices.description}"> </span>
+                            <b> Opis: </b><span  th:text="${prices.description}"> </span>
                         </li>
                     </ul>
 
@@ -768,8 +782,8 @@
         var name= document.getElementById('name-of-the-new-price').value;
         var value= document.getElementById('value-for-new-price').value;
         var cycle= document.getElementById('cycle-for-new-price').value;
-        // var dataFrom= document.getElementById('dataFrom-for-new-price').value;
-        // var dataTo= document.getElementById('dataTo-for-new-price').value;
+        var dataFrom= document.getElementById('dataFrom-for-new-price').value;
+        var dataTo= document.getElementById('dataTo-for-new-price').value;
         var description= document.getElementById('description-for-new-price').value;
 
         var params =
@@ -798,18 +812,21 @@
         var URL= "/app/postPrice";
 
         var name= document.getElementById('name-of-the-new-price').value;
+        console.log(name);
         var value= document.getElementById('value-for-new-price').value;
+        console.log(value);
         var cycle= document.getElementById('cycle-for-new-price').value;
-        var dataFrom= document.getElementById('dataFrom-for-new-price').value;
-        var dataTo= document.getElementById('dataTo-for-new-price').value;
+        console.log(cycle);
+        // var dataFrom= document.getElementById('dataFrom-for-new-price').value;
+        // var dataTo= document.getElementById('dataTo-for-new-price').value;
         var description= document.getElementById('description-for-new-price').value;
-
+        console.log(description);
         var params =
             "name="+name+
             "&value="+parseInt(value)+
             "&cycle="+parseInt(cycle)+
-            "&dataFrom="+dataFrom+
-            "&dataTo="+dataTo+
+            // "&dataFrom="+dataFrom+
+            // "&dataTo="+dataTo+
             "&description="+description;
 
         xhttp.open("POST", URL, true);
