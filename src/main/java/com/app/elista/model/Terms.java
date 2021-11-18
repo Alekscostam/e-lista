@@ -1,6 +1,5 @@
 package com.app.elista.model;
 
-import java.util.Set;
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -22,15 +21,15 @@ public class Terms {
     )
     private Long idTerm;
     @Column(length = 15)
-    private String day_name;
+    private String dayName;
     @Column(length = 5)
     private String time;
 
     public Terms() {
     }
 
-    public Terms(String day_name, String time) {
-        this.day_name = day_name;
+    public Terms(String dayName, String time) {
+        this.dayName = dayName;
         this.time = time;
     }
 
@@ -43,12 +42,12 @@ public class Terms {
         this.idTerm = idTerm;
     }
 
-    public String getDay_name() {
-        return day_name;
+    public String getDayName() {
+        return dayName;
     }
 
-    public void setDay_name(String day_name) {
-        this.day_name = day_name;
+    public void setDayName(String dayName) {
+        this.dayName = dayName;
     }
 
     public String getTime() {
@@ -66,11 +65,11 @@ public class Terms {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Terms terms = (Terms) o;
-        return Objects.equals(idTerm, terms.idTerm) && Objects.equals(day_name, terms.day_name) && Objects.equals(time, terms.time);
+        return Objects.equals(idTerm, terms.idTerm) && Objects.equals(dayName, terms.dayName) && Objects.equals(time, terms.time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTerm, day_name, time);
+        return Objects.hash(idTerm, dayName, time);
     }
 }

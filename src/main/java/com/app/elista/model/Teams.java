@@ -31,8 +31,6 @@ public class Teams {
     private Short freeSpace;
     @Column(length = 4)
     private Short groupSize;
-    @Column(length = 2)
-    private Short paymentCycle;
     private String color;
     private Boolean firstFree;
     @Column(length = 255)
@@ -49,7 +47,6 @@ public class Teams {
                  String endDate,
                  Short freeSpace,
                  Short groupSize,
-                 Short paymentCycle,
                  String color,
                  Boolean firstFree,
                  String description,
@@ -61,7 +58,6 @@ public class Teams {
         this.endDate = endDate;
         this.freeSpace = freeSpace;
         this.groupSize = groupSize;
-        this.paymentCycle = paymentCycle;
         this.color = color;
         this.firstFree = firstFree;
         this.description = description;
@@ -142,13 +138,6 @@ public class Teams {
         this.groupSize = groupSize;
     }
 
-    public short getPaymentCycle() {
-        return paymentCycle;
-    }
-
-    public void setPaymentCycle(Short paymentCycle) {
-        this.paymentCycle = paymentCycle;
-    }
 
     public String getColor() {
         return color;

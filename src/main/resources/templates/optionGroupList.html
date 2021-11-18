@@ -20,40 +20,27 @@
                     <i class="bx bxs-trash-alt delete"><span> Usuń</span></i></a
                 >&nbsp;
             </p>
-            <button
-
-                    class="btn btn-primary w-25"
-                    onclick="changePanel('group-list')"
-                    type="submit"
-            >
-                lista grup
-            </button>
-            <button
-
-                    class="btn btn-primary w-25"
-                    onclick="changePanel('group-add')"
-                    type="submit"
-            >
-                Dodawanie grupy
-            </button>
-            <button
-
-                    class="btn btn-primary w-25"
-                    onclick="changePanel('price-add')"
-                    type="submit"
-            >
-                Dodawanie cen
-            </button>
-            <button
-
-                    class="btn btn-primary w-25"
-                    onclick="changePanel('price-add')"
-                    type="submit"
-            >
-                Opcje udostepniania
-            </button>
+            <div class="container-fluid">
+                <div class="col-lg-6">
+                    <button
+                            class="btn btn-primary "
+                            onclick="changePanel('group-add')"
+                            type="submit"
+                    >
+                        Lista grup
+                    </button>
+                    <button
+                            class="btn btn-primary "
+                            onclick="changePanel('price-add')"
+                            type="submit"
+                    >
+                        Lista cen
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 </div>
 
 <div id="myModal" class="modal">
@@ -113,7 +100,6 @@
                         <select
                                 class="form-control mr-sm-2 my-2"
                                 name="offer"
-
                                 aria-label="Default select example"
                         >
                             <option name="FIFTY" value="FIFTY" selected>Grupa 1</option>
@@ -236,11 +222,10 @@
         </div>
     </div>
 </div>
-<section id="group-list">
+<section id="group-add">
     <div class="container-fluid text-center">
-
         <div class="row" style="padding: 10px">
-            <div class="col-lg-12 right-panel container-custom">
+            <div class="col-lg-9 right-panel container-custom">
                 <table class="table">
                     <thead>
                     <tr>
@@ -280,7 +265,6 @@
                         <td data-label="Grupa">1A</td>
                         <td data-label="Grupa">1A</td>
                         <!-- <td data-label="Marks%">gvhgvjhgvh%</td> -->
-
                         <td data-label="info.">
                             <a href="#" class="" id="myBtn">
                                 <i class="bx bxs-edit-alt info"> </i
@@ -426,80 +410,102 @@
                         </td>
                     </tr>
                     </tbody>
-
                 </table>
             </div>
-        </div>
-    </div>
-</section>
-<section id="group-add" style="display: none">
-    <div class="container text-center">
-        <div class="row" style="padding: 10px">
-            <div class="col-lg-12 right-panel">
-                <form class="login-form" th:action="@{/addUser}" method="POST">
-                    <!-- <p style="font-size: 1.1em">Utwórz nową grupę</p> -->
+            <div class="col-lg-3 right-panel">
+                <form class="login-form" th:action="@{/app/postGroup}" method="POST">
+                    <p style="font-size: 1.1em">Utwórz nową grupę</p>
                     <input
                             class="form-control my-3"
                             type="text"
                             id="phone"
-                            name="phone"
+                            name="groupName"
                             placeholder="Nazwa grupy *"
                     />
-<!--                    <tr th:if="${prices.empty}">-->
-<!--                        <td colspan="2"> Brak cen </td>-->
-<!--                    </tr>-->
-<!--                    <tr th:each="prices : ${prices}">-->
-<!--                        <td><span th:text="${prices.value}"> Title </span></td>-->
-<!--                        <td><span th:text="${prices.name}"> Author </span></td>-->
-<!--                    </tr>-->
-
-
-                    <ul  style="font-size: 0.7em" class="list-group list-unstyled list-group-flush" th:if="${prices.empty}">
-                        <li class=""  >
+                    <ul
+                            style="font-size: 0.7em"
+                            class="list-group list-unstyled list-group-flush"
+                            th:if="${prices.empty}"
+                    >
+                        <li class="">
                             <b> Brak cen </b>
                         </li>
                     </ul>
-                    <ul  style="font-size: 0.7em" class="list-group list-unstyled list-group-flush" th:each="prices : ${prices}">
-                        Dostepne ceny:
-                        <li class=""  >
-                            <input type="checkbox" id="scales"  />
-                            <span style="display: none" th:text="${prices.idPrice}">  </span>&nbsp;
-                            <b> Cena: </b><span  th:text="${prices.value} + zł">  </span>&nbsp;&nbsp;
-                            <b> Nazwa: </b><span th:text="${prices.name}"> </span>&nbsp;&nbsp;
-                            <b> Cykl rozliczeniowy: </b><span th:text="${prices.cycle}"> </span>&nbsp;&nbsp;
-                            <b> Opis: </b><span  th:text="${prices.description}"> </span>
+                    <ul style="font-size: 0.7em"
+                        class="list-group list-unstyled list-group-flush"
+                        th:if="${!prices.empty}">
+                        <li class="my-2">
+                            <input style="width: 20px !important;" type="checkbox" id="input-prices"
+                                   onclick="showOrHide('input-prices','prices-ul')">
+                            <b>Wyświetl dostępne ceny</b>
+                            </hr>
                         </li>
                     </ul>
 
+                    <div style="display:none;float: left;" class="my-2" id="prices-ul">
+                        <ul
+                                style="font-size: 0.6em; float: left;"
+                                class="list-group list-unstyled list-group-flush"
+                                th:each="prices : ${prices}">
+                            <li class="">
+                                <input type="checkbox" id="scales" name="${prices.idPrice}" th:name="priceIds"
+                                       th:value="${prices.idPrice}"/>
+                                <input style="display: none" type="text"/> <span style="display: none"
+                                                                                 th:text="${prices.idPrice}"></span>
+                                <b> Cena: </b> <span th:text="${prices.value} + zł"> </span>&nbsp;&nbsp;
+                                <b> Nazwa: </b> <span th:text="${prices.name}"> </span>&nbsp;&nbsp;
+                                <b> Cykl rozliczeniowy: </b><span th:text="${prices.cycle}"> </span>&nbsp;&nbsp;
+                                <b> Opis: </b><span th:text="${prices.description}"></span>
+                            </li>
+                        </ul>
+                    </div>
                     <div id="group-information">
                         <input
                                 class="form-control my-2"
                                 type="text"
                                 id="phone"
-                                name="phone"
+                                name="groupPlace"
                                 placeholder="Miejsce"
                         />
                         <input
                                 class="form-control my-2"
-                                type="text"
+                                type="number"
                                 id="phone"
-                                name="phone"
+                                name="groupSize"
                                 placeholder="Wielkość grupy"
                         />
-
                         <input
                                 class="form-control mr-sm-2 my-2"
                                 type="search"
+                                name="groupLeader"
                                 placeholder="Imie oraz nazwisko prowdzącego"
                                 aria-label="Search"
                         />
-                        <span style="font-size: 0.7em"> Data od:</span>
 
+                        <select name="color" class="form-control mr-sm-2 my-2 w-100">
+                            <option value="volvo">Bez koloru</option>
+                            <option style="background-color: #6b5b95;" value="6b5b95">#6b5b95</option>
+                            <option style="background-color: #ff7b25;" value="ff7b25">#ff7b25</option>
+                            <option style="background-color: #feb236;" value="feb236">#feb236</option>
+                            <option style="background-color: #86af49;" value="86af49">#86af49</option>
+                            <option style="background-color: #d64161;" value="d64161">#d64161</option>
+                            <option style="background-color: #3e4444;" value="3e4444">#3e4444</option>
+                            <option style="background-color: #c1946a;" value="c1946a">#c1946a</option>
+                            <option style="background-color: #034f84;" value="034f84">#034f84</option>
+                            <option style="background-color: #50394c;" value="50394c">#50394c</option>
+                            <option style="background-color: #4040a1;" value="4040a1">#4040a1</option>
+                            <option style="background-color: #034f84;" value="034f84">#034f84</option>
+                            <option style="background-color: #e3eaa7;" value="e3eaa7">#e3eaa7</option>
+                            <option style="background-color: #f4e1d2;" value="f4e1d2">#f4e1d2</option>
+                        </select>
+
+
+                        <span style="font-size: 0.7em"> Data od:</span>
                         <input
                                 class="form-control my-2"
                                 type="date"
                                 id="phone"
-                                name="phone"
+                                name="groupDataFrom"
                                 placeholder="Data rozpoczęcia"
                         />
                         <span style="font-size: 0.7em"> Data do:</span>
@@ -507,16 +513,15 @@
                                 class="form-control my-2"
                                 type="date"
                                 id="phone"
-                                name="phone"
+                                name="groupDataTo"
                                 placeholder="Data zakończenia"
                         />
                     </div>
-
                     <textarea
                             class="form-control mr-sm-2 my-2"
                             type="textarea"
                             id="phone"
-                            name="phone"
+                            name="groupDescription"
                             placeholder="informacja dodatkowa"
                     ></textarea>
                     <div id="term">
@@ -525,7 +530,10 @@
                     <a class="btn btn-outline-edit w-100 my-3" onclick="addTerm(term)"
                     >Dodaj termin</a
                     >
+                    <input  style="width: 20px !important;" name="groupFirstFree" value="true" type="checkbox" >
+                    <b style="font-size: 0.7em">Pierwszy wejście za darmo</b>
                     <hr/>
+
                     <button class="btn btn-outline-success w-100" type="submit">
                         Zapisz
                     </button>
@@ -545,11 +553,12 @@
                         <th class="colth" scope="col">Cena</th>
                         <th class="colth" scope="col">Nazwa</th>
                         <th class="colth" scope="col">Okres wplat</th>
-<!--                        <th class="colth" scope="col">Data do</th>-->
-<!--                        <th class="colth" scope="col">Data od</th>-->
+                        <!--                        <th class="colth" scope="col">Data do</th>-->
+                        <!--                        <th class="colth" scope="col">Data od</th>-->
                         <th class="colth" scope="col">Informacje</th>
                         <th scope="col">Edytuj</th>
                     </tr>
+
                     </thead>
                     <tbody>
                     <tr>
@@ -718,57 +727,46 @@
                 </table>
             </div>
             <div class="col-lg-3 right-panel">
-<!--                <form class="login-form" th:action="@{/app/optionGroupList}" method="POST">-->
+                <form class="login-form" th:action="@{/app/postPrice}" method="POST">
                     <p style="font-size: 1.1em">Dodaj nową cene</p>
                     <input
                             id="name-of-the-new-price"
                             class="form-control my-3"
                             type="text"
-                            name="value"
+                            name="priceName"
                             placeholder="Nazwa karnetu *"
                     />
                     <input
                             id="value-for-new-price"
                             class="form-control my-3"
                             type="number"
-                            name="value"
+                            name="priceValue"
                             placeholder="Cena (w zł) *"
                     />
                     <input
                             id="cycle-for-new-price"
                             class="form-control my-3"
                             type="number"
-                            name="cycle"
+                            name="priceCycle"
                             placeholder="Cykl rozliczeniowy (w dniach) *"
                     />
-<!--                    <span style="font-size: 0.7em"> Obowiązuje od daty:</span>-->
-<!--                    <input-->
-<!--                            id="dataFrom-for-new-price"-->
-<!--                            class="form-control my-2"-->
-<!--                            type="date"-->
-<!--                            name="dataFrom"-->
-<!--                            placeholder="Data rozpoczęcia"-->
-<!--                    />-->
-<!--                    <span style="font-size: 0.7em"> Obowiązuje do daty:</span>-->
-<!--                    <input-->
-<!--                            id="dataTo-for-new-price"-->
-<!--                            class="form-control my-2"-->
-<!--                            type="date"-->
-<!--                            name="dataTo"-->
-<!--                            placeholder="Data zakończenia"-->
-<!--                    />-->
                     <textarea
                             id="description-for-new-price"
                             class="form-control mr-sm-2 my-2"
                             type="textarea"
-                            name="information"
+                            name="priceDescription"
                             placeholder="informacja dodatkowa"
                     ></textarea>
                     <hr/>
-                    <button onclick="savePrice()" class="btn btn-outline-success w-100" type="submit">
+                    <!--                                    window.location.reload();-->
+                    <button
+                            onclick="savePrice();"
+                            class="btn btn-outline-success w-100"
+                            type="submit"
+                    >
                         Zapisz
                     </button>
-<!--                </form>-->
+                </form>
             </div>
         </div>
     </div>
@@ -777,22 +775,23 @@
     function saveGroup() {
 
         var xhttp = new XMLHttpRequest();
-        var URL= "/app/postPrice";
+        var URL = "/app/postPrice";
 
-        var name= document.getElementById('name-of-the-new-price').value;
-        var value= document.getElementById('value-for-new-price').value;
-        var cycle= document.getElementById('cycle-for-new-price').value;
-        var dataFrom= document.getElementById('dataFrom-for-new-price').value;
-        var dataTo= document.getElementById('dataTo-for-new-price').value;
-        var description= document.getElementById('description-for-new-price').value;
+        var groupName = document.getElementById('name-of-the-new-price').value;
+        var groupPlace = document.getElementById('value-for-new-price').value;
+        var groupLeader = document.getElementById('cycle-for-new-price').value;
+        var groupSize = document.getElementById('cycle-for-new-price').value;
+        var dataFrom = document.getElementById('dataFrom-for-new-price').value;
+        var groupDayFor = document.getElementById('dataTo-for-new-price').value;
+        var description = document.getElementById('description-for-new-price').value;
 
         var params =
-            "name="+name+
-            "&value="+parseInt(value)+
-            "&cycle="+parseInt(cycle)+
+            "name=" + name +
+            "&value=" + parseInt(value) +
+            "&cycle=" + parseInt(cycle) +
             // "&dataFrom="+dataFrom+
             // "&dataTo="+dataTo+
-            "&description="+description;
+            "&description=" + description;
 
         xhttp.open("POST", URL, true);
 
@@ -806,64 +805,47 @@
 
         xhttp.send(params);
     }
+
     function savePrice() {
 
-        var xhttp = new XMLHttpRequest();
-        var URL= "/app/postPrice";
-
-        var name= document.getElementById('name-of-the-new-price').value;
-        console.log(name);
-        var value= document.getElementById('value-for-new-price').value;
-        console.log(value);
-        var cycle= document.getElementById('cycle-for-new-price').value;
-        console.log(cycle);
-        // var dataFrom= document.getElementById('dataFrom-for-new-price').value;
-        // var dataTo= document.getElementById('dataTo-for-new-price').value;
-        var description= document.getElementById('description-for-new-price').value;
-        console.log(description);
-        var params =
-            "name="+name+
-            "&value="+parseInt(value)+
-            "&cycle="+parseInt(cycle)+
-            // "&dataFrom="+dataFrom+
-            // "&dataTo="+dataTo+
-            "&description="+description;
-
-        xhttp.open("POST", URL, true);
-
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                alert(xhttp.responseText);
-            }
-        }
-
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        xhttp.send(params);
+        // var xhttp = new XMLHttpRequest();
+        // var URL= "/app/postPrice";
+        //
+        // var priceName= document.getElementById('name-of-the-new-price').value;
+        // var priceValue= document.getElementById('value-for-new-price').value;
+        // var priceCycle= document.getElementById('cycle-for-new-price').value;
+        // var priceDescription= document.getElementById('description-for-new-price').value;
+        //
+        // var params =
+        //     "priceName="+priceName+
+        //     "&priceValue="+parseInt(priceValue)+
+        //     "&priceCycle="+parseInt(priceCycle)+
+        //     "&priceDescription="+priceDescription;
+        //
+        // xhttp.open("POST", URL, true);
+        //
+        // xhttp.onreadystatechange = function () {
+        //     if (this.readyState === 4 && this.status === 200) {
+        //         alert(xhttp.responseText);
+        //     }
+        // }
+        //
+        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //
+        // xhttp.send(params);
     }
 
     function changePanel(element) {
-
-
-        var group_list = document.getElementById("group-list");
         var price_add = document.getElementById("price-add");
         var group_add = document.getElementById("group-add");
 
         if (element === "group-add") {
-            group_list.style.display = "none";
             price_add.style.display = "none";
             group_add.style.display = "block";
             return;
         }
         if (element === "price-add") {
-            group_list.style.display = "none";
             price_add.style.display = "block";
-            group_add.style.display = "none";
-            return;
-        }
-        if (element === "group-list") {
-            group_list.style.display = "block";
-            price_add.style.display = "none";
             group_add.style.display = "none";
             return;
         }
@@ -871,14 +853,14 @@
 
     window.onload = dataChange();
 
-    function showOrHide(element, name) {
-        console.log(name);
-        if (element.checked) {
-            document.getElementById(name).style.display = "block";
+    function showOrHide(element, nameId) {
+
+        if (document.getElementById(element).checked) {
+            document.getElementById(nameId).style.display = "block";
             return;
         }
 
-        document.getElementById(name).style.display = "none";
+        document.getElementById(nameId).style.display = "none";
     }
 
     function dataChange() {
@@ -902,16 +884,17 @@
         document.getElementById("term").innerHTML =
             termIncrease +
             '<div id="part-term" style="display: flex;">\n' +
-            '<select class="form-control mr-sm-2 my-2 w-100" name="300px" aria-label="Default select example">\n' +
-            '<option  name="SOMETHING" value="SOMETHING" selected>Poniedziałek</option>\n' +
-            '<option  name="SOMETHING" value="SOMETHING" selected>Wtorek</option>\n' +
-            '<option  name="SOMETHING" value="SOMETHING" selected>Środa</option>\n' +
-            '<option  name="SOMETHING" value="SOMETHING" selected>Czwartek</option>\n' +
-            '<option  name="SOMETHING" value="SOMETHING" selected>Piątek</option>\n' +
-            '<option  name="SOMETHING" value="SOMETHING" selected>Sobota</option>\n' +
-            '<option  name="SOMETHING" value="SOMETHING" selected>Niedziela</option>\n' +
+            '<select name="groupDayFor" class="form-control mr-sm-2 my-2 w-100"  aria-label="Default select example">\n' +
+            '<option value="Poniedziałek" selected>Poniedziałek</option>\n' +
+            '<option value="Wtorek" >Wtorek</option>\n' +
+            '<option value="Środa" >Środa</option>\n' +
+            '<option value="Czwartek" >Czwartek</option>\n' +
+            '<option value="Piątek" >Piątek</option>\n' +
+            '<option value="Sobota" >Sobota</option>\n' +
+            '<option value="Niedziela" >Niedziela</option>\n' +
             "</select>\n" +
-            '<input id="appt-time" type="time" name="appt-time" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
+            '<input id="appt-time" type="time" name="groupTimeFor" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
+            '<a style="color:black!important; height:40px; font-size:1.2em" ><i class=\'bx bx-x\'></i></a>\n' +
             "</div>";
     }
 </script>

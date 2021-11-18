@@ -1,11 +1,13 @@
 package com.app.elista.registration;
 
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class RegistrationRestControllerTest {
 
