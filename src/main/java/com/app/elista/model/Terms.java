@@ -1,5 +1,7 @@
 package com.app.elista.model;
 
+import com.app.elista.appcompany.AppCompany;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -24,15 +26,25 @@ public class Terms {
     private String dayName;
     @Column(length = 5)
     private String time;
-
+    @ManyToOne
+    @JoinColumn(name="id_company", nullable=false)
+    private AppCompany appCompany;
     public Terms() {
     }
 
-    public Terms(String dayName, String time) {
+    public Terms(String dayName, String time, AppCompany appCompany) {
         this.dayName = dayName;
         this.time = time;
+        this.appCompany = appCompany;
     }
 
+    public AppCompany getAppCompany() {
+        return appCompany;
+    }
+
+    public void setAppCompany(AppCompany appCompany) {
+        this.appCompany = appCompany;
+    }
 
     public Long getIdTerm() {
         return idTerm;

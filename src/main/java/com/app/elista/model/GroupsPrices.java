@@ -5,15 +5,7 @@ import javax.persistence.*;
 public class GroupsPrices {
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "groups_prices_sequence"
-    )
-    @SequenceGenerator(
-            name = "groups_prices_sequence",
-            sequenceName = "groups_prices_sequence",
-            allocationSize = 1
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idGroupPrice;
 
     @ManyToOne

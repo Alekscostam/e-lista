@@ -8,15 +8,7 @@ public class GroupsTerms {
 
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "groups_terms_sequence"
-    )
-    @SequenceGenerator(
-            name = "groups_terms_sequence",
-            sequenceName = "groups_terms_sequence",
-            allocationSize = 1
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idGroupTerm;
 
     @ManyToOne
@@ -41,6 +33,9 @@ public class GroupsTerms {
         if (o == null || getClass() != o.getClass()) return false;
         GroupsTerms that = (GroupsTerms) o;
         return Objects.equals(idGroupTerm, that.idGroupTerm) && Objects.equals(teams, that.teams) && Objects.equals(terms, that.terms);
+    }
+
+    public GroupsTerms() {
     }
 
     @Override

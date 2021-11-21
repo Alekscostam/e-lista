@@ -3,6 +3,7 @@ package com.app.elista.appcompany;
 import com.app.elista.model.Teams;
 import com.app.elista.model.Offer;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,8 +23,9 @@ public class AppCompany implements UserDetails {
 //    private UUID idCompany;
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
+    @GeneratedValue(generator = "UUIDGenerator")
+    @Column(updatable = false, nullable = false)
     private UUID idCompany;
 
     @Column(length = 35)

@@ -1,20 +1,26 @@
 package com.app.elista.Services;
 
 import com.app.elista.model.Prices;
+import com.app.elista.model.Teams;
 import com.app.elista.repositories.PricesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PriceService {
 @Autowired
     PricesRepository pricesRepository;
+        JdbcTemplate jdbcTemplate;
 
-    public PriceService(PricesRepository pricesRepository) {
+    public PriceService(PricesRepository pricesRepository, JdbcTemplate jdbcTemplate) {
         this.pricesRepository = pricesRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void addPrices(Prices price) {
@@ -34,5 +40,14 @@ public class PriceService {
         }
 
         return pricesList;
+    }
+
+    public List<Prices> findAllByAppCompanyId(UUID idCompany) {
+
+        String sql = "SELECT * FROM prices WHERE id_company='"+idCompany+"';";
+
+        return jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper(Prices.class));
     }
 }

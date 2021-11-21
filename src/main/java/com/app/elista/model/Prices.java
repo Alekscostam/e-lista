@@ -3,6 +3,8 @@ package com.app.elista.model;
 
 
 
+import com.app.elista.appcompany.AppCompany;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -24,6 +26,10 @@ public class Prices {
             generator = "Prices_sequence"
     )
     private Long idPrice;
+
+    @ManyToOne
+    @JoinColumn(name="id_company", nullable=false)
+    private AppCompany appCompany;
 
     @Override
     public boolean equals(Object o) {
@@ -86,11 +92,19 @@ public class Prices {
         this.description = description;
     }
 
-    public Prices(String name, Integer value, Short cycle, String description) {
+    public Prices(AppCompany appCompany, String name, Integer value, Short cycle, String description) {
+        this.appCompany = appCompany;
         this.name = name;
         this.value = value;
         this.cycle = cycle;
-
         this.description = description;
+    }
+
+    public AppCompany getAppCompany() {
+        return appCompany;
+    }
+
+    public void setAppCompany(AppCompany appCompany) {
+        this.appCompany = appCompany;
     }
 }

@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TermService {
-
-
 
     TermsRepository termsRepository;
 
@@ -20,17 +19,11 @@ public class TermService {
         this.termsRepository = termsRepository;
     }
 
-    public List<Terms> addTerms(List<Terms> termsList) {
+    public List<Terms> addTerms( List<Terms> termsList) {
         List<Terms> savedTermsList = termsRepository.saveAll(termsList);
-//        List<Long> idTermsList = savedTermsList.stream().map(a -> a.getIdTerm()).toList();
-//        termsRepository.flush();
-//        termsRepository.saveAll(termsList);
-//        termsRepository.flush();
+
         return savedTermsList;
     }
-     public void findOne(){
 
-
-     }
 
 }

@@ -1,8 +1,7 @@
 package com.app.elista.Controller;
 
-import com.app.elista.Services.PriceService;
-import com.app.elista.Services.TeamService;
-import com.app.elista.Services.TermService;
+import com.app.elista.Services.*;
+import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.Terms;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +20,12 @@ public class ApiControllerTest {
     TermService termService;
     @Mock
     TeamService teamService;
+    @Mock
+    GroupTermService groupTermService;
+    @Mock
+    GroupPriceService groupPriceService;
+    @Mock
+    AppCompany appCompany;
 
     List<String> listDayForGroup;
     List<String> listOfTimes;
@@ -29,7 +34,7 @@ public class ApiControllerTest {
 
     @Before
     public void init(){
-        apiController = new ApiController(priceService,termService,teamService);
+        apiController = new ApiController(priceService,termService,teamService,groupTermService,groupPriceService);
        listDayForGroup = Arrays.asList("jeden","dwa","trzy");
         listOfTimes = Arrays.asList("1:1","2:2","3:3");
     }
@@ -72,8 +77,6 @@ public class ApiControllerTest {
         String times = "12:54, 13:20";
         String ids = "1, 2";
 
-
-
         List<String> listDayForGroup = apiController.divideStringToList(dayForGroup);
         List<String> listOfTimes = apiController.divideStringToList(times);
         List<String> listOfIds = apiController.divideStringToList(ids);
@@ -87,10 +90,10 @@ public class ApiControllerTest {
 
     @Test
     public void shouldConvertStringListsToTermLists() {
-        List<Terms> termsList = apiController.stringListsToTermLists(listDayForGroup, listOfTimes);
-        Terms terms1 = new Terms(listDayForGroup.get(0),listOfTimes.get(0));
-        Terms terms2 = new Terms(listDayForGroup.get(1),listOfTimes.get(1));
-        Terms terms3 = new Terms(listDayForGroup.get(2),listOfTimes.get(2));
+        List<Terms> termsList = apiController.stringListsToTermLists(appCompany,listDayForGroup, listOfTimes);
+        Terms terms1 = new Terms(listDayForGroup.get(0),listOfTimes.get(0),appCompany);
+        Terms terms2 = new Terms(listDayForGroup.get(1),listOfTimes.get(1),appCompany);
+        Terms terms3 = new Terms(listDayForGroup.get(2),listOfTimes.get(2),appCompany);
 
         assertEquals("terms1: ",termsList.get(0),terms1);
         assertEquals("terms2: ",termsList.get(1),terms2);
