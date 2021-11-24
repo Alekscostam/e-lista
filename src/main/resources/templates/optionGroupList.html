@@ -228,185 +228,36 @@
             <div class="col-lg-9 right-panel container-custom">
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th class="colth" style="" scope="col"></th>
-                        <th class="colth" scope="col">Nazwa</th>
-                        <th class="colth" scope="col">Lokalizacja</th>
-                        <th class="colth" scope="col">Wielkość</th>
-                        <th class="colth" scope="col">Prowadzący</th>
-                        <th class="colth" scope="col">Terminy</th>
-                        <th class="colth" scope="col">Data od</th>
-                        <th class="colth" scope="col">Data do</th>
-                        <th scope="col">Edytuj</th>
+                    <tr >
+                        <th  class="colth" scope="col"></th>
+                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Nazwa</span></th>
+                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Terminy</span></th>
+                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Lokalizacja</span></th>
+                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Prowadzący</span></th>
+                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Wolne miesjca</span></th>
+                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Dodatkowe informacje</span></th>
+                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Kolor</span></th>
+                        <th  scope="col">Edytuj</th>
                     </tr>
                     </thead>
                     <tbody>
                     <!-- The Modal -->
-                    <tr>
-                        <td data-label="Obecność" scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Nazwisko">1</td>
-                        <td data-label="Name">Dinesh</td>
-
+                    <tr th:each="allInfos : ${allInfos}">
                         <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
+                            <input type="checkbox" id="scales" name="scales" class="option" />
                         </td>
-
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="Grupa">1A</td>
-                        <!-- <td data-label="Marks%">gvhgvjhgvh%</td> -->
+                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.teamName}"></span></td>
+                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.terms}"></span></td>
+                        <td><span style="font-size: 0.8em"  th:text="${allInfos.teams.place}"></span></td>
+                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.leaderName}"></span></td>
+                        <td>
+                            <span style="font-size: 0.8em" th:text="${allInfos.teams.freeSpace }"></span>
+                            <span style="font-size: 0.8em" th:text="'/' + ${allInfos.teams.groupSize }"></span>
+                        </td>
+                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.description}"></span></td>
+                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.color}"></span></td>
                         <td data-label="info.">
-                            <a href="#" class="" id="myBtn">
-                                <i class="bx bxs-edit-alt info"> </i
-                                ></a>
-                        </td>
-                    </tr>
-                    <tr style="">
-                        <td scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Name">Kamal</td>
-                        <td data-label="Age">23</td>
-
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="Grupa">1A</td>
-                        <!-- <td data-label="Staus">Passed</td> -->
-                        <td data-label="info.">
-                            <a href="#" class="">
-                                <i class="bx bxs-info-circle info"> </i
-                                ></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Name">Neha</td>
-                        <td data-label="Age">20</td>
-
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="info.">
-                            <a href="#" class="">
-                                <i class="bx bxs-info-circle info"> </i
-                                ></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Name">Priya</td>
-                        <td data-label="Age">30</td>
-
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="info.">
-                            <a href="#" class="">
-                                <i class="bx bxs-info-circle info"> </i
-                                ></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Name">Priya</td>
-                        <td data-label="Age">30</td>
-
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="info.">
-                            <a href="#" class="">
-                                <i class="bx bxs-info-circle info"> </i
-                                ></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Name">Priya</td>
-                        <td data-label="Age">30</td>
-
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="info.">
-                            <a href="#" class="">
-                                <i class="bx bxs-info-circle info"> </i
-                                ></a>
+                            <a href="#" class=""><i class="bx bxs-info-circle info"> </i></a>
                         </td>
                     </tr>
                     </tbody>
@@ -893,7 +744,8 @@
             '<option value="Sobota" >Sobota</option>\n' +
             '<option value="Niedziela" >Niedziela</option>\n' +
             "</select>\n" +
-            '<input id="appt-time" type="time" name="groupTimeFor" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
+            '<input id="appt-time" type="time" name="groupTimeFrom" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
+            '<input id="appt-time" type="time" name="groupTimeTo" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
             '<a style="color:black!important; height:40px; font-size:1.2em" ><i class=\'bx bx-x\'></i></a>\n' +
             "</div>";
     }

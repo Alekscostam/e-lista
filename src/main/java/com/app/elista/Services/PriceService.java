@@ -44,7 +44,7 @@ public class PriceService {
 
     public List<Prices> findAllByAppCompanyId(UUID idCompany) {
 
-        String sql = "SELECT * FROM prices WHERE id_company='"+idCompany+"';";
+        String sql = "SELECT p.id_price, p.name,p.value, p.cycle, p.description, gp.id_group_price, gp.id_team FROM  groups_prices gp LEFT  JOIN  prices p on gp.id_price = p.id_price WHERE id_company='"+idCompany+"';";
 
         return jdbcTemplate.query(
                 sql,

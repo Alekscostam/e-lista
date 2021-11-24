@@ -15,7 +15,6 @@ import java.util.*;
 @Entity
 public class AppCompany implements UserDetails {
 
-//
 //    @Id
 //    @GeneratedValue(generator = "uuid2")
 //    @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -47,6 +46,22 @@ public class AppCompany implements UserDetails {
     private Boolean enabled = true;
     @OneToMany(mappedBy="appCompany")
     private Set<Teams> teams;
+
+    public Offer getOffer() {
+        return offer;
+    }
+
+    public void setOffer(Offer offer) {
+        this.offer = offer;
+    }
+
+    public Set<Teams> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Teams> teams) {
+        this.teams = teams;
+    }
 
     public AppCompany(String name,
                       String email,

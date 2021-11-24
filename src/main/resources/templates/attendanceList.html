@@ -184,23 +184,23 @@
         </p>
     </div>
 </div>
-<section class="container-fluid container-custom  text-center scrollit" >
+<section class="container-fluid container-custom  text-center scrollit">
 
     <table class="table ">
         <thead>
         <tr>
             <th class="colth" style="" scope="col"></th>
-            <th class="colth"scope="col">Numer</th>
-            <th class="colth"scope="col">Nazwisko</th>
-            <th class="colth"scope="col">Imie</th>
-            <th class="colth"scope="col">Rozliczenie</th>
-            <th class="colth"scope="col">Numer telefonu</th>
-            <th class="colth"scope="col">Data zapisu</th>
-            <th class="colth"scope="col">Info.</th>
+            <th class="colth" scope="col">Numer</th>
+            <th class="colth" scope="col">Nazwisko</th>
+            <th class="colth" scope="col">Imie</th>
+            <th class="colth" scope="col">Rozliczenie</th>
+            <th class="colth" scope="col">Numer telefonu</th>
+            <th class="colth" scope="col">Data zapisu</th>
+            <th class="colth" scope="col">Info.</th>
             <!-- <th scope="col"> Info.</th> -->
         </tr>
         </thead>
-        <tbody>
+        <tbody id="tbody-element">
 
 
         <!-- The Modal -->
@@ -212,110 +212,127 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <div id="inside-modal ">
-                    <div class="text"><div class="hello">
+                    <div class="text">
+                        <div class="hello">
 
 
-                        <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2 my-2" type="search" placeholder="Imie" aria-label="Search">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Nazwisko" aria-label="Search">
-                            <input class="form-control mr-sm-2 my-2" type="search" placeholder="Wiek" aria-label="Search">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Numer indywidualny" aria-label="Search">
+                            <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2 my-2" type="search" placeholder="Imie"
+                                       aria-label="Search">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Nazwisko"
+                                       aria-label="Search">
+                                <input class="form-control mr-sm-2 my-2" type="search" placeholder="Wiek"
+                                       aria-label="Search">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Numer indywidualny"
+                                       aria-label="Search">
 
-                            <input class="form-control mr-sm-2 my-2" type="email" name="email"  placeholder="E-mail">
-                            <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"  placeholder="Numer telefonu">
-                            <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"  placeholder="Rozliczenie na ten cykl">
+                                <input class="form-control mr-sm-2 my-2" type="email" name="email" placeholder="E-mail">
+                                <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"
+                                       placeholder="Numer telefonu">
+                                <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"
+                                       placeholder="Rozliczenie na ten cykl">
 
-                            <select class="form-control mr-sm-2 my-2" name="offer"   aria-label="Default select example">
-                                <option name="FIFTY" value="FIFTY" selected>Grupa 1</option>
-                                <option name="HUNDRED" value="HUNDRED" selected>Grupa 2</option>
-                                <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>Grupa 2</option>
-                                <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>Grupa 2</option>
-                            </select>
-                            <div  class = "container"style="font-size: 0.8em; text-align:left!important">
-                                <input type="checkbox" id="scales" name="scales" class="option" /> Cena indywdualna
+                                <select class="form-control mr-sm-2 my-2" name="offer"
+                                        aria-label="Default select example">
+                                    <option name="FIFTY" value="FIFTY" selected>Grupa 1</option>
+                                    <option name="HUNDRED" value="HUNDRED" selected>Grupa 2</option>
+                                    <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>Grupa 2</option>
+                                    <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>Grupa 2</option>
+                                </select>
+                                <div class="container" style="font-size: 0.8em; text-align:left!important">
+                                    <input type="checkbox" id="scales" name="scales" class="option"/> Cena indywdualna
 
-                            </div>
-                            <select class="form-control mr-sm-2 my-2" name="offer"   aria-label="Default select example">
-                                <option name="FIFTY" value="FIFTY" selected>Karnet rodzina 2-os.</option>
-                                <option name="HUNDRED" value="HUNDRED" selected>Karnet rodzina 2-os.</option>
-                                <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>Karnet rodzina 2-os.</option>
-                                <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>Karnet rodzina 2-os.</option>
-                            </select>
-                            <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"  placeholder="Cena">
-                            <div style="font-size: 0.8em; text-align:left!important"> Cykl rozliczeniowy</div>
-                            <select class="form-control mr-sm-2 my-2 " name="offer"   aria-label="Default select example">
-                                <option name="FIFTY" value="FIFTY" selected>Co zajęcia.</option>
-                                <option name="HUNDRED" value="HUNDRED" selected>1 tyg.</option>
-                                <option name="FIFTY" value="FIFTY" selected>2 tyg.</option>
-                                <option name="HUNDRED" value="HUNDRED" selected>1 msc.</option>
-                                <option name="HUNDRED" value="HUNDRED" selected>2 msc.</option>
-                                <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>3 msc.</option>
-                                <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>6 msc.</option>
-                                <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>12 msc.</option>
-                            </select>
+                                </div>
+                                <select class="form-control mr-sm-2 my-2" name="offer"
+                                        aria-label="Default select example">
+                                    <option name="FIFTY" value="FIFTY" selected>Karnet rodzina 2-os.</option>
+                                    <option name="HUNDRED" value="HUNDRED" selected>Karnet rodzina 2-os.</option>
+                                    <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>Karnet rodzina 2-os.
+                                    </option>
+                                    <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>Karnet rodzina 2-os.
+                                    </option>
+                                </select>
+                                <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"
+                                       placeholder="Cena">
+                                <div style="font-size: 0.8em; text-align:left!important"> Cykl rozliczeniowy</div>
+                                <select class="form-control mr-sm-2 my-2 " name="offer"
+                                        aria-label="Default select example">
+                                    <option name="FIFTY" value="FIFTY" selected>Co zajęcia.</option>
+                                    <option name="HUNDRED" value="HUNDRED" selected>1 tyg.</option>
+                                    <option name="FIFTY" value="FIFTY" selected>2 tyg.</option>
+                                    <option name="HUNDRED" value="HUNDRED" selected>1 msc.</option>
+                                    <option name="HUNDRED" value="HUNDRED" selected>2 msc.</option>
+                                    <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>3 msc.</option>
+                                    <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>6 msc.</option>
+                                    <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>12 msc.</option>
+                                </select>
 
-                            <div style="font-size: 0.8em; text-align:left!important">
-                                Data zapisu<br> <input type="date" lang="fr-CA" class="my-2"  data-date="" id="date-picker" data-date-format="DD MMMM YYYY"  ><br>
-                                Data pierwszej wpłaty <br><input type="date" class="my-2" lang="fr-CA" data-date="" id="date-picker" data-date-format="DD MMMM YYYY"  ><br>
-                                Data kolejnej wpłaty <br><input type="date" class="my-2" lang="fr-CA" data-date="" id="date-picker" data-date-format="DD MMMM YYYY"  ><br>
-                            </div>
-                            <script type="text/javascript">
+                                <div style="font-size: 0.8em; text-align:left!important">
+                                    Data zapisu<br> <input type="date" lang="fr-CA" class="my-2" data-date=""
+                                                           id="date-picker" data-date-format="DD MMMM YYYY"><br>
+                                    Data pierwszej wpłaty <br><input type="date" class="my-2" lang="fr-CA" data-date=""
+                                                                     id="date-picker"
+                                                                     data-date-format="DD MMMM YYYY"><br>
+                                    Data kolejnej wpłaty <br><input type="date" class="my-2" lang="fr-CA" data-date=""
+                                                                    id="date-picker"
+                                                                    data-date-format="DD MMMM YYYY"><br>
+                                </div>
+                                <script type="text/javascript">
 
-                                window.onload = dataChange();
-                            </script>
-                            <br>
-                            <a href="#"> <i class='bx bxs-edit-alt success' ><span > Zapisz</span></i></a>
-                        </form>
-                        </p>
+                                    window.onload = dataChange();
+                                </script>
+                                <br>
+                                <a href="#"> <i class='bx bxs-edit-alt success'><span> Zapisz</span></i></a>
+                            </form>
+                            </p>
 
-                        </p>
-                    </div>
+                            </p>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
-        </div>
+
         <tr>
 
-            <td  data-label="Obecność" scope="row">
-                <input type="checkbox"  id="scales" name="scales" class="option" />
+            <td data-label="Obecność" scope="row">
+                <input type="checkbox" id="scales" name="scales" class="option"/>
             </td>
             <td data-label="Imie">1</td>
             <td data-label="Nazwisko">1</td>
             <td data-label="Name">Dinesh</td>
 
             <td scope="row">
-                <Button  class="price" onclick="changePriceStatus(this)">-140zł</Button>
+                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
             </td>
 
             <td data-label="Name">Dinesh</td>
             <td data-label="Grupa">1A</td>
             <!-- <td data-label="Marks%">gvhgvjhgvh%</td> -->
 
-            <td data-label="info." > <a href="#"class="" id="myBtn" > <i class='bx  bxs-edit-alt info'  > </i></a> </td>
+            <td data-label="info."><a href="#" class="" id="myBtn"> <i class='bx  bxs-edit-alt info'> </i></a></td>
         </tr>
         <tr style="
               ">
             <td scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option" />
+                <input type="checkbox" id="scales" name="scales" class="option"/>
             </td>
-            <td  data-label="Imie">1</td>
+            <td data-label="Imie">1</td>
             <td data-label="Name">Kamal</td>
             <td data-label="Age">23</td>
 
             <td scope="row">
-                <Button  class="price" onclick="changePriceStatus(this)">-140zł</Button>
+                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
             </td>
             <td data-label="Name">Dinesh</td>
             <td data-label="Grupa">1A</td>
             <!-- <td data-label="Staus">Passed</td> -->
-            <td data-label="info." > <a href="#"class="" > <i class='bx bxs-info-circle info' > </i></a> </td>
+            <td data-label="info."><a href="#" class=""> <i class='bx bxs-info-circle info'> </i></a></td>
         </tr>
         <tr>
             <td scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option" />
+                <input type="checkbox" id="scales" name="scales" class="option"/>
             </td>
             <td data-label="Imie">1</td>
             <td data-label="Name">Neha</td>
@@ -323,16 +340,16 @@
 
             <td scope="row">
 
-                <Button  class="price" onclick="changePriceStatus(this)">-140zł</Button>
+                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
 
             </td>
             <td data-label="Name">Dinesh</td>
             <td data-label="Grupa">1A</td>
-            <td data-label="info." > <a href="#"class="" > <i class='bx bxs-info-circle info' > </i></a> </td>
+            <td data-label="info."><a href="#" class=""> <i class='bx bxs-info-circle info'> </i></a></td>
         </tr>
         <tr>
             <td scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option" />
+                <input type="checkbox" id="scales" name="scales" class="option"/>
             </td>
             <td data-label="Imie">1</td>
             <td data-label="Name">Priya</td>
@@ -340,44 +357,44 @@
 
             <td scope="row">
 
-                <Button  class="price" onclick="changePriceStatus(this)">-140zł</Button>
+                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
 
             </td>
 
             <td data-label="Name">Dinesh</td>
             <td data-label="Grupa">1A</td>
-            <td data-label="info." > <a href="#"class="" > <i class='bx bxs-info-circle info' > </i></a> </td>
+            <td data-label="info."><a href="#" class=""> <i class='bx bxs-info-circle info'> </i></a></td>
         </tr>
         <tr>
             <td scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option" />
+                <input type="checkbox" id="scales" name="scales" class="option"/>
             </td>
             <td data-label="Imie">1</td>
             <td data-label="Name">Priya</td>
             <td data-label="Age">30</td>
 
             <td scope="row">
-                <Button  class="price" onclick="changePriceStatus(this)">-140zł</Button>
+                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
             </td>
 
             <td data-label="Name">Dinesh</td>
             <td data-label="Grupa">1A</td>
-            <td data-label="info." > <a href="#"class="" > <i class='bx bxs-info-circle info' > </i></a> </td>
+            <td data-label="info."><a href="#" class=""> <i class='bx bxs-info-circle info'> </i></a></td>
         </tr>
         <tr>
             <td scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option" />
+                <input type="checkbox" id="scales" name="scales" class="option"/>
             </td>
             <td data-label="Imie">1</td>
             <td data-label="Name">Priya</td>
             <td data-label="Age">30</td>
 
             <td scope="row">
-                <Button  class="price" onclick="changePriceStatus(this)">-140zł</Button>
+                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
             </td>
             <td data-label="Name">Dinesh</td>
             <td data-label="Grupa">1A</td>
-            <td data-label="info." > <a href="#"class="" > <i class='bx bxs-info-circle info' > </i></a> </td>
+            <td data-label="info."><a href="#" class=""> <i class='bx bxs-info-circle info'> </i></a></td>
         </tr>
 
         </tbody>
@@ -385,19 +402,14 @@
 
 </section>
 <script>
-    function changePriceStatus(element){
+    function changePriceStatus(element) {
 
-        if(element.innerText==="0"){
+        if (element.innerText === "0") {
             element.innerText = "-140zł";
-        }
-
-
-
-        else{
+        } else {
             element.innerText = "0";
             return;
         }
-
 
     }
 
@@ -409,17 +421,18 @@
 
         var i;
         if (primaryOption) {
-            document.getElementById("total-amount").innerText="";
+            document.getElementById("total-amount").innerText = "";
             for (i = 0; i < x.length; i++) {
                 x[i].checked = false;
             }
         } else {
             for (i = 0; i < x.length; i++) {
                 x[i].checked = true;
-                document.getElementById("total-amount").innerText="Liczba: " + x.length;
+                document.getElementById("total-amount").innerText = "Liczba: " + x.length;
             }
         }
     }
+
     // Get the modal
     var modal = document.getElementById("myModal");
 
@@ -430,7 +443,7 @@
     var span = document.getElementsByClassName("close")[0];
 
     // When the user clicks on the button, open the modal
-    btn.onclick = function() {
+    btn.onclick = function () {
         modal.style.display = "block";
 
         var issueTable = document.getElementById('myModal');
@@ -438,12 +451,12 @@
     }
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
+    span.onclick = function () {
         modal.style.display = "none";
     }
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }

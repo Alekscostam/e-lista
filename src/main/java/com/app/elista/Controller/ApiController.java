@@ -5,6 +5,7 @@ import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.Prices;
 import com.app.elista.model.Teams;
 import com.app.elista.model.Terms;
+import com.app.elista.model.extended.AllInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -20,16 +21,12 @@ public class ApiController {
 
     @Autowired
     private final PriceService priceService;
-    private final TermService termService;
     private final TeamService teamService;
-    private final GroupTermService groupTermService;
     private final GroupPriceService groupPriceService;
 
-    public ApiController(PriceService priceService, TermService termService, TeamService teamService, GroupTermService groupTermService, GroupPriceService groupPriceService) {
+    public ApiController(PriceService priceService, TeamService teamService, GroupPriceService groupPriceService) {
         this.priceService = priceService;
-        this.termService = termService;
         this.teamService = teamService;
-        this.groupTermService = groupTermService;
         this.groupPriceService = groupPriceService;
     }
 
@@ -56,11 +53,11 @@ public class ApiController {
 
     @GetMapping("optionGroupList")
     public ModelAndView getGroups(@AuthenticationPrincipal AppCompany appCompany) {
-        List<Teams> allByUUID = teamService.findAllByUUID(appCompany.getIdCompany());
+        List<AllInfo> allByUUID = teamService.findAllByUUID(appCompany.getIdCompany());
         ModelAndView mav = new ModelAndView("optionGroupList");
-        List<Prices> all = priceService.findAllByAppCompanyId(appCompany.getIdCompany());
-        mav.addObject("prices", all);
-
+        List<Prices> allPrices = priceService.findAllByAppCompanyId(appCompany.getIdCompany());
+        mav.addObject("prices", allPrices);
+        mav.addObject("allInfos", allByUUID);
         return mav;
     }
 
@@ -91,8 +88,8 @@ public class ApiController {
         return new ModelAndView("redirect:/app/optionGroupList");
 
     }
-    // TODO: 18.11.2021  DODAC DO TABELI HASHUJACEJ
 
+    // TODO: 18.11.2021  DODAC DO TABELI HASHUJACEJ
     @PostMapping("postGroup")
     public ModelAndView postGroup(
             @AuthenticationPrincipal AppCompany appCompany,
@@ -105,7 +102,8 @@ public class ApiController {
             String groupDescription,
             String priceIds,
             String groupDayFor,
-            String groupTimeFor,
+            String groupTimeFrom,
+            String groupTimeTo,
             String groupColor,
             String groupFirstFree
             ) {
@@ -116,8 +114,6 @@ public class ApiController {
                 groupColor ="ffffff";
             }
 
-            List<String> listDays = divideStringToList(groupDayFor);
-            List<String> listsTimes = divideStringToList(groupTimeFor);
             List<String> listsPriceIds = divideStringToList(priceIds);
 
             boolean resultFirstFree = Boolean.TRUE;
@@ -125,6 +121,16 @@ public class ApiController {
         if(groupFirstFree==null){
             resultFirstFree = Boolean.FALSE;
         }
+        String addedTerms ="";
+        if (!groupDayFor.isEmpty())
+        {
+           addedTerms = stringListsToString(groupDayFor, groupTimeFrom, groupTimeTo);
+        }
+
+            if (groupSize.isEmpty())
+            {
+                groupSize = "0";
+            }
 
         Teams teams = new Teams(
                 groupName,
@@ -137,30 +143,25 @@ public class ApiController {
                 groupColor,
                 resultFirstFree,
                 groupDescription,
+                addedTerms,
                 appCompany);
 
         Teams groupAdded = teamService.addGroup(teams);
-        if (!listDays.isEmpty())
-        {
-            List<Terms> addedTerms = termService.addTerms( stringListsToTermLists( appCompany,listDays, listsTimes));
-            groupTermService.insert(groupAdded,addedTerms);
-        }
 
         if(!listsPriceIds.isEmpty())
         {
             List<Prices> allPricesByPriceIds = priceService.findAllByPriceIds(listsPriceIds);
             groupPriceService.insert(groupAdded,allPricesByPriceIds);
         }
-
         return new ModelAndView("redirect:/app/optionGroupList");
-
     }
 
     public List<String> divideStringToList(String elementToDivide) {
 
         if(elementToDivide!=null) {
-            String[] split = elementToDivide.replaceAll("\\s+", "").split(",");
-            return Arrays.asList(split);
+            String[] splitOne = elementToDivide.replaceAll("\\s+", "").split(",");
+
+            return Arrays.asList(splitOne);
         }
         else
             return Collections.emptyList();
@@ -168,15 +169,18 @@ public class ApiController {
     }
 
 
+    public String stringListsToString(String dayToDivide, String elementToDivideOne, String elementToDivideTwo) {
 
-    public List<Terms> stringListsToTermLists(AppCompany appCompany, List<String> dayNameList, List<String> times) {
+       StringBuilder stringBuilder = new StringBuilder();
 
-        List<Terms> termsList = new ArrayList<>();
-        for (int i = 0; i < dayNameList.size(); i++)
+        List<String> dayNames = divideStringToList(dayToDivide);
+        List<String> timesFrom = divideStringToList(elementToDivideOne);
+        List<String> timesTo = divideStringToList(elementToDivideTwo);
+
+        for (int i = 0; i < dayNames.size(); i++)
         {
-            Terms terms = new Terms(dayNameList.get(i),times.get(i),appCompany);
-            termsList.add(terms);
+            stringBuilder.append(dayNames.get(i)).append(" : ").append(timesFrom.get(i)).append(" - ").append(timesTo.get(i)).append(";");
         }
-        return termsList;
+        return stringBuilder.toString();
     }
 }

@@ -3,6 +3,7 @@ package com.app.elista.model;
 import com.app.elista.appcompany.AppCompany;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Teams {
@@ -35,6 +36,16 @@ public class Teams {
     private Boolean firstFree;
     @Column(length = 255)
     private String description;
+    @Column(length = 355)
+    private String terms;
+
+    public String getTerms() {
+        return terms;
+    }
+
+    public void setTerms(String terms) {
+        this.terms = terms;
+    }
 
     @ManyToOne
     @JoinColumn(name="id_company", nullable=false)
@@ -50,6 +61,7 @@ public class Teams {
                  String color,
                  Boolean firstFree,
                  String description,
+                 String  terms,
                  AppCompany appCompany) {
         this.teamName = teamName;
         this.leaderName = leaderName;
@@ -61,6 +73,7 @@ public class Teams {
         this.color = color;
         this.firstFree = firstFree;
         this.description = description;
+        this.terms = terms;
         this.appCompany = appCompany;
     }
 
@@ -69,10 +82,8 @@ public class Teams {
 
     }
 
-
 //    @ManyToMany
 //    Set<Terms> terms;
-
 
     public Long getIdTeam() {
         return idTeam;
