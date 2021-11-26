@@ -15,11 +15,7 @@
                 <h4>Opcje grupy</h4>
             </div>
             <hr/>
-            <p class="text-right">
-                <a href="#">
-                    <i class="bx bxs-trash-alt delete"><span> Usuń</span></i></a
-                >&nbsp;
-            </p>
+
             <div class="container-fluid">
                 <div class="col-lg-6">
                     <button
@@ -228,44 +224,49 @@
             <div class="col-lg-9 right-panel container-custom">
                 <table class="table">
                     <thead>
-                    <tr >
-                        <th  class="colth" scope="col"></th>
-                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Nazwa</span></th>
-                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Terminy</span></th>
-                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Lokalizacja</span></th>
-                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Prowadzący</span></th>
-                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Wolne miesjca</span></th>
-                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Dodatkowe informacje</span></th>
-                        <th  class="colth" scope="col"><span style="font-size: 0.9em!important" >Kolor</span></th>
-                        <th  scope="col">Edytuj</th>
+                    <tr>
+                        <th class="colth" scope="col"></th>
+                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Nazwa</span></th>
+                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Terminy</span></th>
+                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Lokalizacja</span></th>
+                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Prowadzący</span></th>
+                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Wolne miesjca</span></th>
+                        <th class="colth" scope="col"><span
+                                style="font-size: 0.9em!important">Dodatkowe informacje</span></th>
+                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Kolor</span></th>
+                        <th scope="col">Opcje</th>
                     </tr>
                     </thead>
                     <tbody>
                     <!-- The Modal -->
                     <tr th:each="allInfos : ${allInfos}">
-                        <td scope="row">
-                            <input type="checkbox" id="scales" name="scales" class="option" />
-                        </td>
+                        <form th:action="@{/app/deleteGroup}" th:method="POST">
+                            <td  scope="row">
+                                <input style="max-width: 10px"  type="checkbox"  th:name="groupId"
+                                       th:value="${allInfos.teams.idTeam}"/>
+                            </td>
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.teamName}"></span></td>
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.terms}"></span></td>
-                        <td><span style="font-size: 0.8em"  th:text="${allInfos.teams.place}"></span></td>
+                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.place}"></span></td>
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.leaderName}"></span></td>
                         <td>
-                            <span style="font-size: 0.8em" th:text="${allInfos.teams.freeSpace }"></span>
-                            <span style="font-size: 0.8em" th:text="'/' + ${allInfos.teams.groupSize }"></span>
+                            <span style="font-size: 0.8em" th:text="${allInfos.teams.freeSpace}"></span>
+                            <span style="font-size: 0.8em" th:text="'/'+ ${allInfos.teams.groupSize }"></span>
                         </td>
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.description}"></span></td>
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.color}"></span></td>
-                        <td data-label="info.">
-                            <a href="#" class=""><i class="bx bxs-info-circle info"> </i></a>
+
+                        <td style="max-width: 150px!important" >
+                            <input style="max-width: 50px!important"  type="submit" class="text-light bg-dark" value="edytuj"> </input>
+                            <input style="max-width: 50px!important" type="submit" class="text-light bg-dark" value="usuń"> </input>
                         </td>
+                        </form>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <div class="col-lg-3 right-panel">
                 <form class="login-form" th:action="@{/app/postGroup}" method="POST">
-                    <p style="font-size: 1.1em">Utwórz nową grupę</p>
                     <input
                             class="form-control my-3"
                             type="text"
@@ -381,7 +382,7 @@
                     <a class="btn btn-outline-edit w-100 my-3" onclick="addTerm(term)"
                     >Dodaj termin</a
                     >
-                    <input  style="width: 20px !important;" name="groupFirstFree" value="true" type="checkbox" >
+                    <input style="width: 20px !important;" name="groupFirstFree" value="true" type="checkbox">
                     <b style="font-size: 0.7em">Pierwszy wejście za darmo</b>
                     <hr/>
 
@@ -404,175 +405,27 @@
                         <th class="colth" scope="col">Cena</th>
                         <th class="colth" scope="col">Nazwa</th>
                         <th class="colth" scope="col">Okres wplat</th>
-                        <!--                        <th class="colth" scope="col">Data do</th>-->
-                        <!--                        <th class="colth" scope="col">Data od</th>-->
                         <th class="colth" scope="col">Informacje</th>
-                        <th scope="col">Edytuj</th>
+                        <th scope="col"></th>
                     </tr>
-
                     </thead>
                     <tbody>
-                    <tr>
-                        <td data-label="Obecność" scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Nazwisko">1</td>
-                        <td data-label="Name">Dinesh</td>
+                    <tr th:each="prices : ${prices}">
 
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <!-- <td data-label="Marks%">gvhgvjhgvh%</td> -->
-
-                        <td data-label="info.">
-                            <a href="#" class="" id="myBtn">
-                                <i class="bx bxs-edit-alt info"> </i
-                                ></a>
-                        </td>
-                    </tr>
-                    <tr style="">
-                        <td scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Name">Kamal</td>
-                        <td data-label="Age">23</td>
-
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <!-- <td data-label="Staus">Passed</td> -->
-                        <td data-label="info.">
-                            <a href="#" class="">
-                                <i class="bx bxs-info-circle info"> </i
-                                ></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Name">Neha</td>
-                        <td data-label="Age">20</td>
-
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="info.">
-                            <a href="#" class="">
-                                <i class="bx bxs-info-circle info"> </i
-                                ></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Name">Priya</td>
-                        <td data-label="Age">30</td>
-
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="info.">
-                            <a href="#" class="">
-                                <i class="bx bxs-info-circle info"> </i
-                                ></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Name">Priya</td>
-                        <td data-label="Age">30</td>
-
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="info.">
-                            <a href="#" class="">
-                                <i class="bx bxs-info-circle info"> </i
-                                ></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td scope="row">
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                        </td>
-                        <td data-label="Imie">1</td>
-                        <td data-label="Name">Priya</td>
-                        <td data-label="Age">30</td>
-
-                        <td scope="row">
-                            <button class="price" onclick="changePriceStatus(this)">
-                                -140zł
-                            </button>
-                        </td>
-                        <td data-label="Name">Dinesh</td>
-                        <td data-label="Grupa">1A</td>
-                        <td data-label="info.">
-                            <a href="#" class="">
-                                <i class="bx bxs-info-circle info"> </i
-                                ></a>
-                        </td>
+                        <form th:action="@{/app/deletePrice}" th:method="POST">
+                            <td scope="row">
+                                <input style="max-width: 20px" type="checkbox" id="scales"  th:name="priceId"
+                                       th:value="${prices.idPrice}"/>
+                            </td>
+                            <td><span style="font-size: 1em" th:text="${prices.name}"></span></td>
+                            <td><span style="font-size: 1em" th:text="${prices.value}"></span></td>
+                            <td><span style="font-size: 1em" th:text="${prices.cycle}"></span></td>
+                            <td><span style="font-size: 1em" th:text="${prices.description}"></span></td>
+                            <td style="max-width: 130px!important" >
+                                <input style="max-width: 60px!important"  type="submit" class="text-light bg-dark" value="edytuj"> </input>
+                                <input style="max-width: 60px!important" type="submit" class="text-light bg-dark" value="usuń"> </input>
+                            </td>
+                        </form>
                     </tr>
                     </tbody>
                 </table>
@@ -623,68 +476,7 @@
     </div>
 </section>
 <script type="text/javascript">
-    function saveGroup() {
 
-        var xhttp = new XMLHttpRequest();
-        var URL = "/app/postPrice";
-
-        var groupName = document.getElementById('name-of-the-new-price').value;
-        var groupPlace = document.getElementById('value-for-new-price').value;
-        var groupLeader = document.getElementById('cycle-for-new-price').value;
-        var groupSize = document.getElementById('cycle-for-new-price').value;
-        var dataFrom = document.getElementById('dataFrom-for-new-price').value;
-        var groupDayFor = document.getElementById('dataTo-for-new-price').value;
-        var description = document.getElementById('description-for-new-price').value;
-
-        var params =
-            "name=" + name +
-            "&value=" + parseInt(value) +
-            "&cycle=" + parseInt(cycle) +
-            // "&dataFrom="+dataFrom+
-            // "&dataTo="+dataTo+
-            "&description=" + description;
-
-        xhttp.open("POST", URL, true);
-
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                alert(xhttp.responseText);
-            }
-        }
-
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        xhttp.send(params);
-    }
-
-    function savePrice() {
-
-        // var xhttp = new XMLHttpRequest();
-        // var URL= "/app/postPrice";
-        //
-        // var priceName= document.getElementById('name-of-the-new-price').value;
-        // var priceValue= document.getElementById('value-for-new-price').value;
-        // var priceCycle= document.getElementById('cycle-for-new-price').value;
-        // var priceDescription= document.getElementById('description-for-new-price').value;
-        //
-        // var params =
-        //     "priceName="+priceName+
-        //     "&priceValue="+parseInt(priceValue)+
-        //     "&priceCycle="+parseInt(priceCycle)+
-        //     "&priceDescription="+priceDescription;
-        //
-        // xhttp.open("POST", URL, true);
-        //
-        // xhttp.onreadystatechange = function () {
-        //     if (this.readyState === 4 && this.status === 200) {
-        //         alert(xhttp.responseText);
-        //     }
-        // }
-        //
-        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //
-        // xhttp.send(params);
-    }
 
     function changePanel(element) {
         var price_add = document.getElementById("price-add");

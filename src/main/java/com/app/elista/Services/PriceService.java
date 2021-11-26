@@ -3,6 +3,8 @@ package com.app.elista.Services;
 import com.app.elista.model.Prices;
 import com.app.elista.model.Teams;
 import com.app.elista.repositories.PricesRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,7 +16,9 @@ import java.util.UUID;
 
 @Service
 public class PriceService {
-@Autowired
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupPriceService.class);;
+
+    @Autowired
     PricesRepository pricesRepository;
         JdbcTemplate jdbcTemplate;
 
@@ -44,10 +48,20 @@ public class PriceService {
 
     public List<Prices> findAllByAppCompanyId(UUID idCompany) {
 
-        String sql = "SELECT p.id_price, p.name,p.value, p.cycle, p.description, gp.id_group_price, gp.id_team FROM  groups_prices gp LEFT  JOIN  prices p on gp.id_price = p.id_price WHERE id_company='"+idCompany+"';";
+        String sql = "SELECT id_price, name, value, cycle, description FROM prices  WHERE id_company='"+idCompany+"';";
 
         return jdbcTemplate.query(
                 sql,
                 new BeanPropertyRowMapper(Prices.class));
+    }
+
+    public void deletePriceById(Long priceId) {
+            try {
+                pricesRepository.deleteById(priceId);
+            }catch (Exception ex){
+                LOGGER.error(ex.getMessage(),"Something goes wrong" );
+            }
+
+
     }
 }

@@ -4,6 +4,8 @@ import com.app.elista.model.Teams;
 import com.app.elista.model.extended.AllInfo;
 import com.app.elista.model.extended.MoreInfo;
 import com.app.elista.repositories.GroupsRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,6 +18,8 @@ import java.util.UUID;
 
 @Service
 public class TeamService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GroupPriceService.class);;
+
 
     private final JdbcTemplate jdbcTemplate;
     GroupsRepository groupsRepository;
@@ -65,4 +69,12 @@ public class TeamService {
     }
 
 
+    public void deleteGroupById(Long id) {
+        try {
+            groupsRepository.deleteById(id);
+        }catch (Exception ex){
+            LOGGER.error(ex.getMessage(),"Something goes wrong" );
+        }
+
+    }
 }

@@ -4,8 +4,9 @@ import com.app.elista.Services.*;
 import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.Prices;
 import com.app.elista.model.Teams;
-import com.app.elista.model.Terms;
 import com.app.elista.model.extended.AllInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ import java.util.*;
 @Controller
 @RequestMapping("app/")
 public class ApiController {
-
+    private static Logger LOGGER = LoggerFactory.getLogger(GroupPriceService.class);;
 
     @Autowired
     private final PriceService priceService;
@@ -69,7 +70,8 @@ public class ApiController {
     }
 
     @PostMapping("postPrice")
-    public ModelAndView postPrice(String priceName,
+    public ModelAndView postPrice(
+            String priceName,
                           Integer priceValue,
                           Short priceCycle,
                           String priceDescription,
@@ -78,16 +80,38 @@ public class ApiController {
         Prices price = new Prices(appCompany,priceName, priceValue, priceCycle, priceDescription);
         priceService.addPrices(price);
 
-//        return "optionGroupList";
-//      @RequestBody Integer value,
-//        @RequestBody Short cycle,
-//        @RequestBody String dataFrom,
-//        @RequestBody String dataTo,
-//        @RequestBody String information
-
         return new ModelAndView("redirect:/app/optionGroupList");
 
     }
+    @PostMapping( "deletePrice")
+    public ModelAndView deletePrice(String priceId) {
+        try{
+            Long id = Long.valueOf(priceId);
+            groupPriceService.deletePriceFromGP(id);
+            priceService.deletePriceById(id);
+
+        }catch (NumberFormatException ex)
+        {
+            LOGGER.error(ex.getMessage(), "Nie zaznacozno żadnej opcji!" );
+        }
+        return new ModelAndView("redirect:/app/optionGroupList");
+    }
+
+    @PostMapping( "deleteGroup")
+    public ModelAndView deleteGroup(String groupId) {
+        try{
+            Long id = Long.valueOf(groupId);
+            groupPriceService.deleteGroupFromGP(id);
+            teamService.deleteGroupById(id);
+
+        }catch (NumberFormatException ex)
+        {
+            LOGGER.error(ex.getMessage()+ " - Nie zaznaczono zadnej opcji!" );
+        }
+        return new ModelAndView("redirect:/app/optionGroupList");
+    }
+
+
 
     // TODO: 18.11.2021  DODAC DO TABELI HASHUJACEJ
     @PostMapping("postGroup")
@@ -151,7 +175,7 @@ public class ApiController {
         if(!listsPriceIds.isEmpty())
         {
             List<Prices> allPricesByPriceIds = priceService.findAllByPriceIds(listsPriceIds);
-            groupPriceService.insert(groupAdded,allPricesByPriceIds);
+            groupPriceService.insertToGP(groupAdded,allPricesByPriceIds);
         }
         return new ModelAndView("redirect:/app/optionGroupList");
     }
