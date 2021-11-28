@@ -61,7 +61,14 @@ public class PriceService {
             }catch (Exception ex){
                 LOGGER.error(ex.getMessage(),"Something goes wrong" );
             }
+    }
 
+    public Prices findByPriceId(String idPriceNumber) {
 
+        return pricesRepository.findById(Long.valueOf(idPriceNumber)).get();
+    }
+
+    public void savePrice(Prices price) {
+        pricesRepository.save(price);
     }
 }

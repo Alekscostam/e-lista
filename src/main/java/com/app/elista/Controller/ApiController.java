@@ -70,19 +70,43 @@ public class ApiController {
     }
 
     @PostMapping("postPrice")
-    public ModelAndView postPrice(
+    public ModelAndView addPrice(
+            String idPriceNumber,
             String priceName,
                           Integer priceValue,
                           Short priceCycle,
                           String priceDescription,
                                   @AuthenticationPrincipal AppCompany appCompany) {
 
-        Prices price = new Prices(appCompany,priceName, priceValue, priceCycle, priceDescription);
-        priceService.addPrices(price);
+        if(idPriceNumber!=null)
+        {
+            Prices price = priceService.findByPriceId(idPriceNumber);
+            price.setName(priceName);
+            price.setValue(priceValue);
+            price.setDescription(priceDescription);
+            price.setCycle(priceCycle);
+            priceService.savePrice(price);
+        }
+        else{
+            Prices price = new Prices(appCompany,priceName, priceValue, priceCycle, priceDescription);
+            priceService.addPrices(price);
+        }
+
 
         return new ModelAndView("redirect:/app/optionGroupList");
 
     }
+
+//    @PostMapping("putPrice")
+//    public ModelAndView updatePrice() {
+//
+//        Prices price = new Prices(appCompany,priceName, priceValue, priceCycle, priceDescription);
+//        priceService.addPrices(price);
+//
+//        return new ModelAndView("redirect:/app/optionGroupList");
+//
+//    }
+
     @PostMapping( "deletePrice")
     public ModelAndView deletePrice(String priceId) {
         try{

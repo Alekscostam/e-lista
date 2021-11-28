@@ -397,42 +397,49 @@
 <section id="price-add" style="display: none">
     <div class="container-fluid text-center">
         <div class="row" style="padding: 10px">
-            <div class="col-lg-9 right-panel container-custom">
+            <div class="col-lg-8 right-panel container-custom">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th class="colth" style="" scope="col"></th>
-                        <th class="colth" scope="col">Cena</th>
-                        <th class="colth" scope="col">Nazwa</th>
-                        <th class="colth" scope="col">Okres wplat</th>
-                        <th class="colth" scope="col">Informacje</th>
-                        <th scope="col"></th>
+                        <th  style="font-size: 0.9em" class="colth"  scope="col"></th>
+                        <th  style="font-size: 0.9em" class="colth" scope="col">Cena</th>
+                        <th  style="font-size: 0.9em" class="colth" scope="col">Nazwa</th>
+                        <th  style="font-size: 0.9em" class="colth" scope="col">Okres wplat</th>
+                        <th  style="font-size: 0.9em"  class="colth" scope="col">Informacje</th>
+                        <th   scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="prices : ${prices}">
-
                         <form th:action="@{/app/deletePrice}" th:method="POST">
                             <td scope="row">
                                 <input style="max-width: 20px" type="checkbox" id="scales"  th:name="priceId"
                                        th:value="${prices.idPrice}"/>
                             </td>
-                            <td><span style="font-size: 1em" th:text="${prices.name}"></span></td>
-                            <td><span style="font-size: 1em" th:text="${prices.value}"></span></td>
-                            <td><span style="font-size: 1em" th:text="${prices.cycle}"></span></td>
-                            <td><span style="font-size: 1em" th:text="${prices.description}"></span></td>
+                            <td><span style="font-size: 0.9em" th:text="${prices.name}"></span></td>
+                            <td><span style="font-size: 0.9em" th:text="${prices.value}"></span></td>
+                            <td><span style="font-size: 0.9em" th:text="${prices.cycle}"></span></td>
+                            <td><span style="font-size: 0.9em" th:text="${prices.description}"></span></td>
                             <td style="max-width: 130px!important" >
-                                <input style="max-width: 60px!important"  type="submit" class="text-light bg-dark" value="edytuj"> </input>
-                                <input style="max-width: 60px!important" type="submit" class="text-light bg-dark" value="usuń"> </input>
+                                <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark" onclick="alert2(this,'price');">Edytuj
+                               <span hidden th:text="${'start:'+prices.idPrice} + ',' + ${prices.name}+ ','+ ${prices.value}+ ','+${prices.cycle} +','+${prices.description}+':stop'"></span>
+                                </a>
+                                <input style="max-width: 60px!important" type="submit" class="text-light bg-dark" value="usuń">
                             </td>
                         </form>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col-lg-3 right-panel">
+            <div class="col-lg-4 right-panel">
                 <form class="login-form" th:action="@{/app/postPrice}" method="POST">
-                    <p style="font-size: 1.1em">Dodaj nową cene</p>
+                    <input
+                            hidden
+                            id="id-of-the-new-price"
+                            class="form-control my-3"
+                            type="number"
+                            name="idPriceNumber"
+                    />
                     <input
                             id="name-of-the-new-price"
                             class="form-control my-3"
@@ -464,7 +471,7 @@
                     <hr/>
                     <!--                                    window.location.reload();-->
                     <button
-                            onclick="savePrice();"
+                            id="button-save-price"
                             class="btn btn-outline-success w-100"
                             type="submit"
                     >
@@ -476,7 +483,32 @@
     </div>
 </section>
 <script type="text/javascript">
-
+    function alert2(element,table){
+        console.log(element.innerText);
+        var start =  element.outerHTML.indexOf("start:")+6;
+        var stop =  element.outerHTML.indexOf(":stop");
+        let result = element.outerHTML.substring(start, stop);
+        let splitResult = result.split(',');
+        if (table==="price")
+        {
+           editPrice(splitResult);
+        }
+        if (table==="group")
+        {
+            console.log(result);
+        }
+        if (table==="price")
+        {
+        }
+    }
+    function editPrice(splitResult){
+        document.getElementById("id-of-the-new-price").value = splitResult[0];
+        document.getElementById("name-of-the-new-price").value = splitResult[1];
+        document.getElementById("value-for-new-price").value = splitResult[2];
+        document.getElementById("cycle-for-new-price").value = splitResult[3];
+        document.getElementById("description-for-new-price").value = splitResult[4];
+        document.getElementById("button-save-price").innerText="Edytuj";
+    }
 
     function changePanel(element) {
         var price_add = document.getElementById("price-add");
