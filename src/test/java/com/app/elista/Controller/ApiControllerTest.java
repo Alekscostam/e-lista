@@ -2,7 +2,6 @@ package com.app.elista.Controller;
 
 import com.app.elista.Services.*;
 import com.app.elista.appcompany.AppCompany;
-import com.app.elista.model.Terms;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,7 +19,7 @@ public class ApiControllerTest {
     @Mock
     TeamService teamService;
     @Mock
-    GroupPriceService groupPriceService;
+    TeamsPriceService teamsPriceService;
     @Mock
     AppCompany appCompany;
 
@@ -31,7 +30,7 @@ public class ApiControllerTest {
 
     @Before
     public void init(){
-        apiController = new ApiController(priceService,teamService,groupPriceService);
+        apiController = new ApiController(priceService,teamService, teamsPriceService);
        listDayForGroup = Arrays.asList("jeden","dwa","trzy");
         listOfTimes = Arrays.asList("1:1","2:2","3:3");
     }

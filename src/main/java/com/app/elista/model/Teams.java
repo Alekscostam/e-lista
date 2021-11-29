@@ -18,7 +18,6 @@ public class Teams {
             generator = "Teams_sequence"
     )
     private Long idTeam;
-    @Column(length = 25)
     private String teamName;
     @Column(length = 50)
     private String leaderName;

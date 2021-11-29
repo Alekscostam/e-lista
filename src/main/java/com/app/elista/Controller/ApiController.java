@@ -18,17 +18,18 @@ import java.util.*;
 @Controller
 @RequestMapping("app/")
 public class ApiController {
-    private static Logger LOGGER = LoggerFactory.getLogger(GroupPriceService.class);;
+    private static Logger LOGGER = LoggerFactory.getLogger(TeamsPriceService.class);
+    ;
 
     @Autowired
     private final PriceService priceService;
     private final TeamService teamService;
-    private final GroupPriceService groupPriceService;
+    private final TeamsPriceService teamsPriceService;
 
-    public ApiController(PriceService priceService, TeamService teamService, GroupPriceService groupPriceService) {
+    public ApiController(PriceService priceService, TeamService teamService, TeamsPriceService teamsPriceService) {
         this.priceService = priceService;
         this.teamService = teamService;
-        this.groupPriceService = groupPriceService;
+        this.teamsPriceService = teamsPriceService;
     }
 
     @GetMapping("calendar")
@@ -73,22 +74,20 @@ public class ApiController {
     public ModelAndView addPrice(
             String idPriceNumber,
             String priceName,
-                          Integer priceValue,
-                          Short priceCycle,
-                          String priceDescription,
-                                  @AuthenticationPrincipal AppCompany appCompany) {
+            Integer priceValue,
+            Short priceCycle,
+            String priceDescription,
+            @AuthenticationPrincipal AppCompany appCompany) {
 
-        if(idPriceNumber!=null)
-        {
+        if (idPriceNumber != null) {
             Prices price = priceService.findByPriceId(idPriceNumber);
             price.setName(priceName);
             price.setValue(priceValue);
             price.setDescription(priceDescription);
             price.setCycle(priceCycle);
             priceService.savePrice(price);
-        }
-        else{
-            Prices price = new Prices(appCompany,priceName, priceValue, priceCycle, priceDescription);
+        } else {
+            Prices price = new Prices(appCompany, priceName, priceValue, priceCycle, priceDescription);
             priceService.addPrices(price);
         }
 
@@ -107,40 +106,38 @@ public class ApiController {
 //
 //    }
 
-    @PostMapping( "deletePrice")
+    @PostMapping("deletePrice")
     public ModelAndView deletePrice(String priceId) {
-        try{
+        try {
             Long id = Long.valueOf(priceId);
-            groupPriceService.deletePriceFromGP(id);
+            teamsPriceService.deletePriceFromGP(id);
             priceService.deletePriceById(id);
 
-        }catch (NumberFormatException ex)
-        {
-            LOGGER.error(ex.getMessage(), "Nie zaznacozno żadnej opcji!" );
+        } catch (NumberFormatException ex) {
+            LOGGER.error(ex.getMessage(), "Nie zaznacozno żadnej opcji!");
         }
         return new ModelAndView("redirect:/app/optionGroupList");
     }
 
-    @PostMapping( "deleteGroup")
+    @PostMapping("deleteGroup")
     public ModelAndView deleteGroup(String groupId) {
-        try{
+        try {
             Long id = Long.valueOf(groupId);
-            groupPriceService.deleteGroupFromGP(id);
+            teamsPriceService.deleteGroupFromGP(id);
             teamService.deleteGroupById(id);
 
-        }catch (NumberFormatException ex)
-        {
-            LOGGER.error(ex.getMessage()+ " - Nie zaznaczono zadnej opcji!" );
+        } catch (NumberFormatException ex) {
+            LOGGER.error(ex.getMessage() + " - Nie zaznaczono zadnej opcji!");
         }
         return new ModelAndView("redirect:/app/optionGroupList");
     }
-
 
 
     // TODO: 18.11.2021  DODAC DO TABELI HASHUJACEJ
     @PostMapping("postGroup")
     public ModelAndView postGroup(
             @AuthenticationPrincipal AppCompany appCompany,
+            String groupId,
             String groupName,
             String groupPlace,
             String groupSize,
@@ -154,64 +151,75 @@ public class ApiController {
             String groupTimeTo,
             String groupColor,
             String groupFirstFree
-            ) {
+    ) {
 
 
-            if(groupColor==null)
-            {
-                groupColor ="ffffff";
-            }
+        if (groupColor == null) {
+            groupColor = "ffffff";
+        }
 
-            List<String> listsPriceIds = divideStringToList(priceIds);
+        List<String> listsPriceIds = divideStringToList(priceIds);
 
-            boolean resultFirstFree = Boolean.TRUE;
+        boolean resultFirstFree = Boolean.TRUE;
 
-        if(groupFirstFree==null){
+        if (groupFirstFree == null) {
             resultFirstFree = Boolean.FALSE;
         }
-        String addedTerms ="";
-        if (!groupDayFor.isEmpty())
-        {
-           addedTerms = stringListsToString(groupDayFor, groupTimeFrom, groupTimeTo);
+        String addedTerms = "";
+        if (!groupDayFor.isEmpty()) {
+            addedTerms = stringListsToString(groupDayFor, groupTimeFrom, groupTimeTo);
         }
 
-            if (groupSize.isEmpty())
-            {
-                groupSize = "0";
-            }
+        if (groupSize.isEmpty()) {
+            groupSize = "0";
+        }
 
-        Teams teams = new Teams(
-                groupName,
-                groupLeader,
-                groupPlace,
-                groupDataFrom,
-                groupDataTo,
-                (short)0,
-                Short.valueOf(groupSize),
-                groupColor,
-                resultFirstFree,
-                groupDescription,
-                addedTerms,
-                appCompany);
+        Teams team;
 
-        Teams groupAdded = teamService.addGroup(teams);
+        if (groupId != null) {
+            team = teamService.findTeamById(groupId);
+            team.setTeamName(groupName);
+            team.setLeaderName(groupLeader);
+            team.setPlace(groupPlace);
+            team.setStartDate(groupDataFrom);
+            team.setEndDate(groupDataTo);
+            team.setGroupSize(Short.valueOf(groupSize));
+            team.setColor(groupColor);
+            team.setDescription(groupDescription);
+            team.setFirstFree(resultFirstFree);
+            team.setTerms(addedTerms);
 
-        if(!listsPriceIds.isEmpty())
-        {
+        } else {
+            team = new Teams(
+                    groupName,
+                    groupLeader,
+                    groupPlace,
+                    groupDataFrom,
+                    groupDataTo,
+                    (short) 0,
+                    Short.valueOf(groupSize),
+                    groupColor,
+                    resultFirstFree,
+                    groupDescription,
+                    addedTerms,
+                    appCompany);
+        }
+
+        team =   teamService.saveTeam(team);
+        if (!listsPriceIds.isEmpty()) {
             List<Prices> allPricesByPriceIds = priceService.findAllByPriceIds(listsPriceIds);
-            groupPriceService.insertToGP(groupAdded,allPricesByPriceIds);
+            teamsPriceService.insertToGP(team, allPricesByPriceIds);
         }
         return new ModelAndView("redirect:/app/optionGroupList");
     }
 
     public List<String> divideStringToList(String elementToDivide) {
 
-        if(elementToDivide!=null) {
+        if (elementToDivide != null) {
             String[] splitOne = elementToDivide.replaceAll("\\s+", "").split(",");
-
             return Arrays.asList(splitOne);
-        }
-        else
+
+        } else
             return Collections.emptyList();
 
     }
@@ -219,15 +227,14 @@ public class ApiController {
 
     public String stringListsToString(String dayToDivide, String elementToDivideOne, String elementToDivideTwo) {
 
-       StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
 
         List<String> dayNames = divideStringToList(dayToDivide);
         List<String> timesFrom = divideStringToList(elementToDivideOne);
         List<String> timesTo = divideStringToList(elementToDivideTwo);
 
-        for (int i = 0; i < dayNames.size(); i++)
-        {
-            stringBuilder.append(dayNames.get(i)).append(" : ").append(timesFrom.get(i)).append(" - ").append(timesTo.get(i)).append(";");
+        for (int i = 0; i < dayNames.size(); i++) {
+            stringBuilder.append(dayNames.get(i)).append(": ").append(timesFrom.get(i)).append(" - ").append(timesTo.get(i)).append(";");
         }
         return stringBuilder.toString();
     }

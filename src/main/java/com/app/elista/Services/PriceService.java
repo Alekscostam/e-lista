@@ -1,7 +1,6 @@
 package com.app.elista.Services;
 
 import com.app.elista.model.Prices;
-import com.app.elista.model.Teams;
 import com.app.elista.repositories.PricesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 @Service
 public class PriceService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GroupPriceService.class);;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPriceService.class);;
 
     @Autowired
     PricesRepository pricesRepository;

@@ -20,7 +20,7 @@
                 <div class="col-lg-6">
                     <button
                             class="btn btn-primary "
-                            onclick="changePanel('group-add')"
+                            onclick="changePanel('group-table')"
                             type="submit"
                     >
                         Lista grup
@@ -31,6 +31,13 @@
                             type="submit"
                     >
                         Lista cen
+                    </button>
+                    <button
+                            class="btn btn-primary "
+                            onclick="changePanel('group-add')"
+                            type="submit"
+                    >
+                        Dodawanie grup
                     </button>
                 </div>
             </div>
@@ -46,182 +53,16 @@
         <div id="inside-modal ">
             <div class="text">
                 <div class="hello">
-                    <form class="form-inline my-2 my-lg-0">
-                        <input
-                                class="form-control mr-sm-2 my-2"
-                                type="search"
-                                placeholder="Imie"
-                                aria-label="Search"
-                        />
-                        <input
-                                class="form-control mr-sm-2"
-                                type="search"
-                                placeholder="Nazwisko"
-                                aria-label="Search"
-                        />
-                        <input
-                                class="form-control mr-sm-2 my-2"
-                                type="search"
-                                placeholder="Wiek"
-                                aria-label="Search"
-                        />
-                        <input
-                                class="form-control mr-sm-2"
-                                type="search"
-                                placeholder="Numer indywidualny"
-                                aria-label="Search"
-                        />
 
-                        <input
-                                class="form-control mr-sm-2 my-2"
-                                type="email"
-                                name="email"
-                                placeholder="E-mail"
-                        />
-                        <input
-                                class="form-control mr-sm-2 my-2"
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                placeholder="Numer telefonu"
-                        />
-                        <input
-                                class="form-control mr-sm-2 my-2"
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                placeholder="Rozliczenie na ten cykl"
-                        />
-
-                        <select
-                                class="form-control mr-sm-2 my-2"
-                                name="offer"
-                                aria-label="Default select example"
-                        >
-                            <option name="FIFTY" value="FIFTY" selected>Grupa 1</option>
-                            <option name="HUNDRED" value="HUNDRED" selected>
-                                Grupa 2
-                            </option>
-                            <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>
-                                Grupa 2
-                            </option>
-                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
-                                Grupa 2
-                            </option>
-                        </select>
-                        <div
-                                class="container"
-                                style="font-size: 0.8em; text-align: left !important"
-                        >
-                            <input
-                                    type="checkbox"
-                                    id="scales"
-                                    name="scales"
-                                    class="option"
-                            />
-                            Cena indywdualna
-                        </div>
-                        <select
-                                class="form-control mr-sm-2 my-2"
-                                name="offer"
-                                aria-label="Default select example"
-                        >
-                            <option name="FIFTY" value="FIFTY" selected>
-                                Karnet rodzina 2-os.
-                            </option>
-                            <option name="HUNDRED" value="HUNDRED" selected>
-                                Karnet rodzina 2-os.
-                            </option>
-                            <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>
-                                Karnet rodzina 2-os.
-                            </option>
-                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
-                                Karnet rodzina 2-os.
-                            </option>
-                        </select>
-                        <input
-                                class="form-control mr-sm-2 my-2"
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                placeholder="Cena"
-                        />
-                        <div style="font-size: 0.8em; text-align: left !important">
-                            Cykl rozliczeniowy
-                        </div>
-                        <select
-                                class="form-control mr-sm-2 my-2"
-                                name="offer"
-                                aria-label="Default select example"
-                        >
-                            <option name="FIFTY" value="FIFTY" selected>
-                                Co zajęcia.
-                            </option>
-                            <option name="HUNDRED" value="HUNDRED" selected>
-                                1 tyg.
-                            </option>
-                            <option name="FIFTY" value="FIFTY" selected>2 tyg.</option>
-                            <option name="HUNDRED" value="HUNDRED" selected>
-                                1 msc.
-                            </option>
-                            <option name="HUNDRED" value="HUNDRED" selected>
-                                2 msc.
-                            </option>
-                            <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>
-                                3 msc.
-                            </option>
-                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
-                                6 msc.
-                            </option>
-                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
-                                12 msc.
-                            </option>
-                        </select>
-
-                        <div style="font-size: 0.8em; text-align: left !important">
-                            Data zapisu<br/>
-                            <input
-                                    type="date"
-                                    lang="fr-CA"
-                                    class="my-2"
-                                    data-date=""
-                                    id="date-picker"
-                                    data-date-format="DD MMMM YYYY"
-                            /><br/>
-                            Data pierwszej wpłaty <br/><input
-                                type="date"
-                                class="my-2"
-                                lang="fr-CA"
-                                data-date=""
-                                id="date-picker"
-                                data-date-format="DD MMMM YYYY"
-                        /><br/>
-                            Data kolejnej wpłaty <br/><input
-                                type="date"
-                                class="my-2"
-                                lang="fr-CA"
-                                data-date=""
-                                id="date-picker"
-                                data-date-format="DD MMMM YYYY"
-                        /><br/>
-                        </div>
-                        <script type="text/javascript">
-                            window.onload = dataChange();
-                        </script>
-                        <br/>
-                        <a href="#">
-                            <i class="bx bxs-edit-alt success"><span> Zapisz</span></i></a
-                        >
-                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<section id="group-add">
+<section id="group-table">
     <div class="container-fluid text-center">
         <div class="row" style="padding: 10px">
-            <div class="col-lg-9 right-panel container-custom">
+            <div class="col-lg-12 right-panel container-custom">
                 <table class="table">
                     <thead>
                     <tr>
@@ -230,11 +71,16 @@
                         <th class="colth" scope="col"><span style="font-size: 0.9em!important">Terminy</span></th>
                         <th class="colth" scope="col"><span style="font-size: 0.9em!important">Lokalizacja</span></th>
                         <th class="colth" scope="col"><span style="font-size: 0.9em!important">Prowadzący</span></th>
-                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Wolne miesjca</span></th>
-                        <th class="colth" scope="col"><span
-                                style="font-size: 0.9em!important">Dodatkowe informacje</span></th>
-                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Kolor</span></th>
-                        <th scope="col">Opcje</th>
+                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Miejsca</span></th>
+                        <th class="colth" scope="col">
+                            <span style="font-size: 0.9em!important">Informacje</span>
+                        </th>
+                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Data od</span></th>
+                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Data do</span></th>
+                        <th class="colth" scope="col">
+                            <span style="font-size: 0.9em!important">Kolor</span>
+                        </th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -246,7 +92,13 @@
                                        th:value="${allInfos.teams.idTeam}"/>
                             </td>
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.teamName}"></span></td>
-                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.terms}"></span></td>
+                            <td>
+                                <div th:each="terms : ${allInfos.terms}">
+
+                                    <span style="font-size: 0.8em" class="my-1" th:text="${terms}"></span>
+
+                                </div>
+                            </td>
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.place}"></span></td>
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.leaderName}"></span></td>
                         <td>
@@ -254,23 +106,52 @@
                             <span style="font-size: 0.8em" th:text="'/'+ ${allInfos.teams.groupSize }"></span>
                         </td>
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.description}"></span></td>
+                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.startDate}"></span></td>
+                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.endDate}"></span></td>
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.color}"></span></td>
 
                         <td style="max-width: 150px!important" >
-                            <input style="max-width: 50px!important"  type="submit" class="text-light bg-dark" value="edytuj"> </input>
-                            <input style="max-width: 50px!important" type="submit" class="text-light bg-dark" value="usuń"> </input>
+                            <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark" onclick="update(this,'group');">Edytuj
+                                <span hidden th:text="${
+                                'start:'+allInfos.teams.idTeam} +
+                                ',' + ${allInfos.teams.teamName}+
+                                ','+ ${allInfos.teams.place}+
+                                ','+${allInfos.teams.leaderName} +
+                                ','+${allInfos.teams.groupSize}+
+                                ','+${allInfos.teams.description}+
+                                ','+${allInfos.teams.color}+
+                                ','+${allInfos.teams.startDate}+
+                                ','+${allInfos.teams.endDate}+
+                                 ','+${allInfos.teams.firstFree}+
+                                ':stop'"></span>
+                            </a>
+                            <input style="max-width: 60px!important; cursor: pointer; padding: 4px; border-radius: 4px" type="submit" class="text-light bg-dark" value="Usuń">
                         </td>
                         </form>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col-lg-3 right-panel">
+        </div>
+    </div>
+</section>
+<section id="group-add" style="display: none">
+    <div class="container text-center">
+        <div class="row" style="">
+            <div class="col-lg-6 right-panel">
                 <form class="login-form" th:action="@{/app/postGroup}" method="POST">
+                    <input
+                            hidden
+                            class="form-control "
+                            type="text"
+                            id="group-id"
+                            name="groupId"
+
+                    />
                     <input
                             class="form-control my-3"
                             type="text"
-                            id="phone"
+                            id="group-name"
                             name="groupName"
                             placeholder="Nazwa grupy *"
                     />
@@ -315,18 +196,19 @@
                         <input
                                 class="form-control my-2"
                                 type="text"
-                                id="phone"
+                                id="group-location"
                                 name="groupPlace"
                                 placeholder="Miejsce"
                         />
                         <input
                                 class="form-control my-2"
                                 type="number"
-                                id="phone"
+                                id="group-size"
                                 name="groupSize"
                                 placeholder="Wielkość grupy"
                         />
                         <input
+                                id="group-leader-name"
                                 class="form-control mr-sm-2 my-2"
                                 type="search"
                                 name="groupLeader"
@@ -334,8 +216,8 @@
                                 aria-label="Search"
                         />
 
-                        <select name="groupColor" class="form-control mr-sm-2 my-2 w-100">
-                            <option value="volvo">Bez koloru</option>
+                        <select id="group-color" name="groupColor" class="form-control mr-sm-2 my-2 w-100">
+                            <option value="ffffff">Bez koloru</option>
                             <option style="background-color: #6b5b95;" value="6b5b95">#6b5b95</option>
                             <option style="background-color: #ff7b25;" value="ff7b25">#ff7b25</option>
                             <option style="background-color: #feb236;" value="feb236">#feb236</option>
@@ -351,12 +233,11 @@
                             <option style="background-color: #f4e1d2;" value="f4e1d2">#f4e1d2</option>
                         </select>
 
-
                         <span style="font-size: 0.7em"> Data od:</span>
                         <input
                                 class="form-control my-2"
                                 type="date"
-                                id="phone"
+                                id="group-data-of-start"
                                 name="groupDataFrom"
                                 placeholder="Data rozpoczęcia"
                         />
@@ -364,7 +245,7 @@
                         <input
                                 class="form-control my-2"
                                 type="date"
-                                id="phone"
+                                id="group-data-of-end"
                                 name="groupDataTo"
                                 placeholder="Data zakończenia"
                         />
@@ -372,21 +253,28 @@
                     <textarea
                             class="form-control mr-sm-2 my-2"
                             type="textarea"
-                            id="phone"
+                            id="group-description"
                             name="groupDescription"
                             placeholder="informacja dodatkowa"
                     ></textarea>
                     <div id="term">
                         <div id="part-term" style="display: flex"></div>
                     </div>
-                    <a class="btn btn-outline-edit w-100 my-3" onclick="addTerm(term)"
-                    >Dodaj termin</a
-                    >
-                    <input style="width: 20px !important;" name="groupFirstFree" value="true" type="checkbox">
+                    <a class="btn btn-outline-edit w-100 my-3" onclick="addTerm()">Dodaj termin</a>
+                    <input id="group-first-free" style="width: 20px !important;" name="groupFirstFree" type="checkbox">
                     <b style="font-size: 0.7em">Pierwszy wejście za darmo</b>
                     <hr/>
 
-                    <button class="btn btn-outline-success w-100" type="submit">
+                    <button id="button-save-group" class="btn btn-outline-success w-100" type="submit">
+                        Zapisz
+                    </button>
+                </form>
+            </div>
+            <div class="col-lg-6 right-panel">
+                <form class="login-form" th:action="@{/app/postGroup}" method="POST">
+
+
+                    <button id="button-save-group" class="btn btn-outline-success w-100" type="submit">
                         Zapisz
                     </button>
                 </form>
@@ -401,12 +289,12 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th  style="font-size: 0.9em" class="colth"  scope="col"></th>
-                        <th  style="font-size: 0.9em" class="colth" scope="col">Cena</th>
-                        <th  style="font-size: 0.9em" class="colth" scope="col">Nazwa</th>
-                        <th  style="font-size: 0.9em" class="colth" scope="col">Okres wplat</th>
-                        <th  style="font-size: 0.9em"  class="colth" scope="col">Informacje</th>
-                        <th   scope="col"></th>
+                        <th style="font-size: 0.9em" class="colth"  scope="col"></th>
+                        <th style="font-size: 0.9em" class="colth" scope="col">Cena</th>
+                        <th style="font-size: 0.9em" class="colth" scope="col">Nazwa</th>
+                        <th style="font-size: 0.9em" class="colth" scope="col">Okres wplat</th>
+                        <th style="font-size: 0.9em"  class="colth" scope="col">Informacje</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -421,7 +309,7 @@
                             <td><span style="font-size: 0.9em" th:text="${prices.cycle}"></span></td>
                             <td><span style="font-size: 0.9em" th:text="${prices.description}"></span></td>
                             <td style="max-width: 130px!important" >
-                                <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark" onclick="alert2(this,'price');">Edytuj
+                                <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark" onclick="update(this,'price');">Edytuj
                                <span hidden th:text="${'start:'+prices.idPrice} + ',' + ${prices.name}+ ','+ ${prices.value}+ ','+${prices.cycle} +','+${prices.description}+':stop'"></span>
                                 </a>
                                 <input style="max-width: 60px!important" type="submit" class="text-light bg-dark" value="usuń">
@@ -473,8 +361,7 @@
                     <button
                             id="button-save-price"
                             class="btn btn-outline-success w-100"
-                            type="submit"
-                    >
+                            type="submit">
                         Zapisz
                     </button>
                 </form>
@@ -483,8 +370,9 @@
     </div>
 </section>
 <script type="text/javascript">
-    function alert2(element,table){
-        console.log(element.innerText);
+
+    function update(element,table){
+        console.log(element.outerHTML);
         var start =  element.outerHTML.indexOf("start:")+6;
         var stop =  element.outerHTML.indexOf(":stop");
         let result = element.outerHTML.substring(start, stop);
@@ -495,13 +383,16 @@
         }
         if (table==="group")
         {
-            console.log(result);
+            console.log(splitResult);
+            editGroup(splitResult);
         }
         if (table==="price")
         {
         }
+
     }
-    function editPrice(splitResult){
+
+    function editPrice(splitResult) {
         document.getElementById("id-of-the-new-price").value = splitResult[0];
         document.getElementById("name-of-the-new-price").value = splitResult[1];
         document.getElementById("value-for-new-price").value = splitResult[2];
@@ -510,19 +401,43 @@
         document.getElementById("button-save-price").innerText="Edytuj";
     }
 
+    function editGroup(splitResult){
+
+        document.getElementById("group-id").value = splitResult[0];
+        document.getElementById("group-name").value = splitResult[1];
+        document.getElementById("group-location").value = splitResult[2];
+        document.getElementById("group-leader-name").value = splitResult[3];
+        document.getElementById("group-size").value = splitResult[4];
+        document.getElementById("group-description").value=splitResult[5];
+        document.getElementById("group-color").value = splitResult[6];
+        document.getElementById("group-data-of-start").value = splitResult[7];
+        document.getElementById("group-data-of-end").value = splitResult[8];
+        document.getElementById("group-first-free").checked = splitResult[9];
+        document.getElementById("button-save-group").innerText="Edytuj";
+    }
+
     function changePanel(element) {
         var price_add = document.getElementById("price-add");
+        var group_table = document.getElementById("group-table");
         var group_add = document.getElementById("group-add");
-
-        if (element === "group-add") {
+        if (element === "group-table") {
             price_add.style.display = "none";
-            group_add.style.display = "block";
+            group_table.style.display = "block";
+            group_add.style.display = "none";
             return;
         }
         if (element === "price-add") {
             price_add.style.display = "block";
+            group_table.style.display = "none";
             group_add.style.display = "none";
-            return;
+
+        }
+
+        if (element === "group-add") {
+            price_add.style.display = "none";
+            group_table.style.display = "none";
+            group_add.style.display = "block";
+
         }
     }
 
@@ -553,7 +468,7 @@
         document.getElementById("date-picker").value = today;
     }
 
-    function addTerm(element) {
+    function addTerm() {
         var termIncrease = document.getElementById("term").innerHTML;
 
         document.getElementById("term").innerHTML =
@@ -568,8 +483,8 @@
             '<option value="Sobota" >Sobota</option>\n' +
             '<option value="Niedziela" >Niedziela</option>\n' +
             "</select>\n" +
-            '<input id="appt-time" type="time" name="groupTimeFrom" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
-            '<input id="appt-time" type="time" name="groupTimeTo" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
+            '<input id="appt-time-start" type="time" name="groupTimeFrom" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
+            '<input id="appt-time-stop" type="time" name="groupTimeTo" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
             '<a style="color:black!important; height:40px; font-size:1.2em" ><i class=\'bx bx-x\'></i></a>\n' +
             "</div>";
     }

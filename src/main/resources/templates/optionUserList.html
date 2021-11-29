@@ -5,6 +5,172 @@
     <title>Title</title>
 </head>
 <body>
+<form class="form-inline my-2 my-lg-0">
+    <input
+            class="form-control mr-sm-2 my-2"
+            type="search"
+            placeholder="Imie"
+            aria-label="Search"
+    />
+    <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Nazwisko"
+            aria-label="Search"
+    />
+    <input
+            class="form-control mr-sm-2 my-2"
+            type="search"
+            placeholder="Wiek"
+            aria-label="Search"
+    />
+    <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="Numer indywidualny"
+            aria-label="Search"
+    />
 
+    <input
+            class="form-control mr-sm-2 my-2"
+            type="email"
+            name="email"
+            placeholder="E-mail"
+    />
+    <input
+            class="form-control mr-sm-2 my-2"
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Numer telefonu"
+    />
+    <input
+            class="form-control mr-sm-2 my-2"
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Rozliczenie na ten cykl"
+    />
+
+    <select
+            class="form-control mr-sm-2 my-2"
+            name="offer"
+            aria-label="Default select example"
+    >
+        <option name="FIFTY" value="FIFTY" selected>Grupa 1</option>
+        <option name="HUNDRED" value="HUNDRED" selected>
+            Grupa 2
+        </option>
+        <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>
+            Grupa 2
+        </option>
+        <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
+            Grupa 2
+        </option>
+    </select>
+    <div
+            class="container"
+            style="font-size: 0.8em; text-align: left !important"
+    >
+        <input
+                type="checkbox"
+                id="scales"
+                name="scales"
+                class="option"
+        />
+        Cena indywdualna
+    </div>
+    <select
+            class="form-control mr-sm-2 my-2"
+            name="offer"
+            aria-label="Default select example"
+    >
+        <option name="FIFTY" value="FIFTY" selected>
+            Karnet rodzina 2-os.
+        </option>
+        <option name="HUNDRED" value="HUNDRED" selected>
+            Karnet rodzina 2-os.
+        </option>
+        <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>
+            Karnet rodzina 2-os.
+        </option>
+        <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
+            Karnet rodzina 2-os.
+        </option>
+    </select>
+    <input
+            class="form-control mr-sm-2 my-2"
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Cena"
+    />
+    <div style="font-size: 0.8em; text-align: left !important">
+        Cykl rozliczeniowy
+    </div>
+    <select
+            class="form-control mr-sm-2 my-2"
+            name="offer"
+            aria-label="Default select example"
+    >
+        <option name="FIFTY" value="FIFTY" selected>
+            Co zajęcia.
+        </option>
+        <option name="HUNDRED" value="HUNDRED" selected>
+            1 tyg.
+        </option>
+        <option name="FIFTY" value="FIFTY" selected>2 tyg.</option>
+        <option name="HUNDRED" value="HUNDRED" selected>
+            1 msc.
+        </option>
+        <option name="HUNDRED" value="HUNDRED" selected>
+            2 msc.
+        </option>
+        <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>
+            3 msc.
+        </option>
+        <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
+            6 msc.
+        </option>
+        <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>
+            12 msc.
+        </option>
+    </select>
+
+    <div style="font-size: 0.8em; text-align: left !important">
+        Data zapisu<br/>
+        <input
+                type="date"
+                lang="fr-CA"
+                class="my-2"
+                data-date=""
+                id="date-picker"
+                data-date-format="DD MMMM YYYY"
+        /><br/>
+        Data pierwszej wpłaty <br/><input
+            type="date"
+            class="my-2"
+            lang="fr-CA"
+            data-date=""
+            id="date-picker"
+            data-date-format="DD MMMM YYYY"
+    /><br/>
+        Data kolejnej wpłaty <br/><input
+            type="date"
+            class="my-2"
+            lang="fr-CA"
+            data-date=""
+            id="date-picker"
+            data-date-format="DD MMMM YYYY"
+    /><br/>
+    </div>
+    <script type="text/javascript">
+        window.onload = dataChange();
+    </script>
+    <br/>
+    <a href="#">
+        <i class="bx bxs-edit-alt success"><span> Zapisz</span></i></a
+    >
+</form>
 </body>
 </html>

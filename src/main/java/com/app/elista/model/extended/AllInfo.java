@@ -1,17 +1,26 @@
 package com.app.elista.model.extended;
 
-import com.app.elista.Services.TeamService;
 import com.app.elista.model.Teams;
 
 import java.util.List;
 
 public class AllInfo {
     Teams teams;
+    List<String> terms;
     List<MoreInfo> moreInfos;
 
-    public AllInfo(Teams teams, List<MoreInfo> moreInfos) {
+    public AllInfo(Teams teams, List<String> terms, List<MoreInfo> moreInfos) {
         this.teams = teams;
+        this.terms = terms;
         this.moreInfos = moreInfos;
+    }
+
+    public List<String> getTerms() {
+        return terms;
+    }
+
+    public void setTerms(List<String> terms) {
+        this.terms = terms;
     }
 
     public Teams getTeams() {

@@ -13,6 +13,6 @@ import java.util.UUID;
 
 @Repository
 @Transactional(readOnly = true)
-public interface GroupsRepository  extends JpaRepository<Teams, Long> {
+public interface TeamsRepository extends JpaRepository<Teams, Long> {
 
 }
