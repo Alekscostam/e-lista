@@ -111,7 +111,7 @@
                         <td><span style="font-size: 0.8em" th:text="${allInfos.teams.color}"></span></td>
 
                         <td style="max-width: 150px!important" >
-                            <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark" onclick="update(this,'group');">Edytuj
+                            <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark" onclick="update(this,'group'); changePanel('group-add');">Edytuj
                                 <span hidden th:text="${
                                 'start:'+allInfos.teams.idTeam} +
                                 ',' + ${allInfos.teams.teamName}+
@@ -265,15 +265,40 @@
                     <b style="font-size: 0.7em">Pierwszy wejście za darmo</b>
                     <hr/>
 
-                    <button id="button-save-group" class="btn btn-outline-success w-100" type="submit">
+                    <button id="button-edit-group" class="btn btn-outline-info w-100"  type="submit">
+                        Edytuj
+                    </button>
+                    <button id="button-save-group" class="btn btn-outline-success w-100" onclick="removeId('group-id')" type="submit">
                         Zapisz
                     </button>
+
                 </form>
             </div>
             <div class="col-lg-6 right-panel">
                 <form class="login-form" th:action="@{/app/postGroup}" method="POST">
-
-
+                    <ul style="font-size: 0.7em"
+                        class="list-group list-unstyled list-group-flush">
+                        <li class="my-2">
+                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                            <b>Wyświetl dostępne ceny</b>
+                            </hr>
+                        </li>
+                        <li class="my-2">
+                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                            <b>Wyświetl dostępne ceny</b>
+                            </hr>
+                        </li>
+                        <li class="my-2">
+                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                            <b>Wyświetl dostępne ceny</b>
+                            </hr>
+                        </li>
+                        <li class="my-2">
+                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                            <b>Wyświetl dostępne ceny</b>
+                            </hr>
+                        </li>
+                    </ul>
                     <button id="button-save-group" class="btn btn-outline-success w-100" type="submit">
                         Zapisz
                     </button>
@@ -359,8 +384,15 @@
                     <hr/>
                     <!--                                    window.location.reload();-->
                     <button
+                            id="button-edit-price"
+                            class="btn btn-outline-info w-100 "
+                            type="submit">
+                        Edytuj
+                    </button>
+                    <button
                             id="button-save-price"
-                            class="btn btn-outline-success w-100"
+                            class="btn btn-outline-success w-100 "
+                            onclick="removeId('id-of-the-new-price')"
                             type="submit">
                         Zapisz
                     </button>
@@ -392,13 +424,16 @@
 
     }
 
+    function removeId(elementToRemove){
+        document.getElementById(elementToRemove).value = "";
+    }
+
     function editPrice(splitResult) {
         document.getElementById("id-of-the-new-price").value = splitResult[0];
         document.getElementById("name-of-the-new-price").value = splitResult[1];
         document.getElementById("value-for-new-price").value = splitResult[2];
         document.getElementById("cycle-for-new-price").value = splitResult[3];
         document.getElementById("description-for-new-price").value = splitResult[4];
-        document.getElementById("button-save-price").innerText="Edytuj";
     }
 
     function editGroup(splitResult){
@@ -413,7 +448,6 @@
         document.getElementById("group-data-of-start").value = splitResult[7];
         document.getElementById("group-data-of-end").value = splitResult[8];
         document.getElementById("group-first-free").checked = splitResult[9];
-        document.getElementById("button-save-group").innerText="Edytuj";
     }
 
     function changePanel(element) {

@@ -79,7 +79,12 @@ public class ApiController {
             String priceDescription,
             @AuthenticationPrincipal AppCompany appCompany) {
 
-        if (idPriceNumber != null) {
+//
+//        if (idPriceNumber.isEmpty())
+//        {
+//            idPriceNumber = null;
+//        }
+        if (idPriceNumber != null && !(idPriceNumber.isEmpty())) {
             Prices price = priceService.findByPriceId(idPriceNumber);
             price.setName(priceName);
             price.setValue(priceValue);
@@ -176,7 +181,7 @@ public class ApiController {
 
         Teams team;
 
-        if (groupId != null) {
+        if (groupId != null && !(groupId.isEmpty())) {
             team = teamService.findTeamById(groupId);
             team.setTeamName(groupName);
             team.setLeaderName(groupLeader);
