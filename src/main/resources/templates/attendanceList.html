@@ -401,6 +401,98 @@
     </table>
 
 </section>
+
+<section id="user-add" >
+    <div class="container text-center">
+        <div class="row" style="">
+            <div class="col-lg-6 right-panel">
+                <form class="login-form" th:action="@{/app/postUser}" method="POST">
+                    <select  onchange="moreInformation(this)" class="form-control select-input mr-sm-2" name="groupId">
+                        <option selected name="groupId" value="" >Brak grupy</option>
+                        <option th:each="team : ${teams}"
+                                th:value="${team.idTeam}"
+                                th:text="${team.teamName}"
+                        ></option>
+                    </select>
+
+                    <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                    <b>Wyświetl dostępne ceny</b>
+                    </hr>
+
+                    <input
+                            hidden
+                            class="form-control "
+                            type="text"
+                            id="user-id"
+                            name="userId"
+
+                    />
+                    <input
+                            class="form-control my-3"
+                            type="text"
+                            id="user-name"
+                            name="userName"
+                            placeholder="Nazwa użytkownika *"
+                    />
+                    <input
+                            class="form-control my-3"
+                            type="text"
+                            id="user-surname"
+                            name="userSurname"
+                            placeholder="Nazwisko użytkownika *"
+                    />
+
+
+                    <div style="display:none;float: left;" class="my-2" id="prices-ul">
+
+                    </div>
+
+
+                    <div id="term">
+                        <div id="part-term" style="display: flex"></div>
+                    </div>
+
+                    <hr/>
+                    <button id="button-save-user" class="btn btn-outline-success w-100" onclick="removeId('group-id')" type="submit">
+                        Zapisz
+                    </button>
+
+                </form>
+            </div>
+            <div class="col-lg-6 right-panel">
+                <form class="login-form" th:action="@{/app/postGroup}" method="POST">
+                    <ul style="font-size: 0.7em"
+                        class="list-group list-unstyled list-group-flush">
+                        <li class="my-2">
+                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                            <b>Wyświetl dostępne ceny</b>
+                            </hr>
+                        </li>
+                        <li class="my-2">
+                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                            <b>Wyświetl dostępne ceny</b>
+                            </hr>
+                        </li>
+                        <li class="my-2">
+                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                            <b>Wyświetl dostępne ceny</b>
+                            </hr>
+                        </li>
+                        <li class="my-2">
+                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                            <b>Wyświetl dostępne ceny</b>
+                            </hr>
+                        </li>
+                    </ul>
+                    <button id="button-save-group" class="btn btn-outline-success w-100" type="submit">
+                        Zapisz
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
 <script>
     function changePriceStatus(element) {
 
@@ -413,11 +505,37 @@
 
     }
 
+    function moreInformation(event){
+
+        var xhr = new XMLHttpRequest();
+        var groupId = event.value;
+        xhr.open('GET', "/app/getSpecifiedGroupInformation?groupId=" + groupId, true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+
+                var regexStatus = /(\w+ state:.*?)</g
+                var response = xhr.responseText;
+
+                console.log(response);
+
+            };
+        }
+
+
+
+
+
+
+
+
+    }
+
     function onClickHandler() {
         var x = document.getElementsByClassName("option");
 
-        var primaryOption =
-            document.getElementById("primaryOption").checked === false;
+        var primaryOption = document.getElementById("primaryOption").checked === false;
 
         var i;
         if (primaryOption) {

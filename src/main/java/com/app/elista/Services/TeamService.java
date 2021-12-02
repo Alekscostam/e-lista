@@ -34,7 +34,17 @@ public class TeamService {
         return  teamsRepository.save(teams);
     }
 
-    public List<AllInfo> findAllByUUID(UUID idCompany) {
+    public List<Teams> findTeamIdsAndTeamNamesByUUID(UUID idCompany){
+
+        String sqlTeams = "SELECT t.id_team, t.team_name  FROM teams t WHERE t.id_company='"+idCompany+"';";
+        List<Teams> teams = jdbcTemplate.query(
+                sqlTeams,
+                new BeanPropertyRowMapper(Teams.class));
+
+        return  teams;
+    }
+
+    public List<AllInfo> findAllInformationsByTeamUUID(UUID idCompany) {
         String sqlTeams = "SELECT t.id_team, t.team_name,t.terms,t.place, t.color, t.description, t.leader_name, t.start_date, t.end_date, t.first_free, t.free_space, t.group_size,t.id_company FROM teams t WHERE t.id_company='"+idCompany+"';";
         List<Teams> teams = jdbcTemplate.query(
                 sqlTeams,

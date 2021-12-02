@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <div th:replace="~{fragments/headApp :: head}"></div>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
 </head>
+<body>
+<div th:replace="~{fragments/navbarApp :: navigation}"></div>
 <body>
 <form class="form-inline my-2 my-lg-0">
     <input
@@ -47,7 +50,7 @@
     <input
             class="form-control mr-sm-2 my-2"
             type="tel"
-            id="phone"
+            id="text"
             name="phone"
             placeholder="Rozliczenie na ten cykl"
     />
@@ -171,6 +174,174 @@
     <a href="#">
         <i class="bx bxs-edit-alt success"><span> Zapisz</span></i></a
     >
+
+
+
+    <section id="user-add" style="display: none">
+        <div class="container text-center">
+            <div class="row" style="">
+                <div class="col-lg-6 right-panel">
+                    <form class="login-form" th:action="@{/app/postGroup}" method="POST">
+                        <select name="group">
+                            <option selected value="" >Wybierz grupę</option>
+                            <option th:each="choice : ${allCategories}"
+                                    th:value="${choice.id}"
+                                    th:attr="choiceid=${choice.id}, categoryid=*{category.id}, showselected=(${choice.id} == *{category.id})"
+                                    th:selected="(${choice.id} == *{category.id})"
+                                    th:readonly="(${choice.id} == *{category.id})"
+                                    th:text="${choice.description}"></option>
+                        </select>
+                        <input
+                                hidden
+                                class="form-control "
+                                type="text"
+                                id="user-id"
+                                name="userId"
+
+                        />
+                        <input
+                                class="form-control my-3"
+                                type="text"
+                                id="user-name"
+                                name="userName"
+                                placeholder="nazwa uczestnika *"
+                        />
+
+
+
+                        <div style="display:none;float: left;" class="my-2" id="prices-ul">
+                            <ul
+                                    style="font-size: 0.6em; float: left;"
+                                    class="list-group list-unstyled list-group-flush"
+                                    th:each="prices : ${prices}">
+                                <li class="">
+                                    <input type="checkbox" id="scales" name="${prices.idPrice}" th:name="priceIds"
+                                           th:value="${prices.idPrice}"/>
+                                    <input style="display: none" type="text"/> <span style="display: none"
+                                                                                     th:text="${prices.idPrice}"></span>
+                                    <b> Cena: </b> <span th:text="${prices.value} + zł"> </span>&nbsp;&nbsp;
+                                    <b> Nazwa: </b> <span th:text="${prices.name}"> </span>&nbsp;&nbsp;
+                                    <b> Cykl rozliczeniowy: </b><span th:text="${prices.cycle}"> </span>&nbsp;&nbsp;
+                                    <b> Opis: </b><span th:text="${prices.description}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="group-information">
+                            <input
+                                    class="form-control my-2"
+                                    type="text"
+                                    id="group-location"
+                                    name="groupPlace"
+                                    placeholder="Miejsce"
+                            />
+                            <input
+                                    class="form-control my-2"
+                                    type="number"
+                                    id="group-size"
+                                    name="groupSize"
+                                    placeholder="Wielkość grupy"
+                            />
+                            <input
+                                    id="group-leader-name"
+                                    class="form-control mr-sm-2 my-2"
+                                    type="search"
+                                    name="groupLeader"
+                                    placeholder="Imie oraz nazwisko prowdzącego"
+                                    aria-label="Search"
+                            />
+
+                            <select id="group-color" name="groupColor" class="form-control mr-sm-2 my-2 w-100">
+                                <option value="ffffff">Bez koloru</option>
+                                <option style="background-color: #6b5b95;" value="6b5b95">#6b5b95</option>
+                                <option style="background-color: #ff7b25;" value="ff7b25">#ff7b25</option>
+                                <option style="background-color: #feb236;" value="feb236">#feb236</option>
+                                <option style="background-color: #86af49;" value="86af49">#86af49</option>
+                                <option style="background-color: #d64161;" value="d64161">#d64161</option>
+                                <option style="background-color: #3e4444;" value="3e4444">#3e4444</option>
+                                <option style="background-color: #c1946a;" value="c1946a">#c1946a</option>
+                                <option style="background-color: #034f84;" value="034f84">#034f84</option>
+                                <option style="background-color: #50394c;" value="50394c">#50394c</option>
+                                <option style="background-color: #4040a1;" value="4040a1">#4040a1</option>
+                                <option style="background-color: #034f84;" value="034f84">#034f84</option>
+                                <option style="background-color: #e3eaa7;" value="e3eaa7">#e3eaa7</option>
+                                <option style="background-color: #f4e1d2;" value="f4e1d2">#f4e1d2</option>
+                            </select>
+
+                            <span style="font-size: 0.7em"> Data od:</span>
+                            <input
+                                    class="form-control my-2"
+                                    type="date"
+                                    id="group-data-of-start"
+                                    name="groupDataFrom"
+                                    placeholder="Data rozpoczęcia"
+                            />
+                            <span style="font-size: 0.7em"> Data do:</span>
+                            <input
+                                    class="form-control my-2"
+                                    type="date"
+                                    id="group-data-of-end"
+                                    name="groupDataTo"
+                                    placeholder="Data zakończenia"
+                            />
+                        </div>
+                        <textarea
+                                class="form-control mr-sm-2 my-2"
+                                type="textarea"
+                                id="group-description"
+                                name="groupDescription"
+                                placeholder="informacja dodatkowa"
+                        ></textarea>
+                        <div id="term">
+                            <div id="part-term" style="display: flex"></div>
+                        </div>
+                        <a class="btn btn-outline-edit w-100 my-3" onclick="addTerm()">Dodaj termin</a>
+                        <input id="group-first-free" style="width: 20px !important;" name="groupFirstFree" type="checkbox">
+                        <b style="font-size: 0.7em">Pierwszy wejście za darmo</b>
+                        <hr/>
+
+                        <button id="button-edit-group" class="btn btn-outline-info w-100"  type="submit">
+                            Edytuj
+                        </button>
+                        <button id="button-save-group" class="btn btn-outline-success w-100" onclick="removeId('group-id')" type="submit">
+                            Zapisz
+                        </button>
+
+                    </form>
+                </div>
+                <div class="col-lg-6 right-panel">
+                    <form class="login-form" th:action="@{/app/postGroup}" method="POST">
+                        <ul style="font-size: 0.7em"
+                            class="list-group list-unstyled list-group-flush">
+                            <li class="my-2">
+                                <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                                <b>Wyświetl dostępne ceny</b>
+                                </hr>
+                            </li>
+                            <li class="my-2">
+                                <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                                <b>Wyświetl dostępne ceny</b>
+                                </hr>
+                            </li>
+                            <li class="my-2">
+                                <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                                <b>Wyświetl dostępne ceny</b>
+                                </hr>
+                            </li>
+                            <li class="my-2">
+                                <input style="width: 20px !important;" type="checkbox" id="input-prices">
+                                <b>Wyświetl dostępne ceny</b>
+                                </hr>
+                            </li>
+                        </ul>
+                        <button id="button-save-group" class="btn btn-outline-success w-100" type="submit">
+                            Zapisz
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </form>
 </body>
 </html>

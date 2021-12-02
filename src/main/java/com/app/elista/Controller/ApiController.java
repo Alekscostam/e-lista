@@ -38,24 +38,33 @@ public class ApiController {
     }
 
     @GetMapping("attendanceList")
-    public String attendanceList() {
-        return "attendanceList";
+    public ModelAndView attendanceList(@AuthenticationPrincipal AppCompany appCompany) {
+        List<Teams> teamIdsAndTeamNamesByUUID = teamService.findTeamIdsAndTeamNamesByUUID(appCompany.getIdCompany());
+        ModelAndView mav  = new ModelAndView("attendanceList");
+        mav.addObject("teams", teamIdsAndTeamNamesByUUID);
+
+        return mav;
     }
 
     @GetMapping("usersList")
     public String usersList() {
+
+
         return "usersList";
     }
 
 
     @GetMapping("optionUserList")
-    public String optionUserList() {
-        return "optionUserList";
+    public ModelAndView optionUserList(@AuthenticationPrincipal AppCompany appCompany) {
+        List<Teams> teamIdsAndTeamNamesByUUID = teamService.findTeamIdsAndTeamNamesByUUID(appCompany.getIdCompany());
+        ModelAndView mav  = new ModelAndView("optionUserList");
+        mav.addObject("teams", teamIdsAndTeamNamesByUUID);
+        return mav;
     }
 
     @GetMapping("optionGroupList")
     public ModelAndView getGroups(@AuthenticationPrincipal AppCompany appCompany) {
-        List<AllInfo> allByUUID = teamService.findAllByUUID(appCompany.getIdCompany());
+        List<AllInfo> allByUUID = teamService.findAllInformationsByTeamUUID(appCompany.getIdCompany());
         ModelAndView mav = new ModelAndView("optionGroupList");
         List<Prices> allPrices = priceService.findAllByAppCompanyId(appCompany.getIdCompany());
         mav.addObject("prices", allPrices);
@@ -70,6 +79,40 @@ public class ApiController {
         return "optionGroupList";
     }
 
+    @PostMapping("postUser")
+    public String postUser(
+
+            String groupId,
+            String groupName,
+            String groupPlace,
+            String groupSize,
+            String groupLeader,
+            String groupDataFrom,
+            String groupDataTo,
+            String groupDescription,
+            String priceIds,
+            String groupDayFor,
+            String groupTimeFrom,
+            String groupTimeTo,
+            String groupColor,
+            String groupFirstFree
+
+
+    ) {
+
+
+        return "redirect:/app/attendanceList";
+    }
+
+    @ResponseBody
+    @GetMapping("/getSpecifiedGroupInformation")
+    public String getTasksByProjectId(String groupId) {
+      return  groupId;
+    }
+
+
+
+
     @PostMapping("postPrice")
     public ModelAndView addPrice(
             String idPriceNumber,
@@ -79,11 +122,6 @@ public class ApiController {
             String priceDescription,
             @AuthenticationPrincipal AppCompany appCompany) {
 
-//
-//        if (idPriceNumber.isEmpty())
-//        {
-//            idPriceNumber = null;
-//        }
         if (idPriceNumber != null && !(idPriceNumber.isEmpty())) {
             Prices price = priceService.findByPriceId(idPriceNumber);
             price.setName(priceName);
@@ -100,16 +138,6 @@ public class ApiController {
         return new ModelAndView("redirect:/app/optionGroupList");
 
     }
-
-//    @PostMapping("putPrice")
-//    public ModelAndView updatePrice() {
-//
-//        Prices price = new Prices(appCompany,priceName, priceValue, priceCycle, priceDescription);
-//        priceService.addPrices(price);
-//
-//        return new ModelAndView("redirect:/app/optionGroupList");
-//
-//    }
 
     @PostMapping("deletePrice")
     public ModelAndView deletePrice(String priceId) {
@@ -137,8 +165,6 @@ public class ApiController {
         return new ModelAndView("redirect:/app/optionGroupList");
     }
 
-
-    // TODO: 18.11.2021  DODAC DO TABELI HASHUJACEJ
     @PostMapping("postGroup")
     public ModelAndView postGroup(
             @AuthenticationPrincipal AppCompany appCompany,
