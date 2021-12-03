@@ -284,9 +284,7 @@
                                 <br>
                                 <a href="#"> <i class='bx bxs-edit-alt success'><span> Zapisz</span></i></a>
                             </form>
-                            </p>
 
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -415,8 +413,10 @@
                         ></option>
                     </select>
 
-                    <input style="width: 20px !important;" type="checkbox" id="input-prices">
-                    <b>Wyświetl dostępne ceny</b>
+                    <div class="my-2" id="prices-div">
+
+                    </div>
+
                     </hr>
 
                     <input
@@ -432,17 +432,32 @@
                             type="text"
                             id="user-name"
                             name="userName"
-                            placeholder="Nazwa użytkownika *"
+                            placeholder="Imię *"
                     />
                     <input
                             class="form-control my-3"
                             type="text"
                             id="user-surname"
                             name="userSurname"
-                            placeholder="Nazwisko użytkownika *"
+                            placeholder="Nazwisko *"
+                    />
+                    <input
+                            class="form-control my-3"
+                            type="text"
+                            id="user-phone"
+                            name="userPhone"
+                            placeholder="Numer telefonu"
+                    />
+                    <input
+                            class="form-control my-3"
+                            type="text"
+                            id="user-email"
+                            name="userEmail"
+                            placeholder="Email "
                     />
 
-
+                    <input style="width: 20px !important;" type="checkbox"  name="user-of-age"/>
+                    <b style="font-size: 0.7em"> Jestem pełnoletni/nia </b>
                     <div style="display:none;float: left;" class="my-2" id="prices-ul">
 
                     </div>
@@ -460,34 +475,37 @@
                 </form>
             </div>
             <div class="col-lg-6 right-panel">
-                <form class="login-form" th:action="@{/app/postGroup}" method="POST">
-                    <ul style="font-size: 0.7em"
-                        class="list-group list-unstyled list-group-flush">
-                        <li class="my-2">
-                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
-                            <b>Wyświetl dostępne ceny</b>
-                            </hr>
-                        </li>
-                        <li class="my-2">
-                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
-                            <b>Wyświetl dostępne ceny</b>
-                            </hr>
-                        </li>
-                        <li class="my-2">
-                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
-                            <b>Wyświetl dostępne ceny</b>
-                            </hr>
-                        </li>
-                        <li class="my-2">
-                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
-                            <b>Wyświetl dostępne ceny</b>
-                            </hr>
-                        </li>
-                    </ul>
-                    <button id="button-save-group" class="btn btn-outline-success w-100" type="submit">
-                        Zapisz
-                    </button>
-                </form>
+<!--                    <ul style="font-size: 0.7em"-->
+<!--                        class="list-group list-unstyled list-group-flush">-->
+<!--                        <li hidden class="my-2">-->
+<!--                            <b>Informacje o grupie</b> <span></span>-->
+<!--                            </hr>-->
+<!--                        </li>-->
+<!--                        <li hidden class="my-2 group-info">-->
+<!--                            <b>Nazwa grupy: </b>  <span></span>-->
+<!--                        </li>-->
+<!--                        <li hidden class="my-2 group-info">-->
+<!--                            <b>Prowadzący: </b> <span></span>-->
+<!--                        </li>-->
+<!--                        <li hidden class="my-2 group-info">-->
+<!--                            <b>Lokalizacja: </b> <span></span>-->
+<!--                        </li>-->
+<!--                        <li hidden class="my-2 group-info">-->
+<!--                            <b>Terminy: </b> <span></span>-->
+<!--                        </li>-->
+<!--                        <li hidden class="my-2 group-info">-->
+<!--                            <b>Wolne miejsca: </b> <span></span>-->
+<!--                        </li>-->
+<!--                        <li hidden class="my-2 group-info">-->
+<!--                            <b>Pierwsze zajecia darmowe: </b> <span></span>-->
+<!--                        </li>-->
+<!--                        <li  hidden class="my-2 group-info">-->
+<!--                            <b>Dodatkowa informacja: </b> <span></span>-->
+<!--                        </li>-->
+<!--                        <li hidden class="my-2 group-info">-->
+<!--                            <b></b>-->
+<!--                        </li>-->
+<!--                    </ul>-->
             </div>
         </div>
     </div>
@@ -513,24 +531,50 @@
         xhr.send('');
 
         xhr.onreadystatechange = function() {
+            var issue;
             if (this.readyState == 4 && this.status == 200) {
 
-                var regexStatus = /(\w+ state:.*?)</g
-                var response = xhr.responseText;
+                issue = JSON.parse(xhr.responseText);
+                generatedDivPrices(issue['prices']);
+                generatedTermsInfo(issue['terms']);
+                generatedGroupInfo(issue['team']);
+            }
+        }
+    }
+        function generatedDivPrices(prices){
 
-                console.log(response);
+            var result = "";
+            for (let i = 0; i < prices.length; i++) {
+                result = result
+                    +
+                    '<div class="part-prices" style="display: flex;color:black; font-size:0.6em!important">\n' +
+                        '<input style="width: 20px !important;" type="radio"   value="'+prices[i]['idPrice']+'" name="priceIds"/>\n' +
+                            ' <b>'+"Nazwa:&nbsp;"+'</b>'+prices[i]['name'] +", &nbsp;"+
+                            ' <b>'+"Cena:&nbsp;"+'</b>'+ prices[i]['value'] +"zł , &nbsp;"+
+                            ' <b>'+"Rozliczenie:&nbsp;"+'</b>'+ prices[i]['cycle'] +"dni , &nbsp;"+
+                            ' <b>'+"Opis:&nbsp;"+'</b>'+ prices[i]['description'] +
+                    "</div>";
 
-            };
+                console.log(prices[i]['idPrice']);
+                console.log(prices[i]['name']);
+                console.log(prices[i]['value']);
+                console.log(prices[i]['cycle']);
+                console.log(prices[i]['description']);
+            }
+
+            document.getElementById("prices-div").innerHTML =
+                result;
+
+
         }
 
+        function generatedTermsInfo(){
 
+        }
+        function generatedGroupInfo(){
 
+        }
 
-
-
-
-
-    }
 
     function onClickHandler() {
         var x = document.getElementsByClassName("option");

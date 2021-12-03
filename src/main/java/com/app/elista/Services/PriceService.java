@@ -1,6 +1,7 @@
 package com.app.elista.Services;
 
 import com.app.elista.model.Prices;
+import com.app.elista.model.Teams;
 import com.app.elista.repositories.PricesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +16,12 @@ import java.util.UUID;
 
 @Service
 public class PriceService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPriceService.class);;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPriceService.class);
+    ;
 
     @Autowired
     PricesRepository pricesRepository;
-        JdbcTemplate jdbcTemplate;
+    JdbcTemplate jdbcTemplate;
 
     public PriceService(PricesRepository pricesRepository, JdbcTemplate jdbcTemplate) {
         this.pricesRepository = pricesRepository;
@@ -31,23 +33,23 @@ public class PriceService {
     }
 
     public List<Prices> findAll() {
-       return pricesRepository.findAll();
+        return pricesRepository.findAll();
     }
 
     public List<Prices> findAllByPriceIds(List<String> listsPriceIds) {
         // TODO: 16.11.2021 Zabezpiczenie na nieznalezioną cene
         List<Prices> pricesList = new ArrayList<>();
         for (String listsPriceId : listsPriceIds) {
-           Prices prices =  pricesRepository.findById(Long.valueOf(listsPriceId)).get();
+            Prices prices = pricesRepository.findById(Long.valueOf(listsPriceId)).get();
             pricesList.add(prices);
         }
 
         return pricesList;
     }
 
-    public List<Prices> findAllByAppCompanyId(UUID idCompany) {
-
-        String sql = "SELECT id_price, name, value, cycle, description FROM prices  WHERE id_company='"+idCompany+"';";
+    public List<Prices> findAllPricesByAppCompanyId(UUID idCompany) {
+        String sql;
+        sql = "SELECT id_price, name, value, cycle, description FROM prices  WHERE id_company='" + idCompany + "';";
 
         return jdbcTemplate.query(
                 sql,
@@ -55,11 +57,11 @@ public class PriceService {
     }
 
     public void deletePriceById(Long priceId) {
-            try {
-                pricesRepository.deleteById(priceId);
-            }catch (Exception ex){
-                LOGGER.error(ex.getMessage(),"Something goes wrong" );
-            }
+        try {
+            pricesRepository.deleteById(priceId);
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), "Something goes wrong");
+        }
     }
 
     public Prices findByPriceId(String idPriceNumber) {
@@ -67,7 +69,15 @@ public class PriceService {
         return pricesRepository.findById(Long.valueOf(idPriceNumber)).get();
     }
 
+
     public void savePrice(Prices price) {
         pricesRepository.save(price);
+    }
+
+    public List<Prices> findAllPricesByTeam(Teams team) {
+      String sql = "SELECT p.id_price, p.name, p.value, p.cycle, p.description FROM groups_prices gp, prices p, teams t WHERE t.id_team = gp.id_team AND p.id_price = gp.id_price AND t.id_team ='" + team.getIdTeam() + "';";
+        return jdbcTemplate.query(
+                sql,
+                new BeanPropertyRowMapper(Prices.class));
     }
 }

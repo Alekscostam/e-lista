@@ -5,6 +5,7 @@ import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.Prices;
 import com.app.elista.model.Teams;
 import com.app.elista.model.extended.AllInfo;
+import com.app.elista.model.extended.TermsPricesTeams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class ApiController {
     public ModelAndView getGroups(@AuthenticationPrincipal AppCompany appCompany) {
         List<AllInfo> allByUUID = teamService.findAllInformationsByTeamUUID(appCompany.getIdCompany());
         ModelAndView mav = new ModelAndView("optionGroupList");
-        List<Prices> allPrices = priceService.findAllByAppCompanyId(appCompany.getIdCompany());
+        List<Prices> allPrices = priceService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
         mav.addObject("prices", allPrices);
         mav.addObject("allInfos", allByUUID);
         return mav;
@@ -96,22 +97,27 @@ public class ApiController {
             String groupTimeTo,
             String groupColor,
             String groupFirstFree
-
-
     ) {
-
 
         return "redirect:/app/attendanceList";
     }
 
     @ResponseBody
     @GetMapping("/getSpecifiedGroupInformation")
-    public String getTasksByProjectId(String groupId) {
-      return  groupId;
+    public TermsPricesTeams getTasksByProjectId(String groupId) {
+        try {
+            Teams team = teamService.findTeamById(groupId);
+            team.setAppCompany(null);
+            List<String> termsForTeam = teamService.getTermsForTeams(team);
+            List<Prices> allPrices = priceService.findAllPricesByTeam(team);
+            TermsPricesTeams termsPricesTeams = new TermsPricesTeams(termsForTeam, allPrices,team);
+            return termsPricesTeams;
+        }
+        catch (NumberFormatException ne){
+            LOGGER.error(ne.getMessage() + "BRAK GROUPID");
+            return null;
+        }
     }
-
-
-
 
     @PostMapping("postPrice")
     public ModelAndView addPrice(
@@ -134,9 +140,7 @@ public class ApiController {
             priceService.addPrices(price);
         }
 
-
         return new ModelAndView("redirect:/app/optionGroupList");
-
     }
 
     @PostMapping("deletePrice")

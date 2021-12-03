@@ -4,9 +4,42 @@ import com.app.elista.appcompany.AppCompany;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Teams {
+    @Override
+    public String toString() {
+        return "Teams{" +
+                "idTeam=" + idTeam +
+                ", teamName='" + teamName + '\'' +
+                ", leaderName='" + leaderName + '\'' +
+                ", place='" + place + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", freeSpace=" + freeSpace +
+                ", groupSize=" + groupSize +
+                ", color='" + color + '\'' +
+                ", firstFree=" + firstFree +
+                ", description='" + description + '\'' +
+                ", terms='" + terms + '\'' +
+                ", appCompany=" + appCompany +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Teams teams = (Teams) o;
+        return Objects.equals(idTeam, teams.idTeam) && Objects.equals(teamName, teams.teamName) && Objects.equals(leaderName, teams.leaderName) && Objects.equals(place, teams.place) && Objects.equals(startDate, teams.startDate) && Objects.equals(endDate, teams.endDate) && Objects.equals(freeSpace, teams.freeSpace) && Objects.equals(groupSize, teams.groupSize) && Objects.equals(color, teams.color) && Objects.equals(firstFree, teams.firstFree) && Objects.equals(description, teams.description) && Objects.equals(terms, teams.terms) && Objects.equals(appCompany, teams.appCompany);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTeam, teamName, leaderName, place, startDate, endDate, freeSpace, groupSize, color, firstFree, description, terms, appCompany);
+    }
+
     @SequenceGenerator(
             name = "Teams_sequence",
             sequenceName = "Teams_sequence",
@@ -19,7 +52,7 @@ public class Teams {
     )
     private Long idTeam;
     private String teamName;
-    @Column(length = 50)
+    @Column(length = 150)
     private String leaderName;
     @Column(length = 100)
     private String place;
