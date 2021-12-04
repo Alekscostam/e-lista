@@ -214,8 +214,6 @@
                 <div id="inside-modal ">
                     <div class="text">
                         <div class="hello">
-
-
                             <form class="form-inline my-2 my-lg-0">
                                 <input class="form-control mr-sm-2 my-2" type="search" placeholder="Imie"
                                        aria-label="Search">
@@ -400,13 +398,13 @@
 
 </section>
 
-<section id="user-add" >
+<section id="user-add">
     <div class="container text-center">
         <div class="row" style="">
             <div class="col-lg-6 right-panel">
                 <form class="login-form" th:action="@{/app/postUser}" method="POST">
-                    <select  onchange="moreInformation(this)" class="form-control select-input mr-sm-2" name="groupId">
-                        <option selected name="groupId" value="" >Brak grupy</option>
+                    <select onchange="moreInformation(this)" class="form-control select-input mr-sm-2" name="groupId">
+                        <option selected name="groupId" value="">Brak grupy</option>
                         <option th:each="team : ${teams}"
                                 th:value="${team.idTeam}"
                                 th:text="${team.teamName}"
@@ -456,7 +454,7 @@
                             placeholder="Email "
                     />
 
-                    <input style="width: 20px !important;" type="checkbox"  name="user-of-age"/>
+                    <input style="width: 20px !important;" type="checkbox" name="user-of-age"/>
                     <b style="font-size: 0.7em"> Jestem pełnoletni/nia </b>
                     <div style="display:none;float: left;" class="my-2" id="prices-ul">
 
@@ -468,44 +466,57 @@
                     </div>
 
                     <hr/>
-                    <button id="button-save-user" class="btn btn-outline-success w-100" onclick="removeId('group-id')" type="submit">
+                    <button id="button-save-user" class="btn btn-outline-success w-100" onclick="removeId('group-id')"
+                            type="submit">
                         Zapisz
                     </button>
 
                 </form>
             </div>
             <div class="col-lg-6 right-panel">
-<!--                    <ul style="font-size: 0.7em"-->
-<!--                        class="list-group list-unstyled list-group-flush">-->
-<!--                        <li hidden class="my-2">-->
-<!--                            <b>Informacje o grupie</b> <span></span>-->
-<!--                            </hr>-->
-<!--                        </li>-->
-<!--                        <li hidden class="my-2 group-info">-->
-<!--                            <b>Nazwa grupy: </b>  <span></span>-->
-<!--                        </li>-->
-<!--                        <li hidden class="my-2 group-info">-->
-<!--                            <b>Prowadzący: </b> <span></span>-->
-<!--                        </li>-->
-<!--                        <li hidden class="my-2 group-info">-->
-<!--                            <b>Lokalizacja: </b> <span></span>-->
-<!--                        </li>-->
-<!--                        <li hidden class="my-2 group-info">-->
-<!--                            <b>Terminy: </b> <span></span>-->
-<!--                        </li>-->
-<!--                        <li hidden class="my-2 group-info">-->
-<!--                            <b>Wolne miejsca: </b> <span></span>-->
-<!--                        </li>-->
-<!--                        <li hidden class="my-2 group-info">-->
-<!--                            <b>Pierwsze zajecia darmowe: </b> <span></span>-->
-<!--                        </li>-->
-<!--                        <li  hidden class="my-2 group-info">-->
-<!--                            <b>Dodatkowa informacja: </b> <span></span>-->
-<!--                        </li>-->
-<!--                        <li hidden class="my-2 group-info">-->
-<!--                            <b></b>-->
-<!--                        </li>-->
-<!--                    </ul>-->
+                <ul style="font-size: 0.7em"
+                    class="list-group list-unstyled list-group-flush">
+                    <li id="li-group-info-groupName" style="display: none" class="my-2 group-info ">
+                        <div><b>Nazwa grupy: </b>
+                            <span id="span-group-info-groupName"></span>
+                        </div>
+                    </li>
+                    <li id="li-group-info-leaderName" style="display: none" class="my-2 group-info ">
+                        <div><b>Prowadzący: </b>
+                            <span id="span-group-info-leaderName"></span>
+                        </div>
+                    </li>
+                    <li id="li-group-info-place" style="display: none" class="my-2 group-info ">
+                        <div><b>Lokalizacja: </b>
+                            <span id="span-group-info-place"></span>
+                        </div>
+                    </li>
+                    <li id="li-group-info-terms" style="display: none" class="my-2 group-info ">
+                        <div><b>Terminy: </b>
+                            <span id="span-group-info-terms"></span>
+                        </div>
+                    </li>
+                    <li id="li-group-info-space" style="display: none" class="my-2 group-info ">
+                        <div><b>Wolne miejsca: </b>
+                            <span id="span-group-info-space"></span>
+                        </div>
+                    </li>
+                    <li id="li-group-info-data" style="display: none" class="my-2 group-info ">
+                        <div><b>Od kiedy: </b>
+                            <span id="span-group-info-data"></span>
+                        </div>
+                    </li>
+                    <li id="li-group-info-firstFree" style="display: none" class="my-2 group-info ">
+                        <div><b>Pierwsze zajecia darmowe: </b>
+                            <span id="span-group-info-firstFree"></span>
+                        </div>
+                    </li>
+                    <li id="li-group-info-description" style="display: none" class="my-2 group-info ">
+                        <div><b>Dodatkowa informacja: </b>
+                            <span id="span-group-info-description"></span>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -518,80 +529,168 @@
             element.innerText = "-140zł";
         } else {
             element.innerText = "0";
-            return;
+
         }
 
     }
 
-    function moreInformation(event){
-
-        var xhr = new XMLHttpRequest();
-        var groupId = event.value;
-        xhr.open('GET', "/app/getSpecifiedGroupInformation?groupId=" + groupId, true);
-        xhr.send('');
-
-        xhr.onreadystatechange = function() {
-            var issue;
-            if (this.readyState == 4 && this.status == 200) {
-
-                issue = JSON.parse(xhr.responseText);
-                generatedDivPrices(issue['prices']);
-                generatedTermsInfo(issue['terms']);
-                generatedGroupInfo(issue['team']);
-            }
+    function showOrHidePrices(option) {
+        let elementsPrices = document.getElementsByClassName("part-prices");
+        for (var i = 0; i < elementsPrices.length; i++) {
+            elementsPrices[i].style.display = option;
         }
     }
-        function generatedDivPrices(prices){
 
-            var result = "";
-            for (let i = 0; i < prices.length; i++) {
-                result = result
-                    +
-                    '<div class="part-prices" style="display: flex;color:black; font-size:0.6em!important">\n' +
-                        '<input style="width: 20px !important;" type="radio"   value="'+prices[i]['idPrice']+'" name="priceIds"/>\n' +
-                            ' <b>'+"Nazwa:&nbsp;"+'</b>'+prices[i]['name'] +", &nbsp;"+
-                            ' <b>'+"Cena:&nbsp;"+'</b>'+ prices[i]['value'] +"zł , &nbsp;"+
-                            ' <b>'+"Rozliczenie:&nbsp;"+'</b>'+ prices[i]['cycle'] +"dni , &nbsp;"+
-                            ' <b>'+"Opis:&nbsp;"+'</b>'+ prices[i]['description'] +
-                    "</div>";
+    function moreInformation(event) {
 
-                console.log(prices[i]['idPrice']);
-                console.log(prices[i]['name']);
-                console.log(prices[i]['value']);
-                console.log(prices[i]['cycle']);
-                console.log(prices[i]['description']);
+        if (event.value === "") {
+            let elementsGroup = document.getElementsByClassName("group-info");
+            for (var i = 0; i < elementsGroup.length; i++) {
+                elementsGroup[i].style.display = "none";
             }
-
-            document.getElementById("prices-div").innerHTML =
-                result;
-
-
-        }
-
-        function generatedTermsInfo(){
-
-        }
-        function generatedGroupInfo(){
-
-        }
-
-
-    function onClickHandler() {
-        var x = document.getElementsByClassName("option");
-
-        var primaryOption = document.getElementById("primaryOption").checked === false;
-
-        var i;
-        if (primaryOption) {
-            document.getElementById("total-amount").innerText = "";
-            for (i = 0; i < x.length; i++) {
-                x[i].checked = false;
-            }
+            showOrHidePrices("none");
         } else {
-            for (i = 0; i < x.length; i++) {
-                x[i].checked = true;
-                document.getElementById("total-amount").innerText = "Liczba: " + x.length;
+            var xhr = new XMLHttpRequest();
+            var groupId = event.value;
+            xhr.open('GET', "/app/getSpecifiedGroupInformation?groupId=" + groupId, true);
+            xhr.send('');
+
+            xhr.onreadystatechange = function () {
+                var issue;
+                if (this.readyState === 4 && this.status === 200) {
+
+                    issue = JSON.parse(xhr.responseText);
+                    generatedDivPrices(issue['prices']);
+                    generatedGroupInfo(issue['teams'], issue['terms']);
+                }
             }
+        }
+    }
+
+    function generatedDivPrices(prices) {
+
+        var result = "";
+        for (let i = 0; i < prices.length; i++) {
+            result = result
+                +
+                '<div class="part-prices" style="display: flex;color:black; font-size:0.6em!important">\n' +
+                '<input style="width: 20px !important;" type="radio"   value="' + prices[i]['idPrice'] + '" name="priceIds"/>\n' +
+                ' <b>' + "Nazwa:&nbsp;" + '</b>' + prices[i]['name'] + ", &nbsp;" +
+                ' <b>' + "Cena:&nbsp;" + '</b>' + prices[i]['value'] + "zł, &nbsp;" +
+                ' <b>' + "Rozliczenie:&nbsp;" + '</b>' + prices[i]['cycle'] + "dni, &nbsp;" +
+                ' <b>' + "Opis:&nbsp;" + '</b>' + prices[i]['description'] +
+                "</div>";
+        }
+
+
+        document.getElementById("prices-div").innerHTML =
+            result;
+
+        showOrHidePrices("block");
+
+    }
+
+    function generatedGroupInfo(team, terms) {
+
+        let idTeam = team['idTeam'];
+        let teamName = team['teamName'];
+        let leaderName = team['leaderName'];
+        let place = team['place'];
+        let startDate = team['startDate'];
+        let endDate = team['endDate'];
+        let freeSpace = team['freeSpace'];
+        let groupSize = team['groupSize'];
+        let firstFree = team['firstFree'];
+        let description = team['description'];
+        let displayTerms = "";
+        for (let i = 0; i < terms.length; i++) {
+            displayTerms = displayTerms + terms[i] + ", ";
+
+        }
+        let data = "";
+
+        if (endDate !== "") {
+            data = startDate + " do " + endDate;
+        } else {
+            data = startDate;
+        }
+
+
+        let li_group_name = document.getElementById('li-group-info-groupName');
+        let span_group_name = document.getElementById('span-group-info-groupName');
+
+        let li_leader_name = document.getElementById('li-group-info-leaderName');
+        let span_leader_name = document.getElementById('span-group-info-leaderName');
+
+        let li_place = document.getElementById('li-group-info-place');
+        let span_place = document.getElementById('span-group-info-place');
+
+        let li_terms = document.getElementById('li-group-info-terms');
+        let span_terms = document.getElementById('span-group-info-terms');
+
+        let li_space = document.getElementById('li-group-info-space');
+        let span_space = document.getElementById('span-group-info-space');
+
+        let li_data = document.getElementById('li-group-info-data');
+        let span_data = document.getElementById('span-group-info-data');
+
+        let li_first_free = document.getElementById('li-group-info-firstFree');
+        let span_first_free = document.getElementById('span-group-info-firstFree');
+
+        let li_description = document.getElementById('li-group-info-description');
+        let span_description = document.getElementById('span-group-info-description');
+
+
+        if (teamName !== "") {
+            span_group_name.innerText = teamName;
+            li_group_name.style.display = "block";
+
+        } else {
+            li_group_name.style.display = "none";
+        }
+        if (leaderName !== "") {
+            span_leader_name.innerText = leaderName;
+            li_leader_name.style.display = "block";
+        } else {
+            li_leader_name.style.display = "none";
+        }
+        if (startDate !== "") {
+            span_data.innerText = data;
+            li_data.style.display = "block";
+        } else {
+            li_data.style.display = "none";
+        }
+
+        if (displayTerms !== "") {
+            span_terms.innerText = groupSize + "/" + freeSpace;
+            li_terms.style.display = "block";
+        } else {
+            li_terms.style.display = "none";
+        }
+
+        if (groupSize !== "") {
+            span_space.innerText = freeSpace + "/" + groupSize;
+            li_space.style.display = "block";
+        } else {
+            li_space.style.display = "none";
+        }
+        if (place !== "") {
+            span_place.innerText = place;
+            li_place.style.display = "block";
+        } else {
+            li_place.style.display = "none";
+        }
+        if (firstFree !== "true") {
+            span_first_free.innerText = "Tak";
+            li_first_free.style.display = "block";
+        } else {
+            li_first_free.style.display = "none";
+        }
+        if (description !== "") {
+            span_description.innerText = description;
+            li_description.style.display = "block";
+        } else {
+            li_description.style.display = "none";
         }
     }
 
