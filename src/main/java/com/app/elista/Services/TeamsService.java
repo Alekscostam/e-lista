@@ -17,15 +17,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class TeamService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPriceService.class);;
+public class TeamsService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPricesService.class);;
 
 
     private final JdbcTemplate jdbcTemplate;
     TeamsRepository teamsRepository;
 
     @Autowired
-    public TeamService(JdbcTemplate jdbcTemplate, TeamsRepository teamsRepository) {
+    public TeamsService(JdbcTemplate jdbcTemplate, TeamsRepository teamsRepository) {
         this.jdbcTemplate = jdbcTemplate;
         this.teamsRepository = teamsRepository;
     }
@@ -84,8 +84,9 @@ public class TeamService {
     public void deleteGroupById(Long id) {
         try {
             teamsRepository.deleteById(id);
+            LOGGER.info("Usunieto grupe");
         }catch (Exception ex){
-            LOGGER.error(ex.getMessage(),"Something goes wrong" );
+            LOGGER.error(ex.getMessage()," cos poszlo nie tak przy uduwaniu grupy!" );
         }
 
     }

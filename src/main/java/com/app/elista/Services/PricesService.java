@@ -15,15 +15,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class PriceService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPriceService.class);
+public class PricesService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPricesService.class);
     ;
 
     @Autowired
     PricesRepository pricesRepository;
     JdbcTemplate jdbcTemplate;
 
-    public PriceService(PricesRepository pricesRepository, JdbcTemplate jdbcTemplate) {
+    public PricesService(PricesRepository pricesRepository, JdbcTemplate jdbcTemplate) {
         this.pricesRepository = pricesRepository;
         this.jdbcTemplate = jdbcTemplate;
     }

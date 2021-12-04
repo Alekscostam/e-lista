@@ -412,7 +412,6 @@
                     </select>
 
                     <div class="my-2" id="prices-div">
-
                     </div>
 
                     </hr>
@@ -423,7 +422,6 @@
                             type="text"
                             id="user-id"
                             name="userId"
-
                     />
                     <input
                             class="form-control my-3"
@@ -454,13 +452,10 @@
                             placeholder="Email "
                     />
 
-                    <input style="width: 20px !important;" type="checkbox" name="user-of-age"/>
+                    <input style="width: 20px !important;" type="checkbox" name="userOfAge"/>
                     <b style="font-size: 0.7em"> Jestem pełnoletni/nia </b>
                     <div style="display:none;float: left;" class="my-2" id="prices-ul">
-
                     </div>
-
-
                     <div id="term">
                         <div id="part-term" style="display: flex"></div>
                     </div>
@@ -558,7 +553,6 @@
             xhr.onreadystatechange = function () {
                 var issue;
                 if (this.readyState === 4 && this.status === 200) {
-
                     issue = JSON.parse(xhr.responseText);
                     generatedDivPrices(issue['prices']);
                     generatedGroupInfo(issue['teams'], issue['terms']);
@@ -574,7 +568,7 @@
             result = result
                 +
                 '<div class="part-prices" style="display: flex;color:black; font-size:0.6em!important">\n' +
-                '<input style="width: 20px !important;" type="radio"   value="' + prices[i]['idPrice'] + '" name="priceIds"/>\n' +
+                '<input style="width: 20px !important;" type="radio"   value="' + prices[i]['idPrice'] + '" name="priceId"/>\n' +
                 ' <b>' + "Nazwa:&nbsp;" + '</b>' + prices[i]['name'] + ", &nbsp;" +
                 ' <b>' + "Cena:&nbsp;" + '</b>' + prices[i]['value'] + "zł, &nbsp;" +
                 ' <b>' + "Rozliczenie:&nbsp;" + '</b>' + prices[i]['cycle'] + "dni, &nbsp;" +
@@ -582,12 +576,9 @@
                 "</div>";
         }
 
-
         document.getElementById("prices-div").innerHTML =
             result;
-
         showOrHidePrices("block");
-
     }
 
     function generatedGroupInfo(team, terms) {
@@ -615,7 +606,6 @@
             data = startDate;
         }
 
-
         let li_group_name = document.getElementById('li-group-info-groupName');
         let span_group_name = document.getElementById('span-group-info-groupName');
 
@@ -640,11 +630,9 @@
         let li_description = document.getElementById('li-group-info-description');
         let span_description = document.getElementById('span-group-info-description');
 
-
         if (teamName !== "") {
             span_group_name.innerText = teamName;
             li_group_name.style.display = "block";
-
         } else {
             li_group_name.style.display = "none";
         }
@@ -660,14 +648,12 @@
         } else {
             li_data.style.display = "none";
         }
-
         if (displayTerms !== "") {
             span_terms.innerText = displayTerms;
             li_terms.style.display = "block";
         } else {
             li_terms.style.display = "none";
         }
-
         if (groupSize !== "") {
             span_space.innerText = freeSpace + "/" + groupSize;
             li_space.style.display = "block";

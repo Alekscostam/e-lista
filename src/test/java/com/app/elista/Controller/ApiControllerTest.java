@@ -14,12 +14,12 @@ import static org.junit.Assert.*;
 public class ApiControllerTest {
 
     @Mock
-    PriceService priceService;
+    PricesService pricesService;
 
     @Mock
-    TeamService teamService;
+    TeamsService teamsService;
     @Mock
-    TeamsPriceService teamsPriceService;
+    TeamsPricesService teamsPricesService;
     @Mock
     AppCompany appCompany;
 
@@ -30,9 +30,9 @@ public class ApiControllerTest {
 
     @Before
     public void init(){
-        apiController = new ApiController(priceService,teamService, teamsPriceService);
-       listDayForGroup = Arrays.asList("jeden","dwa","trzy");
-        listOfTimes = Arrays.asList("1:1","2:2","3:3");
+//        apiController = new ApiController(pricesService, teamsService, teamsPricesService);
+//       listDayForGroup = Arrays.asList("jeden","dwa","trzy");
+//        listOfTimes = Arrays.asList("1:1","2:2","3:3");
     }
 
     @Test

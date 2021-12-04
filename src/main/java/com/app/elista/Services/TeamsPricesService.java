@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 @Service
-public class TeamsPriceService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPriceService.class);;
+public class TeamsPricesService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPricesService.class);;
 
     @Autowired
     TeamsPricesRepository teamsPricesRepository;
     JdbcTemplate jdbcTemplate;
 
-    public TeamsPriceService(TeamsPricesRepository teamsPricesRepository, JdbcTemplate jdbcTemplate) {
+    public TeamsPricesService(TeamsPricesRepository teamsPricesRepository, JdbcTemplate jdbcTemplate) {
         this.teamsPricesRepository = teamsPricesRepository;
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -47,6 +47,7 @@ public class TeamsPriceService {
 
         String deleteQuery = "delete from groups_prices where id_team = ?";
         jdbcTemplate.update(deleteQuery,groupId);
+        LOGGER.info("Usunieto dane z tabeli groups_prices");
 
     }
 }
