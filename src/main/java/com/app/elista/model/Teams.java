@@ -27,19 +27,6 @@ public class Teams {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Teams teams = (Teams) o;
-        return Objects.equals(idTeam, teams.idTeam) && Objects.equals(teamName, teams.teamName) && Objects.equals(leaderName, teams.leaderName) && Objects.equals(place, teams.place) && Objects.equals(startDate, teams.startDate) && Objects.equals(endDate, teams.endDate) && Objects.equals(freeSpace, teams.freeSpace) && Objects.equals(groupSize, teams.groupSize) && Objects.equals(color, teams.color) && Objects.equals(firstFree, teams.firstFree) && Objects.equals(description, teams.description) && Objects.equals(terms, teams.terms) && Objects.equals(appCompany, teams.appCompany);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idTeam, teamName, leaderName, place, startDate, endDate, freeSpace, groupSize, color, firstFree, description, terms, appCompany);
-    }
-
     @SequenceGenerator(
             name = "Teams_sequence",
             sequenceName = "Teams_sequence",
@@ -60,6 +47,9 @@ public class Teams {
     private String startDate;
     @Column(length = 10)
     private String endDate;
+
+
+
     @Column(length = 3)
     private Short freeSpace;
     @Column(length = 4)
@@ -79,7 +69,7 @@ public class Teams {
         this.terms = terms;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_company", nullable=false)
     private AppCompany appCompany;
 
@@ -109,11 +99,9 @@ public class Teams {
         this.appCompany = appCompany;
     }
 
-
     public Teams() {
 
     }
-
 //    @ManyToMany
 //    Set<Terms> terms;
 
@@ -214,7 +202,18 @@ public class Teams {
         this.description = description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Teams teams = (Teams) o;
+        return Objects.equals(idTeam, teams.idTeam) && Objects.equals(teamName, teams.teamName) && Objects.equals(leaderName, teams.leaderName) && Objects.equals(place, teams.place) && Objects.equals(startDate, teams.startDate) && Objects.equals(endDate, teams.endDate) && Objects.equals(freeSpace, teams.freeSpace) && Objects.equals(groupSize, teams.groupSize) && Objects.equals(color, teams.color) && Objects.equals(firstFree, teams.firstFree) && Objects.equals(description, teams.description) && Objects.equals(terms, teams.terms) && Objects.equals(appCompany, teams.appCompany);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTeam, teamName, leaderName, place, startDate, endDate, freeSpace, groupSize, color, firstFree, description, terms, appCompany);
+    }
 
 
 }

@@ -2,6 +2,7 @@ package com.app.elista.model;
 
 import com.app.elista.appcompany.AppCompany;
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Users {
@@ -17,12 +18,11 @@ public class Users {
             strategy = GenerationType.SEQUENCE,
             generator = "Users_sequence"
     )
+    private Long idUser;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_company", nullable=false)
     private AppCompany appCompany;
-
-    private Long idUser;
 
    private String name;
    private String surname;
@@ -51,6 +51,8 @@ public class Users {
         this.prices = price;
 
     }
+
+
 
     public String getIndividualPriceName() {
         return individualPriceName;
@@ -92,6 +94,36 @@ public class Users {
         this.currentPaymentDate = currentPaymentDate;
     }
 
+    @Override
+    public String toString() {
+        return "Users{" +
+                "idUser=" + idUser +
+                ", appCompany=" + appCompany +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", phone=" + phone +
+                ", email='" + email + '\'' +
+                ", adult=" + adult +
+                ", individualPriceName='" + individualPriceName + '\'' +
+                ", individualPriceValue='" + individualPriceValue + '\'' +
+                ", individualPriceCycle='" + individualPriceCycle + '\'' +
+                ", individualPriceDesc='" + individualPriceDesc + '\'' +
+                ", currentPaymentDate='" + currentPaymentDate + '\'' +
+                ", nextPaymentDate='" + nextPaymentDate + '\'' +
+                ", dateOfRecording='" + dateOfRecording + '\'' +
+                ", teams=" + teams +
+                ", prices=" + prices +
+                '}';
+    }
+
+    public AppCompany getAppCompany() {
+        return appCompany;
+    }
+
+    public void setAppCompany(AppCompany appCompany) {
+        this.appCompany = appCompany;
+    }
+
     public String getNextPaymentDate() {
         return nextPaymentDate;
     }
@@ -108,11 +140,11 @@ public class Users {
         this.dateOfRecording = dateOfRecording;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="id_team", nullable=false)
     private  Teams teams;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_price")
     private  Prices prices;
 
@@ -182,6 +214,18 @@ public class Users {
 
     public void setPrices(Prices prices) {
         this.prices = prices;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Users users = (Users) o;
+        return Objects.equals(idUser, users.idUser) && Objects.equals(appCompany, users.appCompany) && Objects.equals(name, users.name) && Objects.equals(surname, users.surname) && Objects.equals(phone, users.phone) && Objects.equals(email, users.email) && Objects.equals(adult, users.adult) && Objects.equals(individualPriceName, users.individualPriceName) && Objects.equals(individualPriceValue, users.individualPriceValue) && Objects.equals(individualPriceCycle, users.individualPriceCycle) && Objects.equals(individualPriceDesc, users.individualPriceDesc) && Objects.equals(currentPaymentDate, users.currentPaymentDate) && Objects.equals(nextPaymentDate, users.nextPaymentDate) && Objects.equals(dateOfRecording, users.dateOfRecording) && Objects.equals(teams, users.teams) && Objects.equals(prices, users.prices);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idUser, appCompany, name, surname, phone, email, adult, individualPriceName, individualPriceValue, individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate, dateOfRecording, teams, prices);
     }
 }
 

@@ -108,9 +108,9 @@ function dataChange()
 
 function changePanel(element){
 
-    var check = element.innerText === "Przełącz na listę obecności z konkretnych miesięcy";
-    var days="Przełącz na listę obecności z konkretnych dni";
-    var months="Przełącz na listę obecności z konkretnych miesięcy";
+    var check = element.innerText === "Lista z konkretnych miesięcy";
+    var days="Lista z konkretnych dni";
+    var months="Lista z konkretnych miesięcy";
 
     if(check)
     {

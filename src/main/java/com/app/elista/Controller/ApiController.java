@@ -23,7 +23,8 @@ import java.util.*;
 @RequestMapping("app/")
 public class ApiController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiController.class);
-    private static final String redirectedOptionGroupList= "redirect:/app/optionGroupList";
+    private static final String redirectedOptionGroupList = "redirect:/app/optionGroupList";
+    private static final String redirectedAttendanceList= "redirect:/app/attendanceList";
 
     @Autowired
     private final PricesService pricesService;
@@ -83,8 +84,9 @@ public class ApiController {
         return "optionGroupList";
     }
 
+    @ResponseBody
     @PostMapping("postUser")
-    public String postUser(
+    public void postUser(
             String groupId,
             String priceId,
             String userName,
@@ -98,7 +100,7 @@ public class ApiController {
         Teams team = teamsService.findTeamById(groupId);
 
         Boolean adult;
-        if (userOfAge == "on") {
+        if (userOfAge == "true") {
             adult = true;
         } else {
             adult = false;
@@ -118,34 +120,42 @@ public class ApiController {
                 price);
 
         usersService.saveUser(user);
-
         team.setFreeSpace((short) (team.getFreeSpace() + (short) 1));
         teamsService.saveTeam(team);
 
-        return redirectedOptionGroupList;
+//        return redirectedAttendanceList;
     }
 
-    @GetMapping("getUsers")
+
+    @ResponseBody
+    @GetMapping("/getUsers")
     public List<Users> getUsers(String groupId, @AuthenticationPrincipal AppCompany appCompany) {
-        List<Users> users = new ArrayList<>();
-        if (groupId != null && !(groupId.isEmpty())) {
-            users =  usersService.findAllUsersByGroupId(groupId);
-        } else {
-            users =  usersService.findAllUsersByAppCompanyId(String.valueOf(appCompany.getIdCompany()));
-        }
 
-        return users;
+        if (groupId.equals("all")) {
+            return usersService.findAllUsersByAppCompanyId(String.valueOf(appCompany.getIdCompany()));
+        }
+        else if(groupId.equals("none")){
+            // TODO: 06.12.2021 FIND USER WITHOUT GROUP
+            return Collections.emptyList();
+        }
+        else {
+            if (!groupId.isEmpty()) {
+                return usersService.findAllUsersByGroupId(groupId);
+            } else {
+                return usersService.findAllUsersWithoutGroups(String.valueOf(appCompany.getIdCompany()));
+            }
+        }
     }
 
-    @PostMapping("deleteUser")
-    public String deleteUser(String userId, String groupId) {
+    @ResponseBody
+    @PostMapping("/deleteUser")
+    public void deleteUser(String userId, String groupId) {
 
         usersService.deleteUser(userId);
         Teams team = teamsService.findTeamById(groupId);
         team.setFreeSpace((short) (team.getFreeSpace() - (short) 1));
         teamsService.saveTeam(team);
 
-        return "redirect:/app/attendanceList";
     }
 
     @ResponseBody
@@ -210,7 +220,7 @@ public class ApiController {
             LOGGER.info("Usunięto grupę");
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
-            LOGGER.error(" Nie zaznaczono zadnej opcji!" );
+            LOGGER.error(" Nie zaznaczono zadnej opcji!");
         }
         return new ModelAndView(redirectedOptionGroupList);
     }

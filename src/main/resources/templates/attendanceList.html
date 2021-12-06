@@ -23,16 +23,6 @@
               </h4>
             </span>
                 <hr/>
-
-                <span class="my-4 text-center">
-              <button
-                      id="open-close"
-                      href="#"
-                      class="edit"
-                      onclick="changePanel(this)">
-                Przełącz na listę obecności z konkretnych miesięcy
-              </button>
-            </span>
                 <br/>
                 <div id="month-form" style="display: none">
                     <form lang="pl" class="form-inline my-0 my-lg-0">
@@ -106,11 +96,11 @@
                             </select>
                         </div>
                         <script type="text/javascript">
-                            window.onload = dataChange();
+                            // window.onload = dataChange();
                         </script>
 
                         <div class="form-group"></div>
-                        &nbsp; &nbsp;
+
                         <button
                                 class="btn btn-outline-success my-2 my-sm-0 form-control"
                                 type="submit"
@@ -121,9 +111,9 @@
                     </form>
                 </div>
 
-                <div id="day-form">
-                    <form lang="pl" class="form-inline my-0 my-lg-0">
-                        <label for="group" style="font-weight: bold"></label>
+                <div id="day-form" class="form-inline my-0 my-lg-0">
+<!--                    <form lang="pl" class="form-inline my-0 my-lg-0">-->
+                        <label for="group"  style="font-weight: bold"></label>
                         <input
                                 class="form-control my-1 mr-sm-2"
                                 type="search"
@@ -137,16 +127,13 @@
                                 aria-label="Search"
                         />
                         <div class="md-form mb-0 m-1 form-group form-field">
-                            <select
-                                    name="group"
-                                    id="group"
-                                    class="form-control select-input mr-sm-2"
-                            >
-                                <option value="">Wybierz grupe</option>
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="mercedes">Mercedes</option>
-                                <option value="audi">Audi</option>
+                            <select id="selected-item-list" onchange="getUsers(this)" class="form-control select-input mr-sm-2" name="groupId">
+                                <option selected name="groupId" value="all">Wszystkie grupy</option>
+                                <option name="groupId" value="none">Brak grupy</option>
+                                <option th:each="team : ${teams}"
+                                        th:value="${team.idTeam}"
+                                        th:text="${team.teamName}"
+                                ></option>
                             </select>
                         </div>
 
@@ -158,7 +145,7 @@
                                 data-date-format="DD MMMM YYYY"
                         />
                         <script type="text/javascript">
-                            window.onload = dataChange();
+                            // window.onload = dataChange();
                         </script>
 
                         <div class="form-group"></div>
@@ -170,17 +157,17 @@
                             Wyszukaj
                         </button>
 
-                    </form>
+<!--                    </form>-->
                 </div>
                 <script src="main.js"></script>
             </div>
         </div>
-        <p
-                class="text-right">
-            <a href="#"> <i class='bx bxs-trash-alt delete'><span> Usuń</span></i></a>&nbsp;
+        <p class="text-right">
             <!-- <a href="#"> <i class='bx bxs-edit-alt edit' ><span class="">Edytuj</span></i></a>&nbsp;&nbsp;    -->
-            <a href="#"> <i class='bx bxs-edit-alt success'><span class=""> Export</span></i></a>&nbsp;
-            <a href="#"> <i class='bx bxs-bar-chart-alt-2 success'><span class=""> Dane</span></i></a>
+            <a href="#"> <i class='bx bxs-edit-alt success'><span class=""> Export danych</span></i></a>&nbsp;
+            <a href="#"> <i class='bx bxs-bar-chart-alt-2 success'><span class=""> Podsumowanie miesiąca</span></i></a>
+            <a id="open-close" href="#" onclick="changePanel(this)"><span
+                    class="">Lista z konkretnych miesięcy</span></a>
         </p>
     </div>
 </div>
@@ -190,232 +177,121 @@
         <thead>
         <tr>
             <th class="colth" style="" scope="col"></th>
-            <th class="colth" scope="col">Numer</th>
+            <th class="colth" scope="col">Imię</th>
             <th class="colth" scope="col">Nazwisko</th>
-            <th class="colth" scope="col">Imie</th>
+            <th class="colth" scope="col">Grupa</th>
             <th class="colth" scope="col">Rozliczenie</th>
-            <th class="colth" scope="col">Numer telefonu</th>
+            <th class="colth" scope="col">Email</th>
+            <th class="colth" scope="col">Telefon</th>
             <th class="colth" scope="col">Data zapisu</th>
-            <th class="colth" scope="col">Info.</th>
+            <th class="colth" scope="col">Opcje</th>
             <!-- <th scope="col"> Info.</th> -->
         </tr>
         </thead>
         <tbody id="tbody-element">
 
+        </tbody>
+    </table>
+</section>
 
-        <!-- The Modal -->
+<div id="myModal" class="modal">
 
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="inside-modal ">
+            <div class="text">
+                <div class="hello">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2 my-2" type="search" placeholder="Imie"
+                               aria-label="Search">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Nazwisko"
+                               aria-label="Search">
+                        <input class="form-control mr-sm-2 my-2" type="search" placeholder="Wiek"
+                               aria-label="Search">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Numer indywidualny"
+                               aria-label="Search">
 
-        <div id="myModal" class="modal">
+                        <input class="form-control mr-sm-2 my-2" type="email" name="email" placeholder="E-mail">
+                        <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"
+                               placeholder="Numer telefonu">
+                        <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"
+                               placeholder="Rozliczenie na ten cykl">
 
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <div id="inside-modal ">
-                    <div class="text">
-                        <div class="hello">
-                            <form class="form-inline my-2 my-lg-0">
-                                <input class="form-control mr-sm-2 my-2" type="search" placeholder="Imie"
-                                       aria-label="Search">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Nazwisko"
-                                       aria-label="Search">
-                                <input class="form-control mr-sm-2 my-2" type="search" placeholder="Wiek"
-                                       aria-label="Search">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Numer indywidualny"
-                                       aria-label="Search">
-
-                                <input class="form-control mr-sm-2 my-2" type="email" name="email" placeholder="E-mail">
-                                <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"
-                                       placeholder="Numer telefonu">
-                                <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"
-                                       placeholder="Rozliczenie na ten cykl">
-
-                                <select class="form-control mr-sm-2 my-2" name="offer"
-                                        aria-label="Default select example">
-                                    <option name="FIFTY" value="FIFTY" selected>Grupa 1</option>
-                                    <option name="HUNDRED" value="HUNDRED" selected>Grupa 2</option>
-                                    <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>Grupa 2</option>
-                                    <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>Grupa 2</option>
-                                </select>
-                                <div class="container" style="font-size: 0.8em; text-align:left!important">
-                                    <input type="checkbox" id="scales" name="scales" class="option"/> Cena indywdualna
-
-                                </div>
-                                <select class="form-control mr-sm-2 my-2" name="offer"
-                                        aria-label="Default select example">
-                                    <option name="FIFTY" value="FIFTY" selected>Karnet rodzina 2-os.</option>
-                                    <option name="HUNDRED" value="HUNDRED" selected>Karnet rodzina 2-os.</option>
-                                    <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>Karnet rodzina 2-os.
-                                    </option>
-                                    <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>Karnet rodzina 2-os.
-                                    </option>
-                                </select>
-                                <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"
-                                       placeholder="Cena">
-                                <div style="font-size: 0.8em; text-align:left!important"> Cykl rozliczeniowy</div>
-                                <select class="form-control mr-sm-2 my-2 " name="offer"
-                                        aria-label="Default select example">
-                                    <option name="FIFTY" value="FIFTY" selected>Co zajęcia.</option>
-                                    <option name="HUNDRED" value="HUNDRED" selected>1 tyg.</option>
-                                    <option name="FIFTY" value="FIFTY" selected>2 tyg.</option>
-                                    <option name="HUNDRED" value="HUNDRED" selected>1 msc.</option>
-                                    <option name="HUNDRED" value="HUNDRED" selected>2 msc.</option>
-                                    <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>3 msc.</option>
-                                    <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>6 msc.</option>
-                                    <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>12 msc.</option>
-                                </select>
-
-                                <div style="font-size: 0.8em; text-align:left!important">
-                                    Data zapisu<br> <input type="date" lang="fr-CA" class="my-2" data-date=""
-                                                           id="date-picker" data-date-format="DD MMMM YYYY"><br>
-                                    Data pierwszej wpłaty <br><input type="date" class="my-2" lang="fr-CA" data-date=""
-                                                                     id="date-picker"
-                                                                     data-date-format="DD MMMM YYYY"><br>
-                                    Data kolejnej wpłaty <br><input type="date" class="my-2" lang="fr-CA" data-date=""
-                                                                    id="date-picker"
-                                                                    data-date-format="DD MMMM YYYY"><br>
-                                </div>
-                                <script type="text/javascript">
-
-                                    window.onload = dataChange();
-                                </script>
-                                <br>
-                                <a href="#"> <i class='bx bxs-edit-alt success'><span> Zapisz</span></i></a>
-                            </form>
+                        <select class="form-control mr-sm-2 my-2" name="offer"
+                                aria-label="Default select example">
+                            <option name="FIFTY" value="FIFTY" selected>Grupa 1</option>
+                            <option name="HUNDRED" value="HUNDRED" selected>Grupa 2</option>
+                            <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>Grupa 2</option>
+                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>Grupa 2</option>
+                        </select>
+                        <div class="container" style="font-size: 0.8em; text-align:left!important">
+                            <input type="checkbox" id="scales" name="scales" class="option"/> Cena indywdualna
 
                         </div>
-                    </div>
+                        <select class="form-control mr-sm-2 my-2" name="offer"
+                                aria-label="Default select example">
+                            <option name="FIFTY" value="FIFTY" selected>Karnet rodzina 2-os.</option>
+                            <option name="HUNDRED" value="HUNDRED" selected>Karnet rodzina 2-os.</option>
+                            <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>Karnet rodzina 2-os.
+                            </option>
+                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>Karnet rodzina 2-os.
+                            </option>
+                        </select>
+                        <input class="form-control mr-sm-2 my-2" type="tel" id="phone" name="phone"
+                               placeholder="Cena">
+                        <div style="font-size: 0.8em; text-align:left!important"> Cykl rozliczeniowy</div>
+                        <select class="form-control mr-sm-2 my-2 " name="offer"
+                                aria-label="Default select example">
+                            <option name="FIFTY" value="FIFTY" selected>Co zajęcia.</option>
+                            <option name="HUNDRED" value="HUNDRED" selected>1 tyg.</option>
+                            <option name="FIFTY" value="FIFTY" selected>2 tyg.</option>
+                            <option name="HUNDRED" value="HUNDRED" selected>1 msc.</option>
+                            <option name="HUNDRED" value="HUNDRED" selected>2 msc.</option>
+                            <option name="TWO_HUNDRED" value="TWO_HUNDRED" selected>3 msc.</option>
+                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>6 msc.</option>
+                            <option name="FIVE_HUNDRED" value="FIVE_HUNDRED" selected>12 msc.</option>
+                        </select>
+
+                        <div style="font-size: 0.8em; text-align:left!important">
+                            Data zapisu<br> <input type="date" lang="fr-CA" class="my-2" data-date=""
+                                                   id="date-picker" data-date-format="DD MMMM YYYY"><br>
+                            Data pierwszej wpłaty <br><input type="date" class="my-2" lang="fr-CA" data-date=""
+                                                             id="date-picker"
+                                                             data-date-format="DD MMMM YYYY"><br>
+                            Data kolejnej wpłaty <br><input type="date" class="my-2" lang="fr-CA" data-date=""
+                                                            id="date-picker"
+                                                            data-date-format="DD MMMM YYYY"><br>
+                        </div>
+                        <script type="text/javascript">
+
+                            window.onload = dataChange();
+                        </script>
+                        <br>
+                        <a href="#"> <i class='bx bxs-edit-alt success'><span> Zapisz</span></i></a>
+                    </form>
+
                 </div>
             </div>
         </div>
-
-
-        <tr>
-
-            <td data-label="Obecność" scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option"/>
-            </td>
-            <td data-label="Imie">1</td>
-            <td data-label="Nazwisko">1</td>
-            <td data-label="Name">Dinesh</td>
-
-            <td scope="row">
-                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
-            </td>
-
-            <td data-label="Name">Dinesh</td>
-            <td data-label="Grupa">1A</td>
-            <!-- <td data-label="Marks%">gvhgvjhgvh%</td> -->
-
-            <td data-label="info."><a href="#" class="" id="myBtn"> <i class='bx  bxs-edit-alt info'> </i></a></td>
-        </tr>
-        <tr style="
-              ">
-            <td scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option"/>
-            </td>
-            <td data-label="Imie">1</td>
-            <td data-label="Name">Kamal</td>
-            <td data-label="Age">23</td>
-
-            <td scope="row">
-                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
-            </td>
-            <td data-label="Name">Dinesh</td>
-            <td data-label="Grupa">1A</td>
-            <!-- <td data-label="Staus">Passed</td> -->
-            <td data-label="info."><a href="#" class=""> <i class='bx bxs-info-circle info'> </i></a></td>
-        </tr>
-        <tr>
-            <td scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option"/>
-            </td>
-            <td data-label="Imie">1</td>
-            <td data-label="Name">Neha</td>
-            <td data-label="Age">20</td>
-
-            <td scope="row">
-
-                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
-
-            </td>
-            <td data-label="Name">Dinesh</td>
-            <td data-label="Grupa">1A</td>
-            <td data-label="info."><a href="#" class=""> <i class='bx bxs-info-circle info'> </i></a></td>
-        </tr>
-        <tr>
-            <td scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option"/>
-            </td>
-            <td data-label="Imie">1</td>
-            <td data-label="Name">Priya</td>
-            <td data-label="Age">30</td>
-
-            <td scope="row">
-
-                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
-
-            </td>
-
-            <td data-label="Name">Dinesh</td>
-            <td data-label="Grupa">1A</td>
-            <td data-label="info."><a href="#" class=""> <i class='bx bxs-info-circle info'> </i></a></td>
-        </tr>
-        <tr>
-            <td scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option"/>
-            </td>
-            <td data-label="Imie">1</td>
-            <td data-label="Name">Priya</td>
-            <td data-label="Age">30</td>
-
-            <td scope="row">
-                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
-            </td>
-
-            <td data-label="Name">Dinesh</td>
-            <td data-label="Grupa">1A</td>
-            <td data-label="info."><a href="#" class=""> <i class='bx bxs-info-circle info'> </i></a></td>
-        </tr>
-        <tr>
-            <td scope="row">
-                <input type="checkbox" id="scales" name="scales" class="option"/>
-            </td>
-            <td data-label="Imie">1</td>
-            <td data-label="Name">Priya</td>
-            <td data-label="Age">30</td>
-
-            <td scope="row">
-                <Button class="price" onclick="changePriceStatus(this)">-140zł</Button>
-            </td>
-            <td data-label="Name">Dinesh</td>
-            <td data-label="Grupa">1A</td>
-            <td data-label="info."><a href="#" class=""> <i class='bx bxs-info-circle info'> </i></a></td>
-        </tr>
-
-        </tbody>
-    </table>
-
-</section>
+    </div>
+</div>
 
 <section id="user-add">
     <div class="container text-center">
         <div class="row" style="">
             <div class="col-lg-6 right-panel">
-                <form class="login-form" th:action="@{/app/postUser}" method="POST">
-                    <select onchange="moreInformation(this)" class="form-control select-input mr-sm-2" name="groupId">
-                        <option selected name="groupId" value="">Brak grupy</option>
+<!--                <form class="login-form" th:action="@{/app/postUser}" method="POST">-->
+                    <select id="select-teams" onchange="moreInformation(this)" class="form-control select-input mr-sm-2" name="groupId">
+                        <option selected name="groupId" value="">Wybierz grupe</option>
                         <option th:each="team : ${teams}"
                                 th:value="${team.idTeam}"
                                 th:text="${team.teamName}"
                         ></option>
                     </select>
-
                     <div class="my-2" id="prices-div">
                     </div>
-
                     </hr>
-
                     <input
                             hidden
                             class="form-control "
@@ -452,21 +328,19 @@
                             placeholder="Email "
                     />
 
-                    <input style="width: 20px !important;" type="checkbox" name="userOfAge"/>
+                    <input id="user-of-age" style="width: 20px !important;" type="checkbox" name="userOfAge"/>
                     <b style="font-size: 0.7em"> Jestem pełnoletni/nia </b>
                     <div style="display:none;float: left;" class="my-2" id="prices-ul">
                     </div>
                     <div id="term">
                         <div id="part-term" style="display: flex"></div>
                     </div>
-
                     <hr/>
-                    <button id="button-save-user" class="btn btn-outline-success w-100" onclick="removeId('group-id')"
+                    <button id="button-save-user" class="btn btn-outline-success w-100" onclick="addUser(); removeId('group-id')"
                             type="submit">
                         Zapisz
                     </button>
-
-                </form>
+<!--                </form>-->
             </div>
             <div class="col-lg-6 right-panel">
                 <ul style="font-size: 0.7em"
@@ -516,6 +390,7 @@
         </div>
     </div>
 </section>
+<input id="temporary-value" hidden type="text" value="all"/>
 
 <script>
     function changePriceStatus(element) {
@@ -524,9 +399,7 @@
             element.innerText = "-140zł";
         } else {
             element.innerText = "0";
-
         }
-
     }
 
     function showOrHidePrices(option) {
@@ -536,9 +409,143 @@
         }
     }
 
+    function addUser() {
+        var xhr = new XMLHttpRequest();
+
+        let userId = document.getElementById("user-id");
+
+
+        var selectGroup = document.getElementById("select-teams");
+        var selectedOptionGroupId = selectGroup.value;
+
+
+        let userName = document.getElementById("user-name").value;
+        let userSurname = document.getElementById("user-surname").value;
+        let userPhone = document.getElementById("user-phone").value;
+        let userEmail = document.getElementById("user-email").value;
+        let userOfAge = document.getElementById('user-of-age').checked;
+
+
+        var prices = document.getElementsByName('priceId');
+        var prices_id;
+        for(var i = 0; i < prices.length; i++){
+            if(prices[i].checked){
+                prices_id = prices[i].value;
+            }
+        }
+
+
+
+        xhr.open('POST', "/app/postUser?groupId=" + selectedOptionGroupId +
+            "&priceId="+prices_id+
+            "&userName="+userName+
+            "&userSurname="+userSurname+
+            "&userPhone="+userPhone+
+            "&userEmail="+userEmail+
+            "&userOfAge="+userOfAge, true);
+
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            var users;
+            if (this.readyState === 4 && this.status === 200) {
+                // users = JSON.parse(xhr.responseText);
+                // console.log(users);
+                moreInformation("noOption");
+                clearingInputsAddUser();
+                // getUsers(selectedOptionGroupId);
+            }
+        }
+    }
+
+
+function clearingInputsAddUser(){
+     document.getElementById("user-name").value="";
+      document.getElementById("user-surname").value="";
+     document.getElementById("user-phone").value="";
+     document.getElementById("user-email").value="";
+     document.getElementById('user-of-age').checked="";
+
+        document.getElementById("select-teams").selectedIndex=0;
+
+
+}
+
+    function getUsers(event) {
+        var xhr = new XMLHttpRequest();
+        var groupId = "";
+
+
+            groupId = event.value;
+        if (groupId===undefined) {
+                groupId = event;
+        }
+
+        xhr.open('GET', "/app/getUsers?groupId=" + groupId, true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            var users;
+            if (this.readyState === 4 && this.status === 200) {
+                users = JSON.parse(xhr.responseText);
+                // console.log(users);
+                generateTable(users);
+            }
+        }
+    }
+
+    function generateTable(user) {
+        var result = "";
+
+        for (let i = 0; i < user.length; i++) {
+
+            result = result
+                +
+                '<tr style=""> ' +
+                '<td scope="row">' +
+                '<input style="width: 20px !important;" type="checkbox"  th:name="userId"  th:value="' + user[i]['idUser'] + '"   class="option"/>' +
+                '</td>' +
+                '<td id="table-user-name">' + user[i]['name'] + '</td>' +
+                '<td id="table-user-surname">' + user[i]['surname'] + '</td>' +
+                '<td id="table-user-groupName">' + user[i]['teams']['teamName'] + '</td>' +
+                '<td id="table-user-settlement">' +
+                '<Button class="price" onclick="changePriceStatus(this)">-' + user[i]['prices']['value'] + '</Button>' +
+                '</td>' +
+                '<td id="table-user-email">' + user[i]['email'] + '</td>' +
+                '<td id="table-user-phone">' + user[i]['phone'] + '</td>' +
+                '<td id="table-user-dataOfRecording">' + user[i]['dateOfRecording'] + '</td>' +
+                '<td data-label="info.">' +
+                '<a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark">Edytuj</a>&nbsp;' +
+                '<a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark" ' +
+                'onclick="deleteUser(' + user[i]['teams']['idTeam']+',' + user[i]['idUser']+');  " >Usuń</a>' +
+                '</td>' +
+                '</tr>';
+
+        }
+
+        document.getElementById("tbody-element").innerHTML = result;
+    }
+
+
+    function deleteUser(idTeam, idUser){
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', "/app/deleteUser?groupId=" + idTeam +"&userId="+idUser, true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                var selectGroup = document.getElementById("selected-item-list");
+                var selectedOptionGroupId = selectGroup.value;
+                getUsers(selectedOptionGroupId);
+            }
+        }
+    }
+
     function moreInformation(event) {
 
-        if (event.value === "") {
+        if (event.value === "" || event==="noOption") {
             let elementsGroup = document.getElementsByClassName("group-info");
             for (var i = 0; i < elementsGroup.length; i++) {
                 elementsGroup[i].style.display = "none";
@@ -576,8 +583,7 @@
                 "</div>";
         }
 
-        document.getElementById("prices-div").innerHTML =
-            result;
+        document.getElementById("prices-div").innerHTML = result;
         showOrHidePrices("block");
     }
 
@@ -690,21 +696,26 @@
     var span = document.getElementsByClassName("close")[0];
 
     // When the user clicks on the button, open the modal
-    btn.onclick = function () {
-        modal.style.display = "block";
-        var issueTable = document.getElementById('myModal');
-    }
+    // btn.onclick = function () {
+    //     modal.style.display = "block";
+    //     var issueTable = document.getElementById('myModal');
+    // }
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
         modal.style.display = "none";
     }
 
+    window.onload = function () {
+        let all = document.getElementById('temporary-value');
+        getUsers(all);
+    };
+
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+    // window.onclick = function (event) {
+    //     if (event.target == modal) {
+    //         modal.style.display = "none";
+    //     }
+    // }
 </script>
 </body>
 </html>

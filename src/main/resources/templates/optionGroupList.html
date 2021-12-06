@@ -87,11 +87,11 @@
                     <!-- The Modal -->
                     <tr th:each="allInfos : ${allInfos}">
                         <form th:action="@{/app/deleteGroup}" th:method="POST">
-                            <td  scope="row">
-                                <input style="max-width: 10px"  type="checkbox"  th:name="groupId"
+                            <td scope="row">
+                                <input style="max-width: 10px" type="checkbox" th:name="groupId"
                                        th:value="${allInfos.teams.idTeam}"/>
                             </td>
-                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.teamName}"></span></td>
+                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.teamName}"></span></td>
                             <td>
                                 <div th:each="terms : ${allInfos.terms}">
 
@@ -99,20 +99,21 @@
 
                                 </div>
                             </td>
-                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.place}"></span></td>
-                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.leaderName}"></span></td>
-                        <td>
-                            <span style="font-size: 0.8em" th:text="${allInfos.teams.freeSpace}"></span>
-                            <span style="font-size: 0.8em" th:text="'/'+ ${allInfos.teams.groupSize }"></span>
-                        </td>
-                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.description}"></span></td>
+                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.place}"></span></td>
+                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.leaderName}"></span></td>
+                            <td>
+                                <span style="font-size: 0.8em" th:text="${allInfos.teams.freeSpace}"></span>
+                                <span style="font-size: 0.8em" th:text="'/'+ ${allInfos.teams.groupSize }"></span>
+                            </td>
+                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.description}"></span></td>
                             <td><span style="font-size: 0.8em" th:text="${allInfos.teams.startDate}"></span></td>
                             <td><span style="font-size: 0.8em" th:text="${allInfos.teams.endDate}"></span></td>
-                        <td><span style="font-size: 0.8em" th:text="${allInfos.teams.color}"></span></td>
+                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.color}"></span></td>
 
-                        <td style="max-width: 150px!important" >
-                            <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark" onclick="update(this,'group'); changePanel('group-add');">Edytuj
-                                <span hidden th:text="${
+                            <td style="max-width: 150px!important">
+                                <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px"
+                                   class="text-light bg-dark" onclick="update(this,'group'); changePanel('group-add');">Edytuj
+                                    <span hidden th:text="${
                                 'start:'+allInfos.teams.idTeam} +
                                 ',' + ${allInfos.teams.teamName}+
                                 ','+ ${allInfos.teams.place}+
@@ -124,9 +125,10 @@
                                 ','+${allInfos.teams.endDate}+
                                  ','+${allInfos.teams.firstFree}+
                                 ':stop'"></span>
-                            </a>
-                            <input style="max-width: 60px!important; cursor: pointer; padding: 4px; border-radius: 4px" type="submit" class="text-light bg-dark" value="Usuń">
-                        </td>
+                                </a>
+                                <input style="max-width: 60px!important; cursor: pointer; padding: 4px; border-radius: 4px"
+                                       type="submit" class="text-light bg-dark" value="Usuń">
+                            </td>
                         </form>
                     </tr>
                     </tbody>
@@ -265,10 +267,11 @@
                     <b style="font-size: 0.7em">Pierwszy wejście za darmo</b>
                     <hr/>
 
-                    <button id="button-edit-group" class="btn btn-outline-info w-100"  type="submit">
+                    <button id="button-edit-group" class="btn btn-outline-info w-100" type="submit">
                         Edytuj
                     </button>
-                    <button id="button-save-group" class="btn btn-outline-success w-100" onclick="removeId('group-id')" type="submit">
+                    <button id="button-save-group" class="btn btn-outline-success w-100" onclick="removeId('group-id')"
+                            type="submit">
                         Zapisz
                     </button>
 
@@ -314,11 +317,11 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th style="font-size: 0.9em" class="colth"  scope="col"></th>
+                        <th style="font-size: 0.9em" class="colth" scope="col"></th>
                         <th style="font-size: 0.9em" class="colth" scope="col">Cena</th>
                         <th style="font-size: 0.9em" class="colth" scope="col">Nazwa</th>
                         <th style="font-size: 0.9em" class="colth" scope="col">Okres wplat</th>
-                        <th style="font-size: 0.9em"  class="colth" scope="col">Informacje</th>
+                        <th style="font-size: 0.9em" class="colth" scope="col">Informacje</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
@@ -326,18 +329,21 @@
                     <tr th:each="prices : ${prices}">
                         <form th:action="@{/app/deletePrice}" th:method="POST">
                             <td scope="row">
-                                <input style="max-width: 20px" type="checkbox" id="scales"  th:name="priceId"
+                                <input style="max-width: 20px" type="checkbox" id="scales" th:name="priceId"
                                        th:value="${prices.idPrice}"/>
                             </td>
                             <td><span style="font-size: 0.9em" th:text="${prices.name}"></span></td>
                             <td><span style="font-size: 0.9em" th:text="${prices.value}"></span></td>
                             <td><span style="font-size: 0.9em" th:text="${prices.cycle}"></span></td>
                             <td><span style="font-size: 0.9em" th:text="${prices.description}"></span></td>
-                            <td style="max-width: 130px!important" >
-                                <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark" onclick="update(this,'price');">Edytuj
-                               <span hidden th:text="${'start:'+prices.idPrice} + ',' + ${prices.name}+ ','+ ${prices.value}+ ','+${prices.cycle} +','+${prices.description}+':stop'"></span>
+                            <td style="max-width: 130px!important">
+                                <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px"
+                                   class="text-light bg-dark" onclick="update(this,'price');">Edytuj
+                                    <span hidden
+                                          th:text="${'start:'+prices.idPrice} + ',' + ${prices.name}+ ','+ ${prices.value}+ ','+${prices.cycle} +','+${prices.description}+':stop'"></span>
                                 </a>
-                                <input style="max-width: 60px!important" type="submit" class="text-light bg-dark" value="usuń">
+                                <input style="max-width: 60px!important" type="submit" class="text-light bg-dark"
+                                       value="usuń">
                             </td>
                         </form>
                     </tr>
@@ -403,28 +409,24 @@
 </section>
 <script type="text/javascript">
 
-    function update(element,table){
+    function update(element, table) {
         console.log(element.outerHTML);
-        var start =  element.outerHTML.indexOf("start:")+6;
-        var stop =  element.outerHTML.indexOf(":stop");
+        var start = element.outerHTML.indexOf("start:") + 6;
+        var stop = element.outerHTML.indexOf(":stop");
         let result = element.outerHTML.substring(start, stop);
         let splitResult = result.split(',');
-        if (table==="price")
-        {
-           editPrice(splitResult);
+        if (table === "price") {
+            editPrice(splitResult);
         }
-        if (table==="group")
-        {
-            console.log(splitResult);
+        if (table === "group") {
             editGroup(splitResult);
         }
-        if (table==="price")
-        {
+        if (table === "price") {
         }
 
     }
 
-    function removeId(elementToRemove){
+    function removeId(elementToRemove) {
         document.getElementById(elementToRemove).value = "";
     }
 
@@ -436,14 +438,14 @@
         document.getElementById("description-for-new-price").value = splitResult[4];
     }
 
-    function editGroup(splitResult){
+    function editGroup(splitResult) {
 
         document.getElementById("group-id").value = splitResult[0];
         document.getElementById("group-name").value = splitResult[1];
         document.getElementById("group-location").value = splitResult[2];
         document.getElementById("group-leader-name").value = splitResult[3];
         document.getElementById("group-size").value = splitResult[4];
-        document.getElementById("group-description").value=splitResult[5];
+        document.getElementById("group-description").value = splitResult[5];
         document.getElementById("group-color").value = splitResult[6];
         document.getElementById("group-data-of-start").value = splitResult[7];
         document.getElementById("group-data-of-end").value = splitResult[8];
@@ -478,12 +480,10 @@
     window.onload = dataChange();
 
     function showOrHide(element, nameId) {
-
         if (document.getElementById(element).checked) {
             document.getElementById(nameId).style.display = "block";
             return;
         }
-
         document.getElementById(nameId).style.display = "none";
     }
 

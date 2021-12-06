@@ -27,7 +27,7 @@ public class Prices {
     )
     private Long idPrice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_company", nullable=false)
     private AppCompany appCompany;
 
