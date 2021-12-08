@@ -19,21 +19,21 @@
             <div class="container-fluid">
                 <div class="col-lg-6">
                     <button
-                            class="btn btn-primary "
+                            class="navigation-card-button"
                             onclick="changePanel('group-table')"
                             type="submit"
                     >
                         Lista grup
                     </button>
                     <button
-                            class="btn btn-primary "
+                            class="navigation-card-button"
                             onclick="changePanel('price-add')"
                             type="submit"
                     >
                         Lista cen
                     </button>
                     <button
-                            class="btn btn-primary "
+                            class="navigation-card-button"
                             onclick="changePanel('group-add')"
                             type="submit"
                     >
@@ -112,7 +112,7 @@
 
                             <td style="max-width: 150px!important">
                                 <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px"
-                                   class="text-light bg-dark" onclick="update(this,'group'); changePanel('group-add');">Edytuj
+                                   class="text-light bg-dark" onclick="getPricesId(this); update(this,'group'); changePanel('group-add');">Edytuj
                                     <span hidden th:text="${
                                 'start:'+allInfos.teams.idTeam} +
                                 ',' + ${allInfos.teams.teamName}+
@@ -125,6 +125,11 @@
                                 ','+${allInfos.teams.endDate}+
                                  ','+${allInfos.teams.firstFree}+
                                 ':stop'"></span>
+
+                                    <span hidden th:text="${
+                                 'startTerms:'+allInfos.terms} +
+                                ':stopTerms'"></span>
+
                                 </a>
                                 <input style="max-width: 60px!important; cursor: pointer; padding: 4px; border-radius: 4px"
                                        type="submit" class="text-light bg-dark" value="Usuń">
@@ -410,19 +415,49 @@
 <script type="text/javascript">
 
     function update(element, table) {
-        console.log(element.outerHTML);
-        var start = element.outerHTML.indexOf("start:") + 6;
-        var stop = element.outerHTML.indexOf(":stop");
-        let result = element.outerHTML.substring(start, stop);
-        let splitResult = result.split(',');
+        // console.log(element.outerHTML);
+        let splitResult = splitElement(element);
         if (table === "price") {
             editPrice(splitResult);
         }
         if (table === "group") {
-            editGroup(splitResult);
+            var startTerms = element.outerHTML.indexOf("startTerms:") + 11;
+            var stopTerms = element.outerHTML.indexOf(":stopTerms");
+            let result = element.outerHTML.substring(startTerms, stopTerms);
+            let splitTerms = result.split(',');
+            editGroup(splitResult,splitTerms);
         }
         if (table === "price") {
         }
+
+    }
+
+    function splitElement(element){
+        var start = element.outerHTML.indexOf("start:") + 6;
+        var stop = element.outerHTML.indexOf(":stop");
+        let result = element.outerHTML.substring(start, stop);
+        let splitResult = result.split(',');
+        return splitResult;
+    }
+
+    function getPricesId(event) {
+
+        let splitResult = splitElement(event);
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('GET', "/app/getPricesId?groupId=" + splitResult[0], true);
+        xhr.send('');
+        var result = "";
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                result =  JSON.parse(xhr.responseText);
+                console.log(result);
+
+            }else{
+
+            }
+        }
+
 
     }
 
@@ -438,8 +473,8 @@
         document.getElementById("description-for-new-price").value = splitResult[4];
     }
 
-    function editGroup(splitResult) {
-
+    function editGroup(splitResult,splitTerms) {
+        console.log(splitTerms);
         document.getElementById("group-id").value = splitResult[0];
         document.getElementById("group-name").value = splitResult[1];
         document.getElementById("group-location").value = splitResult[2];
@@ -450,6 +485,9 @@
         document.getElementById("group-data-of-start").value = splitResult[7];
         document.getElementById("group-data-of-end").value = splitResult[8];
         document.getElementById("group-first-free").checked = splitResult[9];
+
+
+
     }
 
     function changePanel(element) {

@@ -5,6 +5,7 @@ import com.app.elista.repositories.TeamsPricesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,16 @@ public class TeamsPricesService {
         }
 
         teamsPricesRepository.saveAll(teamsPricesList);
+
+    }
+
+    public List <String> findIdPricesByIdTeam(String groupId){
+
+        String sql = "SELECT p.id_price  FROM prices p, groups_prices gp WHERE  p.id_price = gp.id_price AND gp.id_team= '" +Long.valueOf(groupId)  + "';";
+
+        List<String> query = jdbcTemplate.query(sql, (rs, rowNum) -> (
+                rs.getString(1)));
+        return query;
 
     }
 

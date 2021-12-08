@@ -79,6 +79,15 @@ public class ApiController {
         return mav;
     }
 
+
+    @ResponseBody
+    @GetMapping("getPricesId")
+    public  List<String> findInformationAboutGroupEditable(@AuthenticationPrincipal AppCompany appCompany, String groupId){
+        List<String> idPricesByIdTeam = teamsPricesService.findIdPricesByIdTeam(groupId);
+
+        return idPricesByIdTeam;
+    }
+
     @PostMapping("optionGroupList")
     public String postGroup(String imie) {
         return "optionGroupList";
@@ -266,7 +275,7 @@ public class ApiController {
         }
 
         Teams team;
-
+// TODO: 08.12.2021 Update tabelki GP
         if (groupId != null && !(groupId.isEmpty())) {
             team = teamsService.findTeamById(groupId);
             team.setTeamName(groupName);

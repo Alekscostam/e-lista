@@ -155,14 +155,14 @@
             <div class="col-lg-6">
                 <button
                         class="navigation-card-button"
-                        onclick="changePanel('group-table')"
+                        onclick="changePanel('attendanceList')"
                         type="submit"
                 >
                     Lista użytkowników
                 </button>
                 <button
                         class="navigation-card-button"
-                        onclick="changePanel('price-add')"
+                        onclick="changePanel('user-add')"
                         type="submit"
                 >
                     Dodaj użytkownika
@@ -172,7 +172,7 @@
                         onclick="changePanel('group-add')"
                         type="submit"
                 >
-                    Lista z konkretnych miesięcy
+                   Konkretne miesiące
                 </button>
             </div>
         </div>
@@ -291,7 +291,7 @@
     </div>
 </div>
 
-<section id="user-add">
+<section id="user-add" style="display: none">
     <div class="container text-center">
         <div class="row" style="">
             <div class="col-lg-6 right-panel">
@@ -404,6 +404,9 @@
         </div>
     </div>
 </section>
+
+<section id="specific-months" style="display: none">
+</section>
 <input id="temporary-value" hidden type="text" value="all"/>
 
 <script>
@@ -495,6 +498,7 @@ function clearingInputsAddUser(){
             }
         }
     }
+
 
     function generateTable(user) {
         var result = "";
@@ -714,6 +718,32 @@ function clearingInputsAddUser(){
     //         modal.style.display = "none";
     //     }
     // }
+
+    function changePanel(element) {
+        var attendanceList = document.getElementById("attendanceList");
+        var user_add = document.getElementById("user-add");
+        var specific_months = document.getElementById("specific-months");
+        if (element === "attendanceList") {
+            user_add.style.display = "none";
+            attendanceList.style.display = "block";
+            specific_months.style.display = "none";
+            return;
+        }
+        if (element === "user-add") {
+            user_add.style.display = "block";
+            attendanceList.style.display = "none";
+            specific_months.style.display = "none";
+
+        }
+
+        if (element === "specific_months") {
+            attendanceList.style.display = "none";
+            attendanceList.style.display = "none";
+            specific_months.style.display = "block";
+
+        }
+    }
+
 </script>
 </body>
 </html>
