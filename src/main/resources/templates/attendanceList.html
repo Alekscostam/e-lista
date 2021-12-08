@@ -43,8 +43,7 @@
                             <select
                                     name="group"
                                     id="group"
-                                    class="form-control select-input mr-sm-2"
-                            >
+                                    class="form-control select-input mr-sm-2">
                                 <option value="">Wybierz grupe</option>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
@@ -58,8 +57,7 @@
                             <select
                                     name="group"
                                     id="group"
-                                    class="form-control select-input mr-sm-2"
-                            >
+                                    class="form-control select-input mr-sm-2">
                                 <option value="1">Styczeń</option>
                                 <option value="2">Luty</option>
                                 <option value="3">Marzec</option>
@@ -74,13 +72,11 @@
                                 <option value="12">Grudzień</option>
                             </select>
                         </div>
-
                         <div class="md-form mb-0 m-1 form-group form-field">
                             <select
                                     name="group"
                                     id="group"
-                                    class="form-control select-input mr-sm-2"
-                            >
+                                    class="form-control select-input mr-sm-2">
                                 <option value="1">Styczeń</option>
                                 <option value="2">Luty</option>
                                 <option value="3">Marzec</option>
@@ -98,9 +94,7 @@
                         <script type="text/javascript">
                             // window.onload = dataChange();
                         </script>
-
                         <div class="form-group"></div>
-
                         <button
                                 class="btn btn-outline-success my-2 my-sm-0 form-control"
                                 type="submit"
@@ -136,7 +130,6 @@
                                 ></option>
                             </select>
                         </div>
-
                         <input
                                 type="date"
                                 lang="fr-CA"
@@ -147,32 +140,53 @@
                         <script type="text/javascript">
                             // window.onload = dataChange();
                         </script>
-
                         <div class="form-group"></div>
-                        &nbsp; &nbsp;
                         <button
                                 class="btn btn-outline-success my-2 my-sm-0 form-control"
-                                type="submit"
-                        >
+                                type="submit">
                             Wyszukaj
                         </button>
-
 <!--                    </form>-->
                 </div>
                 <script src="main.js"></script>
             </div>
         </div>
-        <p class="text-right">
-            <!-- <a href="#"> <i class='bx bxs-edit-alt edit' ><span class="">Edytuj</span></i></a>&nbsp;&nbsp;    -->
-            <a href="#"> <i class='bx bxs-edit-alt success'><span class=""> Export danych</span></i></a>&nbsp;
-            <a href="#"> <i class='bx bxs-bar-chart-alt-2 success'><span class=""> Podsumowanie miesiąca</span></i></a>
-            <a id="open-close" href="#" onclick="changePanel(this)"><span
-                    class="">Lista z konkretnych miesięcy</span></a>
-        </p>
+        <div class="container-fluid">
+            <div class="col-lg-6">
+                <button
+                        class="navigation-card-button"
+                        onclick="changePanel('group-table')"
+                        type="submit"
+                >
+                    Lista grup
+                </button>
+                <button
+                        class="navigation-card-button"
+                        onclick="changePanel('price-add')"
+                        type="submit"
+                >
+                    Lista cen
+                </button>
+                <button
+                        class="navigation-card-button"
+                        onclick="changePanel('group-add')"
+                        type="submit"
+                >
+                    Dodawanie grup
+                </button>
+            </div>
+        </div>
+<!--        <p class="text-right">-->
+<!--            &lt;!&ndash; <a href="#"> <i class='bx bxs-edit-alt edit' ><span class="">Edytuj</span></i></a>&nbsp;&nbsp;    &ndash;&gt;-->
+<!--            <a href="#"> <i class='bx bxs-edit-alt success'><span class=""> Export danych</span></i></a>&nbsp;-->
+<!--            <a href="#"> <i class='bx bxs-bar-chart-alt-2 success'><span class=""> Podsumowanie miesiąca</span></i></a>-->
+<!--            <a id="open-close" href="#" onclick="changePanel(this)"><span-->
+<!--                    class="">Lista z konkretnych miesięcy</span></a>-->
+<!--        </p>-->
     </div>
 </div>
-<section class="container-fluid container-custom  text-center scrollit">
 
+<section id="attendanceList" class="container-fluid container-custom  text-center scrollit">
     <table class="table ">
         <thead>
         <tr>
@@ -413,31 +427,24 @@
         var xhr = new XMLHttpRequest();
 
         let userId = document.getElementById("user-id");
-
-
         var selectGroup = document.getElementById("select-teams");
         var selectedOptionGroupId = selectGroup.value;
-
-
         let userName = document.getElementById("user-name").value;
         let userSurname = document.getElementById("user-surname").value;
         let userPhone = document.getElementById("user-phone").value;
         let userEmail = document.getElementById("user-email").value;
         let userOfAge = document.getElementById('user-of-age').checked;
 
-
         var prices = document.getElementsByName('priceId');
-        var prices_id;
+        var pricesId;
         for(var i = 0; i < prices.length; i++){
             if(prices[i].checked){
-                prices_id = prices[i].value;
+                pricesId = prices[i].value;
             }
         }
 
-
-
         xhr.open('POST', "/app/postUser?groupId=" + selectedOptionGroupId +
-            "&priceId="+prices_id+
+            "&priceId="+pricesId+
             "&userName="+userName+
             "&userSurname="+userSurname+
             "&userPhone="+userPhone+
@@ -458,17 +465,13 @@
         }
     }
 
-
 function clearingInputsAddUser(){
      document.getElementById("user-name").value="";
-      document.getElementById("user-surname").value="";
+     document.getElementById("user-surname").value="";
      document.getElementById("user-phone").value="";
      document.getElementById("user-email").value="";
      document.getElementById('user-of-age').checked="";
-
-        document.getElementById("select-teams").selectedIndex=0;
-
-
+     document.getElementById("select-teams").selectedIndex=0;
 }
 
     function getUsers(event) {
@@ -488,7 +491,6 @@ function clearingInputsAddUser(){
             var users;
             if (this.readyState === 4 && this.status === 200) {
                 users = JSON.parse(xhr.responseText);
-                // console.log(users);
                 generateTable(users);
             }
         }
@@ -498,7 +500,6 @@ function clearingInputsAddUser(){
         var result = "";
 
         for (let i = 0; i < user.length; i++) {
-
             result = result
                 +
                 '<tr style=""> ' +
@@ -520,12 +521,9 @@ function clearingInputsAddUser(){
                 'onclick="deleteUser(' + user[i]['teams']['idTeam']+',' + user[i]['idUser']+');  " >Usuń</a>' +
                 '</td>' +
                 '</tr>';
-
         }
-
         document.getElementById("tbody-element").innerHTML = result;
     }
-
 
     function deleteUser(idTeam, idUser){
 
