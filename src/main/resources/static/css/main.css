@@ -721,11 +721,11 @@ button.secondary:focus {
 .navigation-card-button{
     position: relative;
     display: inline-flex;
-    width: 180px;
-    height: 55px;
+    height: 25px;
+    width: 50px;
     margin: 0 15px;
     perspective: 1000px;
-    font-size: 19px;
+    font-size: 0.8em;
     letter-spacing: 1px;
     transform-style: preserve-3d;
     transform: translateZ(-25px);
@@ -736,23 +736,23 @@ button.secondary:focus {
 .navigation-card-button:before,
 .navigation-card-button:after{
     position: absolute;
-    content: "BUTTON";
-    height: 55px;
-    width: 180px;
+    /*content: "BUTTON";*/
+    height: 25px;
+    width: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 5px solid black;
+    border: 2px solid #1e1c35;
     box-sizing: border-box;
     border-radius: 5px;
 }
 .navigation-card-button:before{
     color: #fff;
-    background: #000;
+    background: #1e1c35!important;
     transform: rotateY(0deg) translateZ(25px);
 }
 .navigation-card-button:after{
-    color: #000;
+    color: #1e1c35;
     transform: rotateX(90deg) translateZ(25px);
 }
 .navigation-card-button:hover{
