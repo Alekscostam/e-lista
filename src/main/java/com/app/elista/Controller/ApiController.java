@@ -115,6 +115,7 @@ public class ApiController {
             adult = false;
         }
 
+
         Users user = new Users(
                 appCompany,
                 userName,
@@ -122,11 +123,15 @@ public class ApiController {
                 Integer.valueOf(userPhone),
                 userEmail,
                 adult,
+                price.getIdPrice(),
+                price.getName(),
+                price.getValue(),
+                price.getCycle(),
+                price.getDescription(),
                 "",
                 "",
                 getLocalDateTime(),
-                team,
-                price);
+                team);
 
         usersService.saveUser(user);
         team.setFreeSpace((short) (team.getFreeSpace() + (short) 1));
@@ -184,7 +189,8 @@ public class ApiController {
     }
 
     @PostMapping("postPrice")
-    public ModelAndView addPrice(
+    @ResponseBody
+    public String addPrice(
             String idPriceNumber,
             String priceName,
             Integer priceValue,
@@ -199,12 +205,14 @@ public class ApiController {
             price.setDescription(priceDescription);
             price.setCycle(priceCycle);
             pricesService.savePrice(price);
+            return "Cena została zmodyfikowana!";
         } else {
             Prices price = new Prices(appCompany, priceName, priceValue, priceCycle, priceDescription);
             pricesService.addPrices(price);
+            return "Nowa cena została zapisana!";
         }
 
-        return new ModelAndView(redirectedOptionGroupList);
+
     }
 
     @PostMapping("deletePrice")
@@ -221,17 +229,19 @@ public class ApiController {
     }
 
     @PostMapping("deleteGroup")
-    public ModelAndView deleteGroup(String groupId) {
+    @ResponseBody
+    public String deleteGroup(String groupId) {
+        String msg = "";
         try {
             Long id = Long.valueOf(groupId);
             teamsPricesService.deleteGroupFromGP(id);
-            teamsService.deleteGroupById(id);
-            LOGGER.info("Usunięto grupę");
+             msg = teamsService.deleteGroupById(id);
+             return msg;
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
-            LOGGER.error(" Nie zaznaczono zadnej opcji!");
+            LOGGER.error("Nie zaznaczono zadnej opcji!");
+           return msg;
         }
-        return new ModelAndView(redirectedOptionGroupList);
     }
 
     @PostMapping("postGroup")
@@ -308,6 +318,7 @@ public class ApiController {
         team = teamsService.saveTeam(team);
         if (!listsPriceIds.isEmpty()) {
             List<Prices> allPricesByPriceIds = pricesService.findAllByPriceIds(listsPriceIds);
+            teamsPricesService.deleteGroupFromGP(team.getIdTeam());
             teamsPricesService.insertToGP(team, allPricesByPriceIds);
         }
         return new ModelAndView("redirect:/app/optionGroupList");

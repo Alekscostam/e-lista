@@ -81,12 +81,15 @@ public class TeamsService {
     }
 
 
-    public void deleteGroupById(Long id) {
+    public String deleteGroupById(Long id) {
         try {
             teamsRepository.deleteById(id);
             LOGGER.info("Usunieto grupe");
+            return "Grupa została usunieta!";
         }catch (Exception ex){
-            LOGGER.error(ex.getMessage()," cos poszlo nie tak przy uduwaniu grupy!" );
+            LOGGER.error(ex.getMessage());
+            LOGGER.error("Najpierw nalezy usunąc użytkowników z danej grupy");
+            return "Przed sunięciem grupy należy usunąc jej użytkowników!";
         }
 
     }

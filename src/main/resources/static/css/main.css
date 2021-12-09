@@ -735,11 +735,11 @@ button.secondary:focus {
     border-radius: 5px;
 }
 
-.navigation-card-button:hover {
+.navigation-card-button:hover, .option-card-button:hover {
     background: #222049;
     color: #fff;
 }
-.navigation-card-button:before {
+.navigation-card-button:before , .option-card-button:before{
     position: absolute;
     content: '';
     display: inline-block;
@@ -750,13 +750,29 @@ button.secondary:focus {
     background-color: #fff;
     animation: shiny-btn1 3s ease-in-out infinite;
 }
-.navigation-card-button:active{
+.navigation-card-button:active, .option-card-button:active{
     box-shadow:  4px 4px 6px 0 rgba(255,255,255,.3),
     -4px -4px 6px 0 rgba(116, 125, 136, .2),
     inset -4px -4px 6px 0 rgba(255,255,255,.2),
     inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
 }
 
+.option-card-button{
+    max-width: 50px;
+    height: 25px;
+    padding: 5px 10px;
+    border: 1px solid #222049;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    font-size: 0.7em;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 5px;
+}
 
 
 @media (max-width: 1100px){

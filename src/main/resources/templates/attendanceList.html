@@ -155,7 +155,7 @@
             <div class="col-lg-6">
                 <button
                         class="navigation-card-button"
-                        onclick="changePanel('attendanceList')"
+                        onclick="getUsers('all');changePanel('attendanceList')"
                         type="submit"
                 >
                     Lista użytkowników
@@ -186,8 +186,8 @@
     </div>
 </div>
 
-<section id="attendanceList" class="container-fluid container-custom  text-center scrollit">
-    <table class="table ">
+<section  id="attendanceList" class="container-fluid container-custom  right-panel  text-center scrollit">
+    <table style="padding: 5px" class="table ">
         <thead>
         <tr>
             <th class="colth" style="" scope="col"></th>
@@ -514,15 +514,15 @@ function clearingInputsAddUser(){
                 '<td id="table-user-surname">' + user[i]['surname'] + '</td>' +
                 '<td id="table-user-groupName">' + user[i]['teams']['teamName'] + '</td>' +
                 '<td id="table-user-settlement">' +
-                '<Button class="price" onclick="changePriceStatus(this)">-' + user[i]['prices']['value'] + '</Button>' +
+                '<Button class="price" onclick="changePriceStatus(this)">-' + user[i]['individualPriceValue'] + '</Button>' +
                 '</td>' +
                 '<td id="table-user-email">' + user[i]['email'] + '</td>' +
                 '<td id="table-user-phone">' + user[i]['phone'] + '</td>' +
                 '<td id="table-user-dataOfRecording">' + user[i]['dateOfRecording'] + '</td>' +
                 '<td data-label="info.">' +
-                '<a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark">Edytuj</a>&nbsp;' +
-                '<a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px" class="text-light bg-dark" ' +
-                'onclick="deleteUser(' + user[i]['teams']['idTeam']+',' + user[i]['idUser']+');  " >Usuń</a>' +
+                '<button  class="option-card-button">Edytuj</button>&nbsp;' +
+                '<button  class="option-card-button" ' +
+                'onclick="deleteUser(' + user[i]['teams']['idTeam']+',' + user[i]['idUser']+');  " >Usuń</button>' +
                 '</td>' +
                 '</tr>';
         }

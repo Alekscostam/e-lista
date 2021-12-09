@@ -37,6 +37,18 @@ public class TeamsPricesService {
 
     }
 
+    public void deleteFromGP(Teams team, List<Prices> prices) {
+        List<GroupsPrices> teamsPricesList = new ArrayList<>();
+        for (Prices price : prices) {
+
+            GroupsPrices groupsPrices = new GroupsPrices(price, team);
+            teamsPricesList.add(groupsPrices);
+        }
+
+        teamsPricesRepository.saveAll(teamsPricesList);
+
+    }
+
     public List <String> findIdPricesByIdTeam(String groupId){
 
         String sql = "SELECT p.id_price  FROM prices p, groups_prices gp WHERE  p.id_price = gp.id_price AND gp.id_team= '" +Long.valueOf(groupId)  + "';";

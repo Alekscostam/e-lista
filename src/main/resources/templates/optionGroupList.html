@@ -4,6 +4,8 @@
     <div th:replace="~{fragments/headApp :: head}"></div>
     <script type="text/javascript" th:src="@{/js/main.js}"></script>
     <link th:href="@{/css/main.css}" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 </head>
 <body>
 <div th:replace="~{fragments/navbarApp :: navigation}"></div>
@@ -44,7 +46,9 @@
         </div>
     </div>
 </div>
-</div>
+
+
+
 
 <div id="myModal" class="modal">
     <!-- Modal content -->
@@ -59,7 +63,19 @@
         </div>
     </div>
 </div>
+
+<!--<div class="alert text-center alert-success alert-dismissable">-->
+<!--    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>-->
+<!--    Usunięto!-->
+<!--</div>-->
+
 <section id="group-table">
+    <div id="alert-price-fail-group" style="display: none" class="alert alert-danger alert-dismissible fade show" role="alert">
+
+    </div>
+    <div id="alert-price-success-group" style="display: none"   class="alert alert-success alert-dismissible fade show" role="alert">
+
+    </div>
     <div class="container-fluid text-center">
         <div class="row" style="padding: 10px">
             <div class="col-lg-12 right-panel container-custom">
@@ -86,9 +102,9 @@
                     <tbody>
                     <!-- The Modal -->
                     <tr th:each="allInfos : ${allInfos}">
-                        <form th:action="@{/app/deleteGroup}" th:method="POST">
+<!--                        <form th:action="@{/app/deleteGroup}" th:method="POST">-->
                             <td scope="row">
-                                <input style="max-width: 10px" type="checkbox" th:name="groupId"
+                                <input class="selected-option-input-group" style="max-width: 10px" type="checkbox" th:name="groupId"
                                        th:value="${allInfos.teams.idTeam}"/>
                             </td>
                             <td><span style="font-size: 0.8em" th:text="${allInfos.teams.teamName}"></span></td>
@@ -111,8 +127,9 @@
                             <td><span style="font-size: 0.8em" th:text="${allInfos.teams.color}"></span></td>
 
                             <td style="max-width: 150px!important">
-                                <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px"
-                                   class="text-light bg-dark" onclick="getPricesId(this); update(this,'group'); changePanel('group-add');">Edytuj
+                                <button
+                                   class="option-card-button"
+                                   onclick="getPricesId(this); update(this,'group'); changePanel('group-add');">Edytuj
                                     <span hidden th:text="${
                                 'start:'+allInfos.teams.idTeam} +
                                 ',' + ${allInfos.teams.teamName}+
@@ -130,11 +147,13 @@
                                  'startTerms:'+allInfos.terms} +
                                 ':stopTerms'"></span>
 
-                                </a>
-                                <input style="max-width: 60px!important; cursor: pointer; padding: 4px; border-radius: 4px"
-                                       type="submit" class="text-light bg-dark" value="Usuń">
+                                </button>
+                                <button  id="button-delete-group" class="option-card-button btnShow"
+                                         th:onclick="'javascript:deleteGroup(' + ${allInfos.teams.idTeam} + ')'">
+                                    Usuń
+                                </button>
                             </td>
-                        </form>
+<!--                        </form>-->
                     </tr>
                     </tbody>
                 </table>
@@ -307,7 +326,7 @@
                             </hr>
                         </li>
                     </ul>
-                    <button id="button-save-group" class="btn btn-outline-success w-100" type="submit">
+                    <button id="button-save-settings-price" class="btn btn-outline-success w-100" type="submit">
                         Zapisz
                     </button>
                 </form>
@@ -316,6 +335,12 @@
     </div>
 </section>
 <section id="price-add" style="display: none">
+    <div id="alert-price-fail" style="display: none" class="alert alert-danger alert-dismissible fade show" role="alert">
+       Zaznacz cene do usunięcia!
+    </div>
+    <div id="alert-price-success" style="display: none"  class="alert alert-success alert-dismissible fade show" role="alert">
+      Cena została usunięta!
+    </div>
     <div class="container-fluid text-center">
         <div class="row" style="padding: 10px">
             <div class="col-lg-8 right-panel container-custom">
@@ -330,89 +355,222 @@
                         <th scope="col"></th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbody-element">
                     <tr th:each="prices : ${prices}">
-                        <form th:action="@{/app/deletePrice}" th:method="POST">
+<!--                        <form th:action="@{/app/deletePrice}" th:method="POST">-->
                             <td scope="row">
-                                <input style="max-width: 20px" type="checkbox" id="scales" th:name="priceId"
+                                <input class="selected-option-input" style="max-width: 20px" type="checkbox" th:name="priceId"
                                        th:value="${prices.idPrice}"/>
                             </td>
+
                             <td><span style="font-size: 0.9em" th:text="${prices.name}"></span></td>
                             <td><span style="font-size: 0.9em" th:text="${prices.value}"></span></td>
                             <td><span style="font-size: 0.9em" th:text="${prices.cycle}"></span></td>
                             <td><span style="font-size: 0.9em" th:text="${prices.description}"></span></td>
                             <td style="max-width: 130px!important">
-                                <a style="max-width: 60px!important; cursor: pointer; padding: 5px; border-radius: 3px"
-                                   class="text-light bg-dark" onclick="update(this,'price');">Edytuj
+                                <button
+                                   class="option-card-button" onclick="update(this,'price');">Edytuj
                                     <span hidden
                                           th:text="${'start:'+prices.idPrice} + ',' + ${prices.name}+ ','+ ${prices.value}+ ','+${prices.cycle} +','+${prices.description}+':stop'"></span>
-                                </a>
-                                <input style="max-width: 60px!important" type="submit" class="text-light bg-dark"
-                                       value="usuń">
+                                </button>
+
+                                <button  id="button-delete-price" class="option-card-button btnShow"
+                                         th:onclick="'javascript:deletePrice(' + ${prices.idPrice} + ')'">
+                                    Usuń
+                                </button>
+
                             </td>
-                        </form>
+<!--                        </form>-->
                     </tr>
                     </tbody>
                 </table>
             </div>
             <div class="col-lg-4 right-panel">
-                <form class="login-form" th:action="@{/app/postPrice}" method="POST">
-                    <input
-                            hidden
-                            id="id-of-the-new-price"
-                            class="form-control my-3"
-                            type="number"
-                            name="idPriceNumber"
-                    />
-                    <input
-                            id="name-of-the-new-price"
-                            class="form-control my-3"
-                            type="text"
-                            name="priceName"
-                            placeholder="Nazwa karnetu *"
-                    />
-                    <input
-                            id="value-for-new-price"
-                            class="form-control my-3"
-                            type="number"
-                            name="priceValue"
-                            placeholder="Cena (w zł) *"
-                    />
-                    <input
-                            id="cycle-for-new-price"
-                            class="form-control my-3"
-                            type="number"
-                            name="priceCycle"
-                            placeholder="Cykl rozliczeniowy (w dniach) *"
-                    />
-                    <textarea
-                            id="description-for-new-price"
-                            class="form-control mr-sm-2 my-2"
-                            type="textarea"
-                            name="priceDescription"
-                            placeholder="informacja dodatkowa"
-                    ></textarea>
-                    <hr/>
-                    <!--                                    window.location.reload();-->
-                    <button
-                            id="button-edit-price"
-                            class="btn btn-outline-info w-100 "
-                            type="submit">
-                        Edytuj
-                    </button>
-                    <button
-                            id="button-save-price"
-                            class="btn btn-outline-success w-100 "
-                            onclick="removeId('id-of-the-new-price')"
-                            type="submit">
-                        Zapisz
-                    </button>
-                </form>
+                <!--                <form class="login-form" th:action="@{/app/postPrice}" method="POST">-->
+                <input
+                        hidden
+                        id="id-of-the-new-price"
+                        class="form-control my-3"
+                        type="number"
+                        name="idPriceNumber"
+                />
+                <input
+                        id="name-of-the-new-price"
+                        class="form-control my-3"
+                        type="text"
+                        name="priceName"
+                        placeholder="Nazwa karnetu *"
+                />
+                <input
+                        id="value-for-new-price"
+                        class="form-control my-3"
+                        type="number"
+                        name="priceValue"
+                        placeholder="Cena (w zł) *"
+                />
+                <input
+                        id="cycle-for-new-price"
+                        class="form-control my-3"
+                        type="number"
+                        name="priceCycle"
+                        placeholder="Cykl rozliczeniowy (w dniach) *"
+                />
+                <textarea
+                        id="description-for-new-price"
+                        class="form-control mr-sm-2 my-2"
+                        type="textarea"
+                        name="priceDescription"
+                        placeholder="informacja dodatkowa"
+                ></textarea>
+                <hr/>
+                <!--                                    window.location.reload();-->
+                <span id="alert-edit-save"></span>
+                <button
+                        id="button-edit-price"
+                        class="btn btn-outline-info w-100"
+                        onclick="addPrice(this);"
+                        type="submit">
+                    Edytuj
+                </button>
+
+                <button id="button-save-price" class="btn btn-outline-success w-100"
+                        onclick="addPrice('button-save-price'); "
+                        type="submit">
+                    Zapisz
+                </button>
+                <!--                </form>-->
             </div>
         </div>
     </div>
 </section>
 <script type="text/javascript">
+
+    function checkSelectedItem(element,selected){
+
+        var result = false;
+        var checkedValue = null;
+        var inputElements = document.getElementsByClassName(selected);
+        for(var i=0; inputElements[i]; ++i){
+            if(inputElements[i].checked){
+                checkedValue = inputElements[i].value;
+
+                if(checkedValue == element)
+                {
+
+                    result= true;
+                }
+
+            }
+        }
+
+        return result;
+    }
+
+    function deletePrice(element) {
+
+
+        let checker = checkSelectedItem(element,"selected-option-input");
+
+        if(checker==true)
+        {
+            var xhr = new XMLHttpRequest();
+
+
+            xhr.open('POST', "/app/deletePrice?priceId=" + element , true);
+
+            xhr.send('');
+            var result = "";
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    result = xhr.responseText;
+
+                    document.getElementById('alert').value=result;
+                } else {
+
+                }
+            }
+            document.getElementById('alert-price-fail').style.display="none";
+            document.getElementById('alert-price-success').style.display="block";
+        }
+        else{
+            document.getElementById('alert-price-fail').style.display="block";
+            document.getElementById('alert-price-success').style.display="none";
+        }
+
+
+
+    }
+
+    function deleteGroup(element) {
+
+
+        let checker = checkSelectedItem(element,"selected-option-input-group");
+
+        if(checker==true)
+        {
+            var xhr = new XMLHttpRequest();
+
+
+            xhr.open('POST', "/app/deleteGroup?groupId=" + element , true);
+
+            xhr.send('');
+            var result = "";
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    result = xhr.responseText;
+                    console.log(result)
+                    document.getElementById('alert-price-fail-group').innerText=result;
+                    document.getElementById('alert-price-success-group').innerText=result;
+                } else {
+
+                }
+            }
+            document.getElementById('alert-price-fail-group').style.display="none";
+            document.getElementById('alert-price-success-group').style.display="block";
+        }
+        else{
+            document.getElementById('alert-price-fail-group').innerText="Należy zaznbaczyć grupę do usunięcia!";
+            document.getElementById('alert-price-fail-group').style.display="block";
+            document.getElementById('alert-price-success-group').style.display="none";
+        }
+
+    }
+
+
+    function addPrice(element) {
+
+        let idPriceNumber = "";
+        if (element === 'button-save-price') {
+            idPriceNumber = "";
+        } else {
+            idPriceNumber = document.getElementById('id-of-the-new-price').value;
+        }
+
+        var xhr = new XMLHttpRequest();
+        let priceName = document.getElementById('name-of-the-new-price').value;
+        let priceValue = document.getElementById('value-for-new-price').value;
+        let priceCycle = document.getElementById('cycle-for-new-price').value;
+        let priceDescription = document.getElementById('description-for-new-price').value;
+
+        xhr.open('POST', "/app/postPrice?idPriceNumber=" + idPriceNumber +
+            "&priceName=" + priceName +
+            "&priceValue=" + priceValue +
+            "&priceCycle=" + priceCycle +
+            "&priceDescription=" + priceDescription, true);
+
+        xhr.send('');
+        var result = "";
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                result = xhr.responseText;
+
+                document.getElementById('alert').result;
+            } else {
+
+            }
+        }
+
+    }
 
     function update(element, table) {
         // console.log(element.outerHTML);
@@ -425,14 +583,14 @@
             var stopTerms = element.outerHTML.indexOf(":stopTerms");
             let result = element.outerHTML.substring(startTerms, stopTerms);
             let splitTerms = result.split(',');
-            editGroup(splitResult,splitTerms);
+            editGroup(splitResult, splitTerms);
         }
         if (table === "price") {
         }
 
     }
 
-    function splitElement(element){
+    function splitElement(element) {
         var start = element.outerHTML.indexOf("start:") + 6;
         var stop = element.outerHTML.indexOf(":stop");
         let result = element.outerHTML.substring(start, stop);
@@ -450,14 +608,13 @@
         var result = "";
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                result =  JSON.parse(xhr.responseText);
+                result = JSON.parse(xhr.responseText);
                 console.log(result);
 
-            }else{
+            } else {
 
             }
         }
-
 
     }
 
@@ -473,7 +630,7 @@
         document.getElementById("description-for-new-price").value = splitResult[4];
     }
 
-    function editGroup(splitResult,splitTerms) {
+    function editGroup(splitResult, splitTerms) {
         console.log(splitTerms);
         document.getElementById("group-id").value = splitResult[0];
         document.getElementById("group-name").value = splitResult[1];
@@ -485,7 +642,6 @@
         document.getElementById("group-data-of-start").value = splitResult[7];
         document.getElementById("group-data-of-end").value = splitResult[8];
         document.getElementById("group-first-free").checked = splitResult[9];
-
 
 
     }
@@ -560,6 +716,32 @@
             '<a style="color:black!important; height:40px; font-size:1.2em" ><i class=\'bx bx-x\'></i></a>\n' +
             "</div>";
     }
+
+
+    function getPrices(event) {
+        var xhr = new XMLHttpRequest();
+        var groupId = "";
+
+
+        groupId = event.value;
+        if (groupId===undefined) {
+            groupId = event;
+        }
+
+        xhr.open('GET', "/app/getUsers?groupId=" + groupId, true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            var users;
+            if (this.readyState === 4 && this.status === 200) {
+                users = JSON.parse(xhr.responseText);
+                generateTable(users);
+            }
+        }
+    }
+
+
+
 </script>
 </body>
 </html>

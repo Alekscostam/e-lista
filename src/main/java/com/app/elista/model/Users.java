@@ -1,8 +1,8 @@
 package com.app.elista.model;
 
 import com.app.elista.appcompany.AppCompany;
+
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 public class Users {
@@ -24,20 +24,53 @@ public class Users {
     @JoinColumn(name="id_company", nullable=false)
     private AppCompany appCompany;
 
+
    private String name;
    private String surname;
    private Integer phone;
    private String email;
    private Boolean adult;
-   private String individualPriceName;
-   private String individualPriceValue;
-    private String individualPriceCycle;
+   private Long individualPriceId;
+    private String individualPriceName;
+    private Integer individualPriceValue;
+    private Short individualPriceCycle;
     private String individualPriceDesc;
-   private String currentPaymentDate;
-   private String nextPaymentDate;
-   private String dateOfRecording;
+    private String currentPaymentDate;
+    private String nextPaymentDate;
 
-    public Users(AppCompany appCompany, String name, String surname, Integer phone, String email, Boolean adult, String currentPaymentDate, String nextPaymentDate, String dateOfRecording, Teams team, Prices price) {
+    public Long getIndividualPriceId() {
+        return individualPriceId;
+    }
+
+    public void setIndividualPriceId(Long individualPriceId) {
+        this.individualPriceId = individualPriceId;
+    }
+
+    private String dateOfRecording;
+
+    public Users(AppCompany appCompany, String name, String surname, Integer phone, String email, Boolean adult, Long individualPriceId, String individualPriceName, Integer individualPriceValue, Short individualPriceCycle, String individualPriceDesc, String currentPaymentDate, String nextPaymentDate, String dateOfRecording, Teams teams) {
+        this.appCompany = appCompany;
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.email = email;
+        this.adult = adult;
+        this.individualPriceId = individualPriceId;
+        this.individualPriceName = individualPriceName;
+        this.individualPriceValue = individualPriceValue;
+        this.individualPriceCycle = individualPriceCycle;
+        this.individualPriceDesc = individualPriceDesc;
+        this.currentPaymentDate = currentPaymentDate;
+        this.nextPaymentDate = nextPaymentDate;
+        this.dateOfRecording = dateOfRecording;
+        this.teams = teams;
+    }
+
+
+
+
+
+    public Users(AppCompany appCompany, String name, String surname, Integer phone, String email, Boolean adult, String currentPaymentDate, String nextPaymentDate, String dateOfRecording, Prices price) {
         this.appCompany = appCompany;
         this.name = name;
         this.surname = surname;
@@ -47,11 +80,9 @@ public class Users {
         this.currentPaymentDate = currentPaymentDate;
         this.nextPaymentDate = nextPaymentDate;
         this.dateOfRecording = dateOfRecording;
-        this.teams = team;
-        this.prices = price;
+
 
     }
-
 
 
     public String getIndividualPriceName() {
@@ -62,19 +93,19 @@ public class Users {
         this.individualPriceName = individualPriceName;
     }
 
-    public String getIndividualPriceValue() {
+    public Integer getIndividualPriceValue() {
         return individualPriceValue;
     }
 
-    public void setIndividualPriceValue(String individualPriceValue) {
+    public void setIndividualPriceValue(Integer individualPriceValue) {
         this.individualPriceValue = individualPriceValue;
     }
 
-    public String getIndividualPriceCycle() {
+    public Short getIndividualPriceCycle() {
         return individualPriceCycle;
     }
 
-    public void setIndividualPriceCycle(String individualPriceCycle) {
+    public void setIndividualPriceCycle(Short individualPriceCycle) {
         this.individualPriceCycle = individualPriceCycle;
     }
 
@@ -112,7 +143,7 @@ public class Users {
                 ", nextPaymentDate='" + nextPaymentDate + '\'' +
                 ", dateOfRecording='" + dateOfRecording + '\'' +
                 ", teams=" + teams +
-                ", prices=" + prices +
+
                 '}';
     }
 
@@ -140,13 +171,11 @@ public class Users {
         this.dateOfRecording = dateOfRecording;
     }
 
-    @ManyToOne
+    @ManyToOne(optional = true )
     @JoinColumn(name="id_team", nullable=false)
     private  Teams teams;
 
-    @ManyToOne
-    @JoinColumn(name = "id_price")
-    private  Prices prices;
+
 
     public Users() {
     }
@@ -208,24 +237,7 @@ public class Users {
         this.teams = teams;
     }
 
-    public Prices getPrices() {
-        return prices;
-    }
 
-    public void setPrices(Prices prices) {
-        this.prices = prices;
-    }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Users users = (Users) o;
-        return Objects.equals(idUser, users.idUser) && Objects.equals(appCompany, users.appCompany) && Objects.equals(name, users.name) && Objects.equals(surname, users.surname) && Objects.equals(phone, users.phone) && Objects.equals(email, users.email) && Objects.equals(adult, users.adult) && Objects.equals(individualPriceName, users.individualPriceName) && Objects.equals(individualPriceValue, users.individualPriceValue) && Objects.equals(individualPriceCycle, users.individualPriceCycle) && Objects.equals(individualPriceDesc, users.individualPriceDesc) && Objects.equals(currentPaymentDate, users.currentPaymentDate) && Objects.equals(nextPaymentDate, users.nextPaymentDate) && Objects.equals(dateOfRecording, users.dateOfRecording) && Objects.equals(teams, users.teams) && Objects.equals(prices, users.prices);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idUser, appCompany, name, surname, phone, email, adult, individualPriceName, individualPriceValue, individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate, dateOfRecording, teams, prices);
-    }
 }
 
