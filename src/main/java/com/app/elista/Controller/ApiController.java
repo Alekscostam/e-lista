@@ -70,7 +70,7 @@ public class ApiController {
     }
 
     @GetMapping("optionGroupList")
-    public ModelAndView getGroups(@AuthenticationPrincipal AppCompany appCompany) {
+    public ModelAndView optionGroupList(@AuthenticationPrincipal AppCompany appCompany) {
         List<AllInfo> allByUUID = teamsService.findAllInformationsByTeamUUID(appCompany.getIdCompany());
         ModelAndView mav = new ModelAndView("optionGroupList");
         List<Prices> allPrices = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
@@ -80,12 +80,29 @@ public class ApiController {
     }
 
 
+    @GetMapping("getGroups")
+    @ResponseBody
+    public  List<AllInfo>  getGroups(@AuthenticationPrincipal AppCompany appCompany) {
+        List<AllInfo> allByUUID = teamsService.findAllInformationsByTeamUUID(appCompany.getIdCompany());
+        return allByUUID;
+    }
+
     @ResponseBody
     @GetMapping("getPricesId")
     public  List<String> findInformationAboutGroupEditable(@AuthenticationPrincipal AppCompany appCompany, String groupId){
         List<String> idPricesByIdTeam = teamsPricesService.findIdPricesByIdTeam(groupId);
 
         return idPricesByIdTeam;
+    }
+
+
+    @ResponseBody
+    @GetMapping("getPrices")
+    public  List<Prices> getPrices(@AuthenticationPrincipal AppCompany appCompany){
+
+        List<Prices> all = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
+
+        return all;
     }
 
     @PostMapping("optionGroupList")
@@ -105,7 +122,19 @@ public class ApiController {
             String userOfAge,
             @AuthenticationPrincipal AppCompany appCompany
     ) {
-        Prices price = pricesService.findByPriceId(priceId);
+        Prices price = new Prices();
+        if(!priceId.equals("undefined"))
+        {
+            price = pricesService.findByPriceId(priceId);
+        }
+        else{
+            price.setIdPrice(null);
+            price.setCycle((short)0);
+            price.setDescription("");
+            price.setValue(0);
+            price.setName("");
+        }
+
         Teams team = teamsService.findTeamById(groupId);
 
         Boolean adult;
@@ -205,6 +234,7 @@ public class ApiController {
             price.setDescription(priceDescription);
             price.setCycle(priceCycle);
             pricesService.savePrice(price);
+            usersService.updateAllUsersByPrice(price);
             return "Cena została zmodyfikowana!";
         } else {
             Prices price = new Prices(appCompany, priceName, priceValue, priceCycle, priceDescription);

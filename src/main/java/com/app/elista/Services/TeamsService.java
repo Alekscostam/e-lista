@@ -100,11 +100,8 @@ public class TeamsService {
     }
 
     public List<String>  getTermsForTeams(Teams team) {
-
         String[] splitTerms = team.getTerms().split(";");
         List<String> terms = Arrays.asList(splitTerms);
-
         return terms;
-
     }
 }

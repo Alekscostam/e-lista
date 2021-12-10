@@ -1,6 +1,7 @@
 package com.app.elista.Services;
 
 import com.app.elista.appcompany.AppCompany;
+import com.app.elista.model.Prices;
 import com.app.elista.model.Teams;
 import com.app.elista.model.Users;
 import com.app.elista.repositories.UsersRepository;
@@ -132,5 +133,24 @@ public class UsersService {
 //        usersRepository.saveAll(updatedUsers);
 
         return collect;
+    }
+
+    public void updateAllUsersByPrice(Prices price) {
+
+        List<Users> allUsers = findAllUsers();
+
+        List<Users> collect = allUsers
+                .stream()
+                .filter(user -> user.getIndividualPriceId().equals(price.getIdPrice()))
+                .collect(Collectors.toList());
+
+        for (Users users : collect) {
+            users.setIndividualPriceCycle(price.getCycle());
+            users.setIndividualPriceName(price.getName());
+            users.setIndividualPriceValue(price.getValue());
+            users.setIndividualPriceDesc(price.getDescription());
+        }
+        usersRepository.saveAll(allUsers);
+        LOGGER.info("Cena indywidualna u użytkowników została zmodyfikowana");
     }
 }

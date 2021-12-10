@@ -106,47 +106,48 @@
                 </div>
 
                 <div id="day-form" class="form-inline my-0 my-lg-0">
-<!--                    <form lang="pl" class="form-inline my-0 my-lg-0">-->
-                        <label for="group"  style="font-weight: bold"></label>
-                        <input
-                                class="form-control my-1 mr-sm-2"
-                                type="search"
-                                placeholder="Imie"
-                                aria-label="Search"
-                        />
-                        <input
-                                class="form-control mr-sm-2"
-                                type="search"
-                                placeholder="Nazwisko"
-                                aria-label="Search"
-                        />
-                        <div class="md-form mb-0 m-1 form-group form-field">
-                            <select id="selected-item-list" onchange="getUsers(this)" class="form-control select-input mr-sm-2" name="groupId">
-                                <option selected name="groupId" value="all">Wszystkie grupy</option>
-                                <option name="groupId" value="none">Brak grupy</option>
-                                <option th:each="team : ${teams}"
-                                        th:value="${team.idTeam}"
-                                        th:text="${team.teamName}"
-                                ></option>
-                            </select>
-                        </div>
-                        <input
-                                type="date"
-                                lang="fr-CA"
-                                data-date=""
-                                id="date-picker"
-                                data-date-format="DD MMMM YYYY"
-                        />
-                        <script type="text/javascript">
-                            // window.onload = dataChange();
-                        </script>
-                        <div class="form-group"></div>
-                        <button
-                                class="btn btn-outline-success my-2 my-sm-0 form-control"
-                                type="submit">
-                            Wyszukaj
-                        </button>
-<!--                    </form>-->
+                    <!--                    <form lang="pl" class="form-inline my-0 my-lg-0">-->
+                    <label for="group" style="font-weight: bold"></label>
+                    <input
+                            class="form-control my-1 mr-sm-2"
+                            type="search"
+                            placeholder="Imie"
+                            aria-label="Search"
+                    />
+                    <input
+                            class="form-control mr-sm-2"
+                            type="search"
+                            placeholder="Nazwisko"
+                            aria-label="Search"
+                    />
+                    <div class="md-form mb-0 m-1 form-group form-field">
+                        <select id="selected-item-list" onchange="getUsers(this)"
+                                class="form-control select-input mr-sm-2" name="groupId">
+                            <option selected name="groupId" value="all">Wszystkie grupy</option>
+                            <option name="groupId" value="none">Brak grupy</option>
+                            <option th:each="team : ${teams}"
+                                    th:value="${team.idTeam}"
+                                    th:text="${team.teamName}"
+                            ></option>
+                        </select>
+                    </div>
+                    <input
+                            type="date"
+                            lang="fr-CA"
+                            data-date=""
+                            id="date-picker"
+                            data-date-format="DD MMMM YYYY"
+                    />
+                    <script type="text/javascript">
+                        // window.onload = dataChange();
+                    </script>
+                    <div class="form-group"></div>
+                    <button
+                            class="btn btn-outline-success my-2 my-sm-0 form-control"
+                            type="submit">
+                        Wyszukaj
+                    </button>
+                    <!--                    </form>-->
                 </div>
                 <script src="main.js"></script>
             </div>
@@ -172,21 +173,21 @@
                         onclick="changePanel('group-add')"
                         type="submit"
                 >
-                   Konkretne miesiące
+                    Konkretne miesiące
                 </button>
             </div>
         </div>
-<!--        <p class="text-right">-->
-<!--            &lt;!&ndash; <a href="#"> <i class='bx bxs-edit-alt edit' ><span class="">Edytuj</span></i></a>&nbsp;&nbsp;    &ndash;&gt;-->
-<!--            <a href="#"> <i class='bx bxs-edit-alt success'><span class=""> Export danych</span></i></a>&nbsp;-->
-<!--            <a href="#"> <i class='bx bxs-bar-chart-alt-2 success'><span class=""> Podsumowanie miesiąca</span></i></a>-->
-<!--            <a id="open-close" href="#" onclick="changePanel(this)"><span-->
-<!--                    class="">Lista z konkretnych miesięcy</span></a>-->
-<!--        </p>-->
+        <!--        <p class="text-right">-->
+        <!--            &lt;!&ndash; <a href="#"> <i class='bx bxs-edit-alt edit' ><span class="">Edytuj</span></i></a>&nbsp;&nbsp;    &ndash;&gt;-->
+        <!--            <a href="#"> <i class='bx bxs-edit-alt success'><span class=""> Export danych</span></i></a>&nbsp;-->
+        <!--            <a href="#"> <i class='bx bxs-bar-chart-alt-2 success'><span class=""> Podsumowanie miesiąca</span></i></a>-->
+        <!--            <a id="open-close" href="#" onclick="changePanel(this)"><span-->
+        <!--                    class="">Lista z konkretnych miesięcy</span></a>-->
+        <!--        </p>-->
     </div>
 </div>
 
-<section  id="attendanceList" class="container-fluid container-custom  right-panel  text-center scrollit">
+<section id="attendanceList" class="container-fluid container-custom  right-panel  text-center scrollit">
     <table style="padding: 5px" class="table ">
         <thead>
         <tr>
@@ -295,66 +296,68 @@
     <div class="container text-center">
         <div class="row" style="">
             <div class="col-lg-6 right-panel">
-<!--                <form class="login-form" th:action="@{/app/postUser}" method="POST">-->
-                    <select id="select-teams" onchange="moreInformation(this)" class="form-control select-input mr-sm-2" name="groupId">
-                        <option selected name="groupId" value="">Wybierz grupe</option>
-                        <option th:each="team : ${teams}"
-                                th:value="${team.idTeam}"
-                                th:text="${team.teamName}"
-                        ></option>
-                    </select>
-                    <div class="my-2" id="prices-div">
-                    </div>
-                    </hr>
-                    <input
-                            hidden
-                            class="form-control "
-                            type="text"
-                            id="user-id"
-                            name="userId"
-                    />
-                    <input
-                            class="form-control my-3"
-                            type="text"
-                            id="user-name"
-                            name="userName"
-                            placeholder="Imię *"
-                    />
-                    <input
-                            class="form-control my-3"
-                            type="text"
-                            id="user-surname"
-                            name="userSurname"
-                            placeholder="Nazwisko *"
-                    />
-                    <input
-                            class="form-control my-3"
-                            type="text"
-                            id="user-phone"
-                            name="userPhone"
-                            placeholder="Numer telefonu"
-                    />
-                    <input
-                            class="form-control my-3"
-                            type="text"
-                            id="user-email"
-                            name="userEmail"
-                            placeholder="Email "
-                    />
+                <!--                <form class="login-form" th:action="@{/app/postUser}" method="POST">-->
+                <select id="select-teams" onchange="moreInformation(this)" class="form-control select-input mr-sm-2"
+                        name="groupId">
+                    <option selected name="groupId" value="">Wybierz grupe</option>
+                    <option th:each="team : ${teams}"
+                            th:value="${team.idTeam}"
+                            th:text="${team.teamName}"
+                    ></option>
+                </select>
+                <div class="my-2" id="prices-div">
+                </div>
+                </hr>
+                <input
+                        hidden
+                        class="form-control "
+                        type="text"
+                        id="user-id"
+                        name="userId"
+                />
+                <input
+                        class="form-control my-3"
+                        type="text"
+                        id="user-name"
+                        name="userName"
+                        placeholder="Imię *"
+                />
+                <input
+                        class="form-control my-3"
+                        type="text"
+                        id="user-surname"
+                        name="userSurname"
+                        placeholder="Nazwisko *"
+                />
+                <input
+                        class="form-control my-3"
+                        type="text"
+                        id="user-phone"
+                        name="userPhone"
+                        placeholder="Numer telefonu"
+                />
+                <input
+                        class="form-control my-3"
+                        type="text"
+                        id="user-email"
+                        name="userEmail"
+                        placeholder="Email "
+                />
 
-                    <input id="user-of-age" style="width: 20px !important;" type="checkbox" name="userOfAge"/>
-                    <b style="font-size: 0.7em"> Jestem pełnoletni/nia </b>
-                    <div style="display:none;float: left;" class="my-2" id="prices-ul">
-                    </div>
-                    <div id="term">
-                        <div id="part-term" style="display: flex"></div>
-                    </div>
-                    <hr/>
-                    <button id="button-save-user" class="btn btn-outline-success w-100" onclick="addUser(); removeId('group-id')"
-                            type="submit">
-                        Zapisz
-                    </button>
-<!--                </form>-->
+                <input id="user-of-age" style="width: 20px !important;" type="checkbox" name="userOfAge"/>
+                <b style="font-size: 0.7em"> Jestem pełnoletni/nia </b>
+                <div style="display:none;float: left;" class="my-2" id="prices-ul">
+                </div>
+                <div id="term">
+                    <div id="part-term" style="display: flex"></div>
+                </div>
+                <hr/>
+                <button id="button-save-user" class="btn btn-outline-success w-100"
+                        onclick="addUser(); removeId('group-id')"
+                        type="submit">
+                    Zapisz
+                </button>
+                <!--                </form>-->
             </div>
             <div class="col-lg-6 right-panel">
                 <ul style="font-size: 0.7em"
@@ -410,10 +413,11 @@
 <input id="temporary-value" hidden type="text" value="all"/>
 
 <script>
-    function changePriceStatus(element) {
+    function changePriceStatus(element,temp) {
+
 
         if (element.innerText === "0") {
-            element.innerText = "-140zł";
+            element.innerText = temp;
         } else {
             element.innerText = "0";
         }
@@ -440,19 +444,19 @@
 
         var prices = document.getElementsByName('priceId');
         var pricesId;
-        for(var i = 0; i < prices.length; i++){
-            if(prices[i].checked){
+        for (var i = 0; i < prices.length; i++) {
+            if (prices[i].checked) {
                 pricesId = prices[i].value;
             }
         }
 
         xhr.open('POST', "/app/postUser?groupId=" + selectedOptionGroupId +
-            "&priceId="+pricesId+
-            "&userName="+userName+
-            "&userSurname="+userSurname+
-            "&userPhone="+userPhone+
-            "&userEmail="+userEmail+
-            "&userOfAge="+userOfAge, true);
+            "&priceId=" + pricesId +
+            "&userName=" + userName +
+            "&userSurname=" + userSurname +
+            "&userPhone=" + userPhone +
+            "&userEmail=" + userEmail +
+            "&userOfAge=" + userOfAge, true);
 
         xhr.send('');
 
@@ -468,23 +472,23 @@
         }
     }
 
-function clearingInputsAddUser(){
-     document.getElementById("user-name").value="";
-     document.getElementById("user-surname").value="";
-     document.getElementById("user-phone").value="";
-     document.getElementById("user-email").value="";
-     document.getElementById('user-of-age').checked="";
-     document.getElementById("select-teams").selectedIndex=0;
-}
+    function clearingInputsAddUser() {
+        document.getElementById("user-name").value = "";
+        document.getElementById("user-surname").value = "";
+        document.getElementById("user-phone").value = "";
+        document.getElementById("user-email").value = "";
+        document.getElementById('user-of-age').checked = "";
+        document.getElementById("select-teams").selectedIndex = 0;
+    }
 
     function getUsers(event) {
         var xhr = new XMLHttpRequest();
         var groupId = "";
 
 
-            groupId = event.value;
-        if (groupId===undefined) {
-                groupId = event;
+        groupId = event.value;
+        if (groupId === undefined) {
+            groupId = event;
         }
 
         xhr.open('GET', "/app/getUsers?groupId=" + groupId, true);
@@ -504,6 +508,11 @@ function clearingInputsAddUser(){
         var result = "";
 
         for (let i = 0; i < user.length; i++) {
+
+            var modal = "exampleModalPrice"+ user[i]['idUser'];
+            var modalLabel="exampleModalLabelPrice"+ user[i]['idUser'];
+
+
             result = result
                 +
                 '<tr style=""> ' +
@@ -514,7 +523,7 @@ function clearingInputsAddUser(){
                 '<td id="table-user-surname">' + user[i]['surname'] + '</td>' +
                 '<td id="table-user-groupName">' + user[i]['teams']['teamName'] + '</td>' +
                 '<td id="table-user-settlement">' +
-                '<Button class="price" onclick="changePriceStatus(this)">-' + user[i]['individualPriceValue'] + '</Button>' +
+                '<Button class="price" onclick="changePriceStatus(this,' + user[i]['individualPriceValue'] + ')">' + user[i]['individualPriceValue'] + '</Button>' +
                 '</td>' +
                 '<td id="table-user-email">' + user[i]['email'] + '</td>' +
                 '<td id="table-user-phone">' + user[i]['phone'] + '</td>' +
@@ -522,18 +531,40 @@ function clearingInputsAddUser(){
                 '<td data-label="info.">' +
                 '<button  class="option-card-button">Edytuj</button>&nbsp;' +
                 '<button  class="option-card-button" ' +
-                'onclick="deleteUser(' + user[i]['teams']['idTeam']+',' + user[i]['idUser']+');  " >Usuń</button>' +
+                'data-toggle="modal" data-target="#'+modal+'" >Usuń</button>' +
                 '</td>' +
-                '</tr>';
+                '                            <div class="modal fade" id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
+                '                                <div class="modal-dialog" role="document">\n' +
+                '                                    <div class="modal-content">\n' +
+                '                                        <div class="modal-header">\n' +
+                '                                            <h5 class="modal-title" id="'+modalLabel+'">Usuwanie uczestnika</h5>\n' +
+                '                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
+                '                                                <span aria-hidden="true">&times;</span>\n' +
+                '                                            </button>\n' +
+                '                                        </div>\n' +
+                '                                        <div class="modal-body">\n' +
+                '                                            Czy napewno chcesz usunąć uczestnika?\n' +
+                '                                        </div>\n' +
+                '                                        <div class="modal-footer">\n' +
+                '                                            <button id="button-delete-price" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
+                '                                                    onclick="deleteUser(' + user[i]['teams']['idTeam'] + ',' + user[i]['idUser'] + ')">Tak</button>\n' +
+                '                                            <button type="button" class="option-card-button" style="font-size: 1em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </div>\n' +
+                '                            </div>'
+            '</tr>';
+
+
         }
         document.getElementById("tbody-element").innerHTML = result;
     }
 
-    function deleteUser(idTeam, idUser){
+    function deleteUser(idTeam, idUser) {
 
         var xhr = new XMLHttpRequest();
 
-        xhr.open('POST', "/app/deleteUser?groupId=" + idTeam +"&userId="+idUser, true);
+        xhr.open('POST', "/app/deleteUser?groupId=" + idTeam + "&userId=" + idUser, true);
         xhr.send('');
 
         xhr.onreadystatechange = function () {
@@ -547,7 +578,7 @@ function clearingInputsAddUser(){
 
     function moreInformation(event) {
 
-        if (event.value === "" || event==="noOption") {
+        if (event.value === "" || event === "noOption") {
             let elementsGroup = document.getElementsByClassName("group-info");
             for (var i = 0; i < elementsGroup.length; i++) {
                 elementsGroup[i].style.display = "none";

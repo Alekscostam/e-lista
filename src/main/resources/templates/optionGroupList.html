@@ -9,6 +9,7 @@
 </head>
 <body>
 <div th:replace="~{fragments/navbarApp :: navigation}"></div>
+
 <div class="container-fluid">
     <div class="row hello">
         <div class="col-12 col-md-12">
@@ -47,35 +48,15 @@
     </div>
 </div>
 
-
-
-
-<div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div id="inside-modal ">
-            <div class="text">
-                <div class="hello">
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--<div class="alert text-center alert-success alert-dismissable">-->
-<!--    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>-->
-<!--    Usunięto!-->
-<!--</div>-->
-
 <section id="group-table">
-    <div id="alert-price-fail-group" style="display: none" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div id="alert-price-fail-group" style="display: none" class="alert alert-danger alert-dismissible fade show"
+         role="alert">
 
     </div>
-    <div id="alert-price-success-group" style="display: none"   class="alert alert-success alert-dismissible fade show" role="alert">
-
+    <div id="alert-price-success-group" style="display: none" class="alert alert-success alert-dismissible fade show"
+         role="alert">
     </div>
+
     <div class="container-fluid text-center">
         <div class="row" style="padding: 10px">
             <div class="col-lg-12 right-panel container-custom">
@@ -99,63 +80,10 @@
                         <th scope="col"></th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <!-- The Modal -->
-                    <tr th:each="allInfos : ${allInfos}">
-<!--                        <form th:action="@{/app/deleteGroup}" th:method="POST">-->
-                            <td scope="row">
-                                <input class="selected-option-input-group" style="max-width: 10px" type="checkbox" th:name="groupId"
-                                       th:value="${allInfos.teams.idTeam}"/>
-                            </td>
-                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.teamName}"></span></td>
-                            <td>
-                                <div th:each="terms : ${allInfos.terms}">
+                    <tbody id="tbody-element-group">
 
-                                    <span style="font-size: 0.8em" class="my-1" th:text="${terms}"></span>
-
-                                </div>
-                            </td>
-                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.place}"></span></td>
-                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.leaderName}"></span></td>
-                            <td>
-                                <span style="font-size: 0.8em" th:text="${allInfos.teams.freeSpace}"></span>
-                                <span style="font-size: 0.8em" th:text="'/'+ ${allInfos.teams.groupSize }"></span>
-                            </td>
-                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.description}"></span></td>
-                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.startDate}"></span></td>
-                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.endDate}"></span></td>
-                            <td><span style="font-size: 0.8em" th:text="${allInfos.teams.color}"></span></td>
-
-                            <td style="max-width: 150px!important">
-                                <button
-                                   class="option-card-button"
-                                   onclick="getPricesId(this); update(this,'group'); changePanel('group-add');">Edytuj
-                                    <span hidden th:text="${
-                                'start:'+allInfos.teams.idTeam} +
-                                ',' + ${allInfos.teams.teamName}+
-                                ','+ ${allInfos.teams.place}+
-                                ','+${allInfos.teams.leaderName} +
-                                ','+${allInfos.teams.groupSize}+
-                                ','+${allInfos.teams.description}+
-                                ','+${allInfos.teams.color}+
-                                ','+${allInfos.teams.startDate}+
-                                ','+${allInfos.teams.endDate}+
-                                 ','+${allInfos.teams.firstFree}+
-                                ':stop'"></span>
-
-                                    <span hidden th:text="${
-                                 'startTerms:'+allInfos.terms} +
-                                ':stopTerms'"></span>
-
-                                </button>
-                                <button  id="button-delete-group" class="option-card-button btnShow"
-                                         th:onclick="'javascript:deleteGroup(' + ${allInfos.teams.idTeam} + ')'">
-                                    Usuń
-                                </button>
-                            </td>
-<!--                        </form>-->
-                    </tr>
                     </tbody>
+
                 </table>
             </div>
         </div>
@@ -334,12 +262,15 @@
         </div>
     </div>
 </section>
+
 <section id="price-add" style="display: none">
-    <div id="alert-price-fail" style="display: none" class="alert alert-danger alert-dismissible fade show" role="alert">
-       Zaznacz cene do usunięcia!
+    <div id="alert-price-fail" style="display: none" class="alert alert-danger alert-dismissible fade show"
+         role="alert">
+        Zaznacz cene do usunięcia!
     </div>
-    <div id="alert-price-success" style="display: none"  class="alert alert-success alert-dismissible fade show" role="alert">
-      Cena została usunięta!
+    <div id="alert-price-success" style="display: none" class="alert alert-success alert-dismissible fade show"
+         role="alert">
+        Cena została usunięta!
     </div>
     <div class="container-fluid text-center">
         <div class="row" style="padding: 10px">
@@ -348,40 +279,15 @@
                     <thead>
                     <tr>
                         <th style="font-size: 0.9em" class="colth" scope="col"></th>
-                        <th style="font-size: 0.9em" class="colth" scope="col">Cena</th>
                         <th style="font-size: 0.9em" class="colth" scope="col">Nazwa</th>
+                        <th style="font-size: 0.9em" class="colth" scope="col">Cena</th>
                         <th style="font-size: 0.9em" class="colth" scope="col">Okres wplat</th>
                         <th style="font-size: 0.9em" class="colth" scope="col">Informacje</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
-                    <tbody id="tbody-element">
-                    <tr th:each="prices : ${prices}">
-<!--                        <form th:action="@{/app/deletePrice}" th:method="POST">-->
-                            <td scope="row">
-                                <input class="selected-option-input" style="max-width: 20px" type="checkbox" th:name="priceId"
-                                       th:value="${prices.idPrice}"/>
-                            </td>
+                    <tbody id="tbody-element-prices">
 
-                            <td><span style="font-size: 0.9em" th:text="${prices.name}"></span></td>
-                            <td><span style="font-size: 0.9em" th:text="${prices.value}"></span></td>
-                            <td><span style="font-size: 0.9em" th:text="${prices.cycle}"></span></td>
-                            <td><span style="font-size: 0.9em" th:text="${prices.description}"></span></td>
-                            <td style="max-width: 130px!important">
-                                <button
-                                   class="option-card-button" onclick="update(this,'price');">Edytuj
-                                    <span hidden
-                                          th:text="${'start:'+prices.idPrice} + ',' + ${prices.name}+ ','+ ${prices.value}+ ','+${prices.cycle} +','+${prices.description}+':stop'"></span>
-                                </button>
-
-                                <button  id="button-delete-price" class="option-card-button btnShow"
-                                         th:onclick="'javascript:deletePrice(' + ${prices.idPrice} + ')'">
-                                    Usuń
-                                </button>
-
-                            </td>
-<!--                        </form>-->
-                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -443,99 +349,67 @@
         </div>
     </div>
 </section>
+
+
+
+<!-- Modal -->
+
+
 <script type="text/javascript">
 
-    function checkSelectedItem(element,selected){
+    window.onload = function () {
+        // let all = document.getElementById('temporary-value');
+        getGroups();
+        getPrices();
+    };
 
-        var result = false;
-        var checkedValue = null;
-        var inputElements = document.getElementsByClassName(selected);
-        for(var i=0; inputElements[i]; ++i){
-            if(inputElements[i].checked){
-                checkedValue = inputElements[i].value;
-
-                if(checkedValue == element)
-                {
-
-                    result= true;
-                }
-
-            }
-        }
-
-        return result;
-    }
 
     function deletePrice(element) {
 
+        // let checker = checkSelectedItem(element, "selected-option-input");
 
-        let checker = checkSelectedItem(element,"selected-option-input");
-
-        if(checker==true)
-        {
             var xhr = new XMLHttpRequest();
 
-
-            xhr.open('POST', "/app/deletePrice?priceId=" + element , true);
+            xhr.open('POST', "/app/deletePrice?priceId=" + element, true);
 
             xhr.send('');
             var result = "";
             xhr.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                     result = xhr.responseText;
-
-                    document.getElementById('alert').value=result;
+                    getPrices();
+                    document.getElementById('alert').value = result;
                 } else {
 
                 }
             }
-            document.getElementById('alert-price-fail').style.display="none";
-            document.getElementById('alert-price-success').style.display="block";
-        }
-        else{
-            document.getElementById('alert-price-fail').style.display="block";
-            document.getElementById('alert-price-success').style.display="none";
-        }
 
-
+            document.getElementById('alert-price-fail').style.display = "none";
+            document.getElementById('alert-price-success').style.display = "block";
 
     }
 
     function deleteGroup(element) {
 
-
-        let checker = checkSelectedItem(element,"selected-option-input-group");
-
-        if(checker==true)
-        {
             var xhr = new XMLHttpRequest();
 
-
-            xhr.open('POST', "/app/deleteGroup?groupId=" + element , true);
+            xhr.open('POST', "/app/deleteGroup?groupId=" + element, true);
 
             xhr.send('');
             var result = "";
             xhr.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                     result = xhr.responseText;
-                    console.log(result)
-                    document.getElementById('alert-price-fail-group').innerText=result;
-                    document.getElementById('alert-price-success-group').innerText=result;
+                    getGroups();
+                    document.getElementById('alert-price-fail-group').innerText = result;
+                    document.getElementById('alert-price-success-group').innerText = result;
                 } else {
 
                 }
             }
-            document.getElementById('alert-price-fail-group').style.display="none";
-            document.getElementById('alert-price-success-group').style.display="block";
-        }
-        else{
-            document.getElementById('alert-price-fail-group').innerText="Należy zaznbaczyć grupę do usunięcia!";
-            document.getElementById('alert-price-fail-group').style.display="block";
-            document.getElementById('alert-price-success-group').style.display="none";
-        }
-
+            document.getElementById('alert-price-fail-group').style.display = "none";
+            document.getElementById('alert-price-success-group').style.display = "block";
     }
-
 
     function addPrice(element) {
 
@@ -717,31 +591,149 @@
             "</div>";
     }
 
-
-    function getPrices(event) {
+    function getGroups() {
         var xhr = new XMLHttpRequest();
-        var groupId = "";
 
-
-        groupId = event.value;
-        if (groupId===undefined) {
-            groupId = event;
-        }
-
-        xhr.open('GET', "/app/getUsers?groupId=" + groupId, true);
+        xhr.open('GET', "/app/getGroups/", true);
         xhr.send('');
 
         xhr.onreadystatechange = function () {
-            var users;
+            var groups;
             if (this.readyState === 4 && this.status === 200) {
-                users = JSON.parse(xhr.responseText);
-                generateTable(users);
+                groups = JSON.parse(xhr.responseText);
+                generateTableGroup(groups);
+            }
+        }
+    }
+
+    function generateTableGroup(groups){
+
+      var result = "";
+
+        for (let i = 0; i < groups.length; i++) {
+
+            var createTerms="";
+            for (let j = 0; j < groups[i]['terms'].length; j++)
+            {
+                createTerms = createTerms + groups[i]['terms'][j] + '</br>' ;
+
+            }
+
+            var modal = "exampleModalGroup"+ groups[i]['teams']['idTeam'];
+            var modalLabel="exampleModalLabelGroup"+ groups[i]['teams']['idTeam'];
+
+            result = result
+                +
+                '<tr style="font-size: 0.9em!important"> ' +
+                '<td scope="row">' +
+                '<input hidden style="width: 20px !important;" type="checkbox"  th:name="groupId"  th:value="' + groups[i]['teams']['idTeam'] + '"   class="option"/>' +
+                '</td>' +
+                '<td id="table-team-name">' + groups[i]['teams']['teamName'] + '</td>' +
+                '<td id="table-team-terms">' + createTerms + '</td>' +
+                '<td id="table-team-place">' + groups[i]['teams']['place'] + '</td>' +
+                '<td id="table-team-leaderName">' + groups[i]['teams']['leaderName'] + '</td>' +
+                '<td id="table-team-space">' + groups[i]['teams']['freeSpace'] + ' / ' + groups[i]['teams']['groupSize'] + '</td>' +
+                '<td id="table-team-desc">' + groups[i]['teams']['description'] + '</td>' +
+                '<td id="table-team-startDate">' + groups[i]['teams']['startDate'] + '</td>' +
+                '<td id="table-team-endDate">' + groups[i]['teams']['endDate'] + '</td>' +
+                '<td id="table-team-color">' + groups[i]['teams']['color'] + '</td>' +
+                '<td data-label="info."> ' +
+                '<button  class="option-card-button">Edytuj</button>&nbsp;' +
+                '<button  class="option-card-button" ' +
+                'data-toggle="modal" data-target="#'+modal+'" >Usuń</button>' +
+                '</td>' +
+                '                            <div class="modal fade"   id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
+                '                                <div class="modal-dialog" role="document">\n' +
+                '                                    <div class="modal-content">\n' +
+                '                                        <div class="modal-header">\n' +
+                '                                            <h5 class="modal-title" id="'+modalLabel+'">Usuwanie grupy</h5>\n' +
+                '                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
+                '                                                <span aria-hidden="true">&times;</span>\n' +
+                '                                            </button>\n' +
+                '                                        </div>\n' +
+                '                                        <div class="modal-body">\n' +
+                '                                            Czy napewno chcesz usunąć grupę?\n' +
+                '                                        </div>\n' +
+                '                                        <div class="modal-footer">\n' +
+                '                                            <button class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
+                '                                                    onclick="deleteGroup(' + groups[i]['teams']['idTeam'] + ')">Tak</button>\n' +
+                '                                            <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </div>\n' +
+                '                            </div>'
+            '</tr>';
+        }
+
+        document.getElementById("tbody-element-group").innerHTML = result;
+    }
+
+    function getPrices() {
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('GET', "/app/getPrices", true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            var prices;
+            if (this.readyState === 4 && this.status === 200) {
+                prices = JSON.parse(xhr.responseText);
+                generateTablePrices(prices);
             }
         }
     }
 
 
+  function  generateTablePrices(prices){
+      var result = "";
+
+      for (let i = 0; i < prices.length; i++) {
+
+          var modal = "exampleModalPrice"+ prices[i]['idPrice'];
+          var modalLabel="exampleModalLabelPrice"+ prices[i]['idPrice'];
+
+          result = result
+              +
+              '<tr style="font-size: 0.9em!important"> ' +
+              '<td scope="row">' +
+              '<input hidden style="width: 20px !important;" type="checkbox"  th:name="priceId"  th:value="' + prices[i]['idPrice'] + '"   class="option"/>' +
+              '</td>' +
+              '<td id="table-price-name">' + prices[i]['name'] + '</td>' +
+              '<td id="table-price-value">' + prices[i]['value'] + '</td>' +
+              '<td id="table-price-cycle">' + prices[i]['cycle'] + '</td>' +
+              '<td id="table-price-desc">' + prices[i]['description'] + '</td>' +
+              '<td data-label="info.">' +
+              '<button  class="option-card-button">Edytuj</button>&nbsp;' +
+              '<button  class="option-card-button" ' +
+              'data-toggle="modal" data-target="#'+modal+'">Usuń</button>' +
+              '</td>' +
+              '                            <div class="modal fade" id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
+              '                                <div class="modal-dialog" role="document">\n' +
+              '                                    <div class="modal-content">\n' +
+              '                                        <div class="modal-header">\n' +
+              '                                            <h5 class="modal-title" id="'+modalLabel+'">Usuwanie ceny</h5>\n' +
+              '                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
+              '                                                <span aria-hidden="true">&times;</span>\n' +
+              '                                            </button>\n' +
+              '                                        </div>\n' +
+              '                                        <div class="modal-body">\n' +
+              '                                            Czy napewno chcesz usunąć cenę?\n' +
+              '                                        </div>\n' +
+              '                                        <div class="modal-footer">\n' +
+              '                                            <button class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
+              '                                                    onclick="deletePrice(' + prices[i]['idPrice'] + ')">Tak</button>\n' +
+              '                                            <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
+              '                                        </div>\n' +
+              '                                    </div>\n' +
+              '                                </div>\n' +
+              '                            </div>'
+          '</tr>';
+      }
+
+      document.getElementById("tbody-element-prices").innerHTML = result;
+    }
 
 </script>
+
 </body>
 </html>

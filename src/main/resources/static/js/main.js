@@ -103,7 +103,6 @@ function dataChange()
     document.getElementById("date-picker").innerText = today;
     document.getElementById("date-picker").innerHTML = today;
     document.getElementById('date-picker').value=today;
-
 }
 
 function changePanel(element){
@@ -129,10 +128,7 @@ function changePanel(element){
 
         document.getElementById("open-close").textContent = months;
     }
-
-
 }
-
 
 // HELPER FUNCTIONS
 function checkEventPathForClass (path, selector) {
@@ -159,3 +155,4 @@ function formatDate (d) {
 
     return day + ' / ' + month + ' / ' + year;
 }
+
