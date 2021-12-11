@@ -1,5 +1,6 @@
 package com.app.elista.Services;
 
+import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.Teams;
 import com.app.elista.model.extended.AllInfo;
 import com.app.elista.model.extended.MoreInfo;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TeamsService {
@@ -96,6 +98,15 @@ public class TeamsService {
 
     public Teams findTeamById(String groupId) {
         return teamsRepository.findById(Long.valueOf(groupId)).get();
+
+    }
+
+    public List<Teams> findAllByCompany(AppCompany appCompany) {
+
+        List<Teams> teams = teamsRepository.findAll().stream().filter(team -> team.getAppCompany().getIdCompany().equals(appCompany.getIdCompany())).collect(Collectors.toList());
+        teams.forEach(t -> t.setAppCompany(null));
+        return teams;
+
 
     }
 

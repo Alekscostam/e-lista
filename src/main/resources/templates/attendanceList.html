@@ -285,7 +285,6 @@
                         <br>
                         <a href="#"> <i class='bx bxs-edit-alt success'><span> Zapisz</span></i></a>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -407,6 +406,8 @@
         </div>
     </div>
 </section>
+<section id="modals" >
+</section>
 
 <section id="specific-months" style="display: none">
 </section>
@@ -485,7 +486,6 @@
         var xhr = new XMLHttpRequest();
         var groupId = "";
 
-
         groupId = event.value;
         if (groupId === undefined) {
             groupId = event;
@@ -507,11 +507,30 @@
     function generateTable(user) {
         var result = "";
 
-        for (let i = 0; i < user.length; i++) {
 
+
+        for (let i = 0; i < user.length; i++) {
             var modal = "exampleModalPrice"+ user[i]['idUser'];
+
             var modalLabel="exampleModalLabelPrice"+ user[i]['idUser'];
 
+            var modalEdit = "exampleModalPriceEdit"+ user[i]['idUser'];
+            var modalLabelEdit="exampleModalLabelPriceEdit"+ user[i]['idUser'];
+
+            var idUser =  user[i]['idUser'] ;
+            var name = "'" +  user[i]['name'] + "'";
+            var surname = "'" +  user[i]['surname'] + "'";
+            var email = "'" +  user[i]['email'] + "'";
+            var phone =   user[i]['phone'] ;
+            var dateOfRecording = "'" +  user[i]['dateOfRecording'] + "'";
+            var teamName = "'" +  user[i]['teams']['teamName'] + "'";
+            var individualPriceId = user[i]['individualPriceId'] ;
+            var individualPriceName = "'" +  user[i]['individualPriceName'] + "'";
+            var individualPriceValue =  user[i]['individualPriceValue'] ;
+            var individualPriceCycle =  user[i]['individualPriceCycle'] ;
+            var individualPriceDesc = "'" +  user[i]['individualPriceDesc'] + "'";
+            var currentPaymentDate = "'" +  user[i]['currentPaymentDate'] + "'";
+            var nextPaymentDate = "'" +  user[i]['nextPaymentDate'] + "'";
 
             result = result
                 +
@@ -529,31 +548,44 @@
                 '<td id="table-user-phone">' + user[i]['phone'] + '</td>' +
                 '<td id="table-user-dataOfRecording">' + user[i]['dateOfRecording'] + '</td>' +
                 '<td data-label="info.">' +
-                '<button  class="option-card-button">Edytuj</button>&nbsp;' +
-                '<button  class="option-card-button" ' +
-                'data-toggle="modal" data-target="#'+modal+'" >Usuń</button>' +
+                '<Button type="button" class="option-card-button" data-toggle="modal" data-target="#'+modalEdit+'" onclick="editUse(' +
+                name   + ',' +
+                surname  + ',' +
+                individualPriceId  + ',' +
+                individualPriceName   + ',' +
+                individualPriceValue   + ',' +
+                individualPriceCycle   + ',' +
+                individualPriceDesc   + ',' +
+                currentPaymentDate    + ',' +
+                nextPaymentDate    + ',' +
+                teamName  + ',' +
+                dateOfRecording  + ',' +
+                email + ',' +
+                phone + ',' +
+                idUser    + ')">Edytuj</Button>&nbsp;' +
+                '<Button  class="option-card-button" data-toggle="modal" data-target="#'+modal+'" >Usuń</Button>' +
                 '</td>' +
-                '                            <div class="modal fade" id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
-                '                                <div class="modal-dialog" role="document">\n' +
-                '                                    <div class="modal-content">\n' +
-                '                                        <div class="modal-header">\n' +
-                '                                            <h5 class="modal-title" id="'+modalLabel+'">Usuwanie uczestnika</h5>\n' +
-                '                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
-                '                                                <span aria-hidden="true">&times;</span>\n' +
-                '                                            </button>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="modal-body">\n' +
-                '                                            Czy napewno chcesz usunąć uczestnika?\n' +
-                '                                        </div>\n' +
-                '                                        <div class="modal-footer">\n' +
-                '                                            <button id="button-delete-price" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
-                '                                                    onclick="deleteUser(' + user[i]['teams']['idTeam'] + ',' + user[i]['idUser'] + ')">Tak</button>\n' +
-                '                                            <button type="button" class="option-card-button" style="font-size: 1em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
-                '                                        </div>\n' +
-                '                                    </div>\n' +
-                '                                </div>\n' +
-                '                            </div>'
-            '</tr>';
+                ' <div class="modal fade" id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
+                '     <div class="modal-dialog" role="document">\n' +
+                '         <div class="modal-content">\n' +
+                '             <div class="modal-header">\n' +
+                '                 <h5 class="modal-title" id="'+modalLabel+'">Usuwanie uczestnika</h5>\n' +
+                '                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
+                '                     <span aria-hidden="true">&times;</span>\n' +
+                '                 </button>\n' +
+                '             </div>\n' +
+                '             <div class="modal-body">\n' +
+                '                 Czy napewno chcesz usunąć uczestnika?\n' +
+                '             </div>\n' +
+                '             <div class="modal-footer">\n' +
+                '                 <button id="button-delete-price" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
+                '                         onclick="deleteUser(' + user[i]['teams']['idTeam'] + ',' + user[i]['idUser'] + ')">Tak</button>\n' +
+                '                 <button type="button" class="option-card-button" style="font-size: 1em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
+                '             </div>\n' +
+                '         </div>\n' +
+                '     </div>\n' +
+                ' </div>'+
+                '</tr>';
 
 
         }
@@ -599,6 +631,78 @@
                 }
             }
         }
+    }
+
+    function editUse(
+                        name, surname, individualPriceId, individualPriceName, individualPriceValue,
+                     individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate,
+                     teamName, dateOfRecording, email, phone, idUser,
+    ){
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('GET', "/app/getTeamsAndPrices", true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            var teamsPrices;
+            if (this.readyState === 4 && this.status === 200) {
+                teamsPrices = JSON.parse(xhr.responseText);
+                generateEditModal( name, surname, individualPriceId, individualPriceName, individualPriceValue,
+                    individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate,
+                    teamName, dateOfRecording, email, phone, idUser,teamsPrices);
+            }
+        }
+
+    }
+
+    function generateEditModal(name, surname, individualPriceId, individualPriceName, individualPriceValue,
+                               individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate,
+                               teamName, dateOfRecording, email, phone, idUser,teamsPrices){
+
+        var modalEdit = "exampleModalPriceEdit"+ idUser;
+        var modalLabelEdit="exampleModalLabelPriceEdit"+ idUser;
+
+          var  result =
+
+                '<Button  id="editButton" hidden  class="option-card-button" data-toggle="modal" data-target="#'+modalEdit+'" >Usuń</Button>' +
+                '<div class="modal fade" id="'+modalEdit+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabelEdit+'" aria-hidden="true">\n' +
+                '     <div class="modal-dialog" role="document">\n' +
+                '         <div class="modal-content">\n' +
+                '             <div class="modal-header">\n' +
+                '                 <h5 class="modal-title" id="'+modalLabelEdit+'">Edytowanie uczestnika</h5>\n' +
+                '                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
+                '                     <span aria-hidden="true">&times;</span>\n' +
+                '                 </button>\n' +
+                '             </div>\n' +
+                '             <div class="modal-body">\n' +
+                '                   <input hidden class="form-control my-1 mr-sm-2" placeholder="id"/>' +
+                '                   <input class="form-control my-1 mr-sm-2" placeholder="Imie"/>' +
+                '                   <input class="form-control my-1 mr-sm-2" placeholder="Nazwisko"/>' +
+                '                    <select id="select-teams" onchange="moreInformation(this)" class="form-control select-input mr-sm-2" name="groupId"> <option selected name="groupId" value="">Wybierz grupe</option><option th:each="team : ${teams}" th:value="${team.idTeam}" th:text="${team.teamName}"></option></select>' +
+                '                   <input class="form-control my-1 mr-sm-2" placeholder="Nazwa grupy"/>' +
+                '                   <input class="form-control my-1 mr-sm-2" placeholder="Cykl rozliczeniowy"/>' +
+                '                    <span style="font-size: 0.7em"> Data wpłaty od i do </span> ' +
+                '                  <input class="form-control my-2" type="date" id="" name="" placeholder=""/>' +
+                '                  <input class="form-control my-2" type="date" id="" name="" placeholder=""/>' +
+                '                   <input class="form-control my-1 mr-sm-2" placeholder="Rozliczenie"/>' +
+                '                   <input class="form-control my-1 mr-sm-2" placeholder="Email"/>' +
+                '                   <input class="form-control my-1 mr-sm-2" placeholder="Telefon"/>' +
+                '                   <input class="form-control my-1 mr-sm-2" placeholder="Data zapisu"/>' +
+                '                   <input class="form-control my-1 mr-sm-2" placeholder="Imie"/>' +
+                '             </div>\n' +
+                '             <div class="modal-footer">\n' +
+                '                 <button id="button-delete-price" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
+                '                         onclick="">Edytuj</button>\n' +
+                '                 <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
+                '             </div>\n' +
+                '         </div>\n' +
+                '     </div>\n' +
+                ' </div>';
+
+        document.getElementById("modals").innerHTML = result;
+        document.getElementById("editButton").click();
+
     }
 
     function generatedDivPrices(prices) {

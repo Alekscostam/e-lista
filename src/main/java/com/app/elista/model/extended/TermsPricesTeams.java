@@ -10,6 +10,11 @@ public class TermsPricesTeams {
     List<Prices> prices;
      Teams team;
 
+    public TermsPricesTeams(List<Prices> prices, Teams team) {
+        this.prices = prices;
+        this.team = team;
+    }
+
     public TermsPricesTeams(List<String> terms, List<Prices> prices) {
         this.terms = terms;
         this.prices = prices;

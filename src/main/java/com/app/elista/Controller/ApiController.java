@@ -202,8 +202,23 @@ public class ApiController {
     }
 
     @ResponseBody
+    @GetMapping("/getTeamsAndPrices")
+    public  List <TermsPricesTeams> getTeamsAndPrices(@AuthenticationPrincipal AppCompany appCompany){
+
+        List <TermsPricesTeams> termsPricesTeams = new ArrayList<>();
+        List<Teams> teams = teamsService.findAllByCompany(appCompany);
+
+        for (int i = 0; i < teams.size(); i++) {
+            List<Prices> prices = pricesService.findAllPricesByTeam(teams.get(i));
+            termsPricesTeams.add(new TermsPricesTeams(prices,teams.get(i)));
+        }
+
+        return termsPricesTeams;
+    }
+
+    @ResponseBody
     @GetMapping("/getSpecifiedGroupInformation")
-    public TermsPricesTeams getTasksByProjectId(String groupId) {
+    public TermsPricesTeams getTermsPricesTeamsByGroupId(String groupId) {
         try {
             Teams team = teamsService.findTeamById(groupId);
             team.setAppCompany(null);
