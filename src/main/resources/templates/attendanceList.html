@@ -23,91 +23,10 @@
               </h4>
             </span>
                 <hr/>
-                <br/>
-                <div id="month-form" style="display: none">
-                    <form lang="pl" class="form-inline my-0 my-lg-0">
-                        <label for="group" style="font-weight: bold"></label>
-                        <input
-                                class="form-control my-1 mr-sm-2"
-                                type="search"
-                                placeholder="Imie"
-                                aria-label="Search"
-                        />
-                        <input
-                                class="form-control mr-sm-2"
-                                type="search"
-                                placeholder="Nazwisko"
-                                aria-label="Search"
-                        />
-                        <div class="md-form mb-0 m-1 form-group form-field">
-                            <select
-                                    name="group"
-                                    id="group"
-                                    class="form-control select-input mr-sm-2">
-                                <option value="">Wybierz grupe</option>
-                                <option value="volvo">Volvo</option>
-                                <option value="saab">Saab</option>
-                                <option value="mercedes">Mercedes</option>
-                                <option value="audi">Audi</option>
-                                <option value="audi">Bez grupy</option>
-                            </select>
-                        </div>
 
-                        <div class="md-form mb-0 m-1 form-group form-field">
-                            <select
-                                    name="group"
-                                    id="group"
-                                    class="form-control select-input mr-sm-2">
-                                <option value="1">Styczeń</option>
-                                <option value="2">Luty</option>
-                                <option value="3">Marzec</option>
-                                <option value="4">Kwiecień</option>
-                                <option value="5">Maj</option>
-                                <option value="6">Czerwiec</option>
-                                <option value="7">Lipiec</option>
-                                <option value="8">Sierpień</option>
-                                <option value="9">Wrzesień</option>
-                                <option value="10">Październik</option>
-                                <option value="11">Listopad</option>
-                                <option value="12">Grudzień</option>
-                            </select>
-                        </div>
-                        <div class="md-form mb-0 m-1 form-group form-field">
-                            <select
-                                    name="group"
-                                    id="group"
-                                    class="form-control select-input mr-sm-2">
-                                <option value="1">Styczeń</option>
-                                <option value="2">Luty</option>
-                                <option value="3">Marzec</option>
-                                <option value="4">Kwiecień</option>
-                                <option value="5">Maj</option>
-                                <option value="6">Czerwiec</option>
-                                <option value="7">Lipiec</option>
-                                <option value="8">Sierpień</option>
-                                <option value="9">Wrzesień</option>
-                                <option value="10">Październik</option>
-                                <option value="11">Listopad</option>
-                                <option value="12">Grudzień</option>
-                            </select>
-                        </div>
-                        <script type="text/javascript">
-                            // window.onload = dataChange();
-                        </script>
-                        <div class="form-group"></div>
-                        <button
-                                class="btn btn-outline-success my-2 my-sm-0 form-control"
-                                type="submit"
-                        >
-                            Wyszukaj
-                        </button>
-                        <br/><br/>
-                    </form>
-                </div>
-
-                <div id="day-form" class="form-inline my-0 my-lg-0">
+                <div id="day-form" class="form-inline my-0 my-lg-0" style="font-size: 0.9em;">
                     <!--                    <form lang="pl" class="form-inline my-0 my-lg-0">-->
-                    <label for="group" style="font-weight: bold"></label>
+<!--                    <label for="group" style="font-weight: bold"></label>-->
                     <input
                             class="form-control my-1 mr-sm-2"
                             type="search"
@@ -121,7 +40,7 @@
                             aria-label="Search"
                     />
                     <div class="md-form mb-0 m-1 form-group form-field">
-                        <select id="selected-item-list" onchange="getUsers(this)"
+                        <select id="selected-item-list" onchange="getUsersByGroupsId(this)"
                                 class="form-control select-input mr-sm-2" name="groupId">
                             <option selected name="groupId" value="all">Wszystkie grupy</option>
                             <option name="groupId" value="none">Brak grupy</option>
@@ -132,10 +51,12 @@
                         </select>
                     </div>
                     <input
+                            onchange="something()"
+                            style = " min-width: 170px"
                             type="date"
                             lang="fr-CA"
                             data-date=""
-                            id="date-picker"
+                            id=""
                             data-date-format="DD MMMM YYYY"
                     />
                     <script type="text/javascript">
@@ -145,7 +66,7 @@
                     <button
                             class="btn btn-outline-success my-2 my-sm-0 form-control"
                             type="submit">
-                        Wyszukaj
+                        Wyszukaj po kilku frazach
                     </button>
                     <!--                    </form>-->
                 </div>
@@ -156,7 +77,7 @@
             <div class="col-lg-6">
                 <button
                         class="navigation-card-button"
-                        onclick="getUsers('all');changePanel('attendanceList')"
+                        onclick="getUsersByGroupsId('all');changePanel('attendanceList')"
                         type="submit"
                 >
                     Lista użytkowników
@@ -175,15 +96,16 @@
                 >
                     Konkretne miesiące
                 </button>
+                <button
+                        class="navigation-card-button"
+                        onclick="changePanel('group-add')"
+                        type="submit"
+                >
+                    Statystyki
+                </button>
             </div>
         </div>
-        <!--        <p class="text-right">-->
-        <!--            &lt;!&ndash; <a href="#"> <i class='bx bxs-edit-alt edit' ><span class="">Edytuj</span></i></a>&nbsp;&nbsp;    &ndash;&gt;-->
-        <!--            <a href="#"> <i class='bx bxs-edit-alt success'><span class=""> Export danych</span></i></a>&nbsp;-->
-        <!--            <a href="#"> <i class='bx bxs-bar-chart-alt-2 success'><span class=""> Podsumowanie miesiąca</span></i></a>-->
-        <!--            <a id="open-close" href="#" onclick="changePanel(this)"><span-->
-        <!--                    class="">Lista z konkretnych miesięcy</span></a>-->
-        <!--        </p>-->
+
     </div>
 </div>
 
@@ -204,9 +126,16 @@
         </tr>
         </thead>
         <tbody id="tbody-element">
-
         </tbody>
+
+
     </table>
+    <button
+            class="navigation-card-button"
+            onclick="savePresence()"
+            type="submit">
+        Zapisz obecności
+    </button>
 </section>
 
 <div id="myModal" class="modal">
@@ -406,7 +335,7 @@
         </div>
     </div>
 </section>
-<section id="modals" >
+<section id="modals">
 </section>
 
 <section id="specific-months" style="display: none">
@@ -414,9 +343,7 @@
 <input id="temporary-value" hidden type="text" value="all"/>
 
 <script>
-    function changePriceStatus(element,temp) {
-
-
+    function changePriceStatus(element, temp) {
         if (element.innerText === "0") {
             element.innerText = temp;
         } else {
@@ -424,8 +351,8 @@
         }
     }
 
-    function showOrHidePrices(option) {
-        let elementsPrices = document.getElementsByClassName("part-prices");
+    function showOrHidePrices(option, className) {
+        let elementsPrices = document.getElementsByClassName(className);
         for (var i = 0; i < elementsPrices.length; i++) {
             elementsPrices[i].style.display = option;
         }
@@ -482,7 +409,7 @@
         document.getElementById("select-teams").selectedIndex = 0;
     }
 
-    function getUsers(event) {
+    function getUsersByGroupsId(event) {
         var xhr = new XMLHttpRequest();
         var groupId = "";
 
@@ -491,7 +418,7 @@
             groupId = event;
         }
 
-        xhr.open('GET', "/app/getUsers?groupId=" + groupId, true);
+        xhr.open('GET', "/app/getUsersByGroupsId?groupId=" + groupId, true);
         xhr.send('');
 
         xhr.onreadystatechange = function () {
@@ -503,40 +430,34 @@
         }
     }
 
-
     function generateTable(user) {
         var result = "";
 
-
-
         for (let i = 0; i < user.length; i++) {
-            var modal = "exampleModalPrice"+ user[i]['idUser'];
+            var modal = "exampleModalPrice" + user[i]['idUser'];
 
-            var modalLabel="exampleModalLabelPrice"+ user[i]['idUser'];
+            var modalLabel = "exampleModalLabelPrice" + user[i]['idUser'];
 
-            var modalEdit = "exampleModalPriceEdit"+ user[i]['idUser'];
-            var modalLabelEdit="exampleModalLabelPriceEdit"+ user[i]['idUser'];
-
-            var idUser =  user[i]['idUser'] ;
-            var name = "'" +  user[i]['name'] + "'";
-            var surname = "'" +  user[i]['surname'] + "'";
-            var email = "'" +  user[i]['email'] + "'";
-            var phone =   user[i]['phone'] ;
-            var dateOfRecording = "'" +  user[i]['dateOfRecording'] + "'";
-            var teamName = "'" +  user[i]['teams']['teamName'] + "'";
-            var individualPriceId = user[i]['individualPriceId'] ;
-            var individualPriceName = "'" +  user[i]['individualPriceName'] + "'";
-            var individualPriceValue =  user[i]['individualPriceValue'] ;
-            var individualPriceCycle =  user[i]['individualPriceCycle'] ;
-            var individualPriceDesc = "'" +  user[i]['individualPriceDesc'] + "'";
-            var currentPaymentDate = "'" +  user[i]['currentPaymentDate'] + "'";
-            var nextPaymentDate = "'" +  user[i]['nextPaymentDate'] + "'";
+            var idUser = user[i]['idUser'];
+            var name = "'" + user[i]['name'] + "'";
+            var surname = "'" + user[i]['surname'] + "'";
+            var email = "'" + user[i]['email'] + "'";
+            var phone = user[i]['phone'];
+            var dateOfRecording = "'" + user[i]['dateOfRecording'] + "'";
+            var teamName = "'" + user[i]['teams']['teamName'] + "'";
+            var individualPriceId = user[i]['individualPriceId'];
+            var individualPriceName = "'" + user[i]['individualPriceName'] + "'";
+            var individualPriceValue = user[i]['individualPriceValue'];
+            var individualPriceCycle = user[i]['individualPriceCycle'];
+            var individualPriceDesc = "'" + user[i]['individualPriceDesc'] + "'";
+            var currentPaymentDate = "'" + user[i]['currentPaymentDate'] + "'";
+            var nextPaymentDate = "'" + user[i]['nextPaymentDate'] + "'";
 
             result = result
                 +
                 '<tr style=""> ' +
                 '<td scope="row">' +
-                '<input style="width: 20px !important;" type="checkbox"  th:name="userId"  th:value="' + user[i]['idUser'] + '"   class="option"/>' +
+                '<input style="width: 20px !important;" type="checkbox"  th:name="userId"  value="' + user[i]['idUser'] + '" class="option"/>' +
                 '</td>' +
                 '<td id="table-user-name">' + user[i]['name'] + '</td>' +
                 '<td id="table-user-surname">' + user[i]['surname'] + '</td>' +
@@ -548,28 +469,14 @@
                 '<td id="table-user-phone">' + user[i]['phone'] + '</td>' +
                 '<td id="table-user-dataOfRecording">' + user[i]['dateOfRecording'] + '</td>' +
                 '<td data-label="info.">' +
-                '<Button type="button" class="option-card-button" data-toggle="modal" data-target="#'+modalEdit+'" onclick="editUse(' +
-                name   + ',' +
-                surname  + ',' +
-                individualPriceId  + ',' +
-                individualPriceName   + ',' +
-                individualPriceValue   + ',' +
-                individualPriceCycle   + ',' +
-                individualPriceDesc   + ',' +
-                currentPaymentDate    + ',' +
-                nextPaymentDate    + ',' +
-                teamName  + ',' +
-                dateOfRecording  + ',' +
-                email + ',' +
-                phone + ',' +
-                idUser    + ')">Edytuj</Button>&nbsp;' +
-                '<Button  class="option-card-button" data-toggle="modal" data-target="#'+modal+'" >Usuń</Button>' +
+                '<Button type="button" class="option-card-button" onclick="editUser(' + name + ',' + surname + ',' + individualPriceId + ',' + individualPriceName + ',' + individualPriceValue + ',' + individualPriceCycle + ',' + individualPriceDesc + ',' + currentPaymentDate + ',' + nextPaymentDate + ',' + teamName + ',' + dateOfRecording + ',' + email + ',' + phone + ',' + idUser + ')">Edytuj</Button>&nbsp;' +
+                '<Button  class="option-card-button" data-toggle="modal" data-target="#' + modal + '" >Usuń</Button>' +
                 '</td>' +
-                ' <div class="modal fade" id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
+                ' <div class="modal fade" id="' + modal + '" tabindex="-1" role="dialog" aria-labelledby="' + modalLabel + '" aria-hidden="true">\n' +
                 '     <div class="modal-dialog" role="document">\n' +
                 '         <div class="modal-content">\n' +
                 '             <div class="modal-header">\n' +
-                '                 <h5 class="modal-title" id="'+modalLabel+'">Usuwanie uczestnika</h5>\n' +
+                '                 <h5 class="modal-title" id="' + modalLabel + '">Usuwanie uczestnika</h5>\n' +
                 '                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
                 '                     <span aria-hidden="true">&times;</span>\n' +
                 '                 </button>\n' +
@@ -584,12 +491,76 @@
                 '             </div>\n' +
                 '         </div>\n' +
                 '     </div>\n' +
-                ' </div>'+
+                ' </div>' +
                 '</tr>';
-
 
         }
         document.getElementById("tbody-element").innerHTML = result;
+    }
+
+    function generateEditModal(name, surname, individualPriceId, individualPriceName, individualPriceValue,
+                               individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate,
+                               teamName, dateOfRecording, email, phone, idUser, teamsPrices) {
+
+        var modalEdit = "exampleModalPriceEdit" + idUser;
+        var modalLabelEdit = "exampleModalLabelPriceEdit" + idUser;
+
+        var userIdentifier = "user-edit-identifier";
+        userIdentifier = "'" + userIdentifier + "'";
+        var userClasses = "user-edit-classes";
+        userClasses = "'" + userClasses + "'";
+
+        var options = '<option  name="groupId" value="">Zmień grupę</option>';
+        for (let i = 0; i < teamsPrices.length; i++) {
+
+            if (teamsPrices[i]['teams']['teamName'] == teamName) {
+                options = options + '<option  style="color: #1e1c35" value="' + teamsPrices[i]['teams']['idTeam'] + '">' + teamsPrices[i]['teams']['teamName'] + '</option>';
+             // moreInformationForEdit(fdsa,userIdentifier,userClasses);
+            } else {
+                options = options + '<option style="color: #1e1c35" value="' + teamsPrices[i]['teams']['idTeam'] + '">' + teamsPrices[i]['teams']['teamName'] + '</option>';
+            }
+        }
+
+        var result =
+
+            '<Button  id="editButton" hidden  class="option-card-button" data-toggle="modal" data-target="#' + modalEdit + '" >Usuń</Button>' +
+            '<div class="modal fade" id="' + modalEdit + '" tabindex="-1" role="dialog" aria-labelledby="' + modalLabelEdit + '" aria-hidden="true">\n' +
+            '     <div class="modal-dialog" role="document">\n' +
+            '         <div class="modal-content">\n' +
+            '             <div class="modal-header">\n' +
+            '                 <h5 class="modal-title" id="' + modalLabelEdit + '">Edytowanie uczestnika</h5>\n' +
+            '                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
+            '                     <span aria-hidden="true">&times;</span>\n' +
+            '                 </button>\n' +
+            '             </div>\n' +
+            '             <div id="modal-body-edit' + idUser + '" class="modal-body">\n' +
+            '                   <input hidden value="' + idUser + '" class="form-control my-1 mr-sm-2" />' +
+            '                   <input hidden value="' + individualPriceId + '" class="form-control my-1 mr-sm-2" />' +
+            '                   <input value="' + name + '" class="form-control my-1 mr-sm-2" placeholder="Imie"/>' +
+            '                   <input value="' + surname + '" class="form-control my-1 mr-sm-2" placeholder="Nazwisko"/>' +
+            '                   <input disabled value="' + teamName + '" class="form-control my-1 mr-sm-2" placeholder="Nazwa grupy"/>' +
+            '                   <select onchange="moreInformationForEdit(this,' + userIdentifier + ',' + userClasses + ');" class="form-control select-input mr-sm-2 ' + userClasses + '" name="groupId">' + options + '</select>' +
+            '                   <div id="user-edit-identifier"  class="my-2"></div>' +
+            '                   <input value="' + individualPriceCycle + '" class="form-control my-1 mr-sm-2" placeholder="Cykl rozliczeniowy"/>' +
+            '                   <span style="font-size: 0.7em"> Data wpłaty od i do </span> ' +
+            '                   <input value="' + currentPaymentDate + '" class="form-control my-2" type="date" id="" name="" placeholder=""/>' +
+            '                   <input value="' + nextPaymentDate + '" class="form-control my-2" type="date" id="" name="" placeholder=""/>' +
+            '                   <input value="' + individualPriceValue + '" class="form-control my-1 mr-sm-2" placeholder="Rozliczenie"/>' +
+            '                   <input value="' + email + '" class="form-control my-1 mr-sm-2" placeholder="Email"/>' +
+            '                   <input value="' + phone + '" class="form-control my-1 mr-sm-2" placeholder="Telefon"/>' +
+            '                   <input value="' + dateOfRecording + '" class="form-control my-1 mr-sm-2" placeholder="Data zapisu"/>' +
+            '             </div>\n' +
+            '             <div class="modal-footer">\n' +
+            '                 <button id="button-delete-price" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
+            '                         onclick="">Edytuj</button>\n' +
+            '                 <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 75px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
+            '             </div>\n' +
+            '         </div>\n' +
+            '     </div>\n' +
+            ' </div>';
+
+        document.getElementById("modals").innerHTML = result;
+        document.getElementById("editButton").click();
     }
 
     function deleteUser(idTeam, idUser) {
@@ -603,41 +574,88 @@
             if (this.readyState === 4 && this.status === 200) {
                 var selectGroup = document.getElementById("selected-item-list");
                 var selectedOptionGroupId = selectGroup.value;
-                getUsers(selectedOptionGroupId);
+                getUsersByGroupsId(selectedOptionGroupId);
             }
         }
     }
 
     function moreInformation(event) {
-
         if (event.value === "" || event === "noOption") {
             let elementsGroup = document.getElementsByClassName("group-info");
             for (var i = 0; i < elementsGroup.length; i++) {
                 elementsGroup[i].style.display = "none";
             }
-            showOrHidePrices("none");
+            showOrHidePrices("none", "part-prices");
         } else {
             var xhr = new XMLHttpRequest();
             var groupId = event.value;
             xhr.open('GET', "/app/getSpecifiedGroupInformation?groupId=" + groupId, true);
             xhr.send('');
-
             xhr.onreadystatechange = function () {
                 var issue;
                 if (this.readyState === 4 && this.status === 200) {
                     issue = JSON.parse(xhr.responseText);
-                    generatedDivPrices(issue['prices']);
+                    generatedDivPricesForGroups(issue['prices']);
                     generatedGroupInfo(issue['teams'], issue['terms']);
                 }
             }
         }
     }
 
-    function editUse(
-                        name, surname, individualPriceId, individualPriceName, individualPriceValue,
-                     individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate,
-                     teamName, dateOfRecording, email, phone, idUser,
-    ){
+    function moreInformationForEdit(event, ids, classes) {
+
+        var groupId = "";
+        if (event.value === "" || event === "noOption") {
+            let elementsGroup = document.getElementsByClassName("group-info");
+            for (var i = 0; i < elementsGroup.length; i++) {
+                elementsGroup[i].style.display = "none";
+            }
+            // showOrHidePrices("none","part-prices");
+        }
+        // else if (event === undefined) {
+        //     groupId = event.value;
+        // }
+        else {
+            groupId = event.value;
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', "/app/getSpecifiedGroupInformation?groupId=" + groupId, true);
+            xhr.send('');
+
+            xhr.onreadystatechange = function () {
+                var prices;
+                if (this.readyState === 4 && this.status === 200) {
+                    prices = JSON.parse(xhr.responseText);
+                    generatedDivPricesForEdit(prices, ids, classes);
+                }
+            }
+        }
+    }
+
+    function generatedDivPricesForEdit(prices, ids, classes) {
+
+        console.log("prices: " + prices);
+        var result = "";
+        for (let i = 0; i < prices['prices'].length; i++) {
+
+            console.log(prices['prices'][i]['idPrice']);
+            result = result
+                +
+                '<div class="' + classes + '" style="display: flex;color:black; font-size:0.6em!important">\n' +
+                '<input style="width: 20px !important;" type="radio"   value="' + prices['prices'][i]['idPrice'] + '" name="priceId"/>\n' +
+                ' <b>' + "Nazwa:&nbsp;" + '</b>' + prices['prices'][i]['name'] + ", &nbsp;" +
+                ' <b>' + "Cena:&nbsp;" + '</b>' + prices['prices'][i]['value'] + "zł, &nbsp;" +
+                ' <b>' + "Rozliczenie:&nbsp;" + '</b>' + prices['prices'][i]['cycle'] + "dni, &nbsp;" +
+                ' <b>' + "Opis:&nbsp;" + '</b>' + prices['prices'][i]['description'];
+                '</div>';
+        }
+
+        document.getElementById(ids).innerHTML = result;
+        showOrHidePrices("block", "part-prices-edit");
+    }
+
+    function editUser(name, surname, individualPriceId, individualPriceName, individualPriceValue, individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate, teamName, dateOfRecording, email, phone, idUser,) {
 
         var xhr = new XMLHttpRequest();
 
@@ -648,64 +666,15 @@
             var teamsPrices;
             if (this.readyState === 4 && this.status === 200) {
                 teamsPrices = JSON.parse(xhr.responseText);
-                generateEditModal( name, surname, individualPriceId, individualPriceName, individualPriceValue,
+                generateEditModal(name, surname, individualPriceId, individualPriceName, individualPriceValue,
                     individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate,
-                    teamName, dateOfRecording, email, phone, idUser,teamsPrices);
+                    teamName, dateOfRecording, email, phone, idUser, teamsPrices);
             }
         }
 
     }
 
-    function generateEditModal(name, surname, individualPriceId, individualPriceName, individualPriceValue,
-                               individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate,
-                               teamName, dateOfRecording, email, phone, idUser,teamsPrices){
-
-        var modalEdit = "exampleModalPriceEdit"+ idUser;
-        var modalLabelEdit="exampleModalLabelPriceEdit"+ idUser;
-
-          var  result =
-
-                '<Button  id="editButton" hidden  class="option-card-button" data-toggle="modal" data-target="#'+modalEdit+'" >Usuń</Button>' +
-                '<div class="modal fade" id="'+modalEdit+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabelEdit+'" aria-hidden="true">\n' +
-                '     <div class="modal-dialog" role="document">\n' +
-                '         <div class="modal-content">\n' +
-                '             <div class="modal-header">\n' +
-                '                 <h5 class="modal-title" id="'+modalLabelEdit+'">Edytowanie uczestnika</h5>\n' +
-                '                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
-                '                     <span aria-hidden="true">&times;</span>\n' +
-                '                 </button>\n' +
-                '             </div>\n' +
-                '             <div class="modal-body">\n' +
-                '                   <input hidden class="form-control my-1 mr-sm-2" placeholder="id"/>' +
-                '                   <input class="form-control my-1 mr-sm-2" placeholder="Imie"/>' +
-                '                   <input class="form-control my-1 mr-sm-2" placeholder="Nazwisko"/>' +
-                '                    <select id="select-teams" onchange="moreInformation(this)" class="form-control select-input mr-sm-2" name="groupId"> <option selected name="groupId" value="">Wybierz grupe</option><option th:each="team : ${teams}" th:value="${team.idTeam}" th:text="${team.teamName}"></option></select>' +
-                '                   <input class="form-control my-1 mr-sm-2" placeholder="Nazwa grupy"/>' +
-                '                   <input class="form-control my-1 mr-sm-2" placeholder="Cykl rozliczeniowy"/>' +
-                '                    <span style="font-size: 0.7em"> Data wpłaty od i do </span> ' +
-                '                  <input class="form-control my-2" type="date" id="" name="" placeholder=""/>' +
-                '                  <input class="form-control my-2" type="date" id="" name="" placeholder=""/>' +
-                '                   <input class="form-control my-1 mr-sm-2" placeholder="Rozliczenie"/>' +
-                '                   <input class="form-control my-1 mr-sm-2" placeholder="Email"/>' +
-                '                   <input class="form-control my-1 mr-sm-2" placeholder="Telefon"/>' +
-                '                   <input class="form-control my-1 mr-sm-2" placeholder="Data zapisu"/>' +
-                '                   <input class="form-control my-1 mr-sm-2" placeholder="Imie"/>' +
-                '             </div>\n' +
-                '             <div class="modal-footer">\n' +
-                '                 <button id="button-delete-price" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
-                '                         onclick="">Edytuj</button>\n' +
-                '                 <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
-                '             </div>\n' +
-                '         </div>\n' +
-                '     </div>\n' +
-                ' </div>';
-
-        document.getElementById("modals").innerHTML = result;
-        document.getElementById("editButton").click();
-
-    }
-
-    function generatedDivPrices(prices) {
+    function generatedDivPricesForGroups(prices) {
 
         var result = "";
         for (let i = 0; i < prices.length; i++) {
@@ -721,7 +690,7 @@
         }
 
         document.getElementById("prices-div").innerHTML = result;
-        showOrHidePrices("block");
+        showOrHidePrices("block", "part-prices");
     }
 
     function generatedGroupInfo(team, terms) {
@@ -829,30 +798,16 @@
     // Get the button that opens the modal
     var btn = document.getElementById("myBtn");
 
-    // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks on the button, open the modal
-    // btn.onclick = function () {
-    //     modal.style.display = "block";
-    //     var issueTable = document.getElementById('myModal');
-    // }
-    // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
         modal.style.display = "none";
     }
 
     window.onload = function () {
         let all = document.getElementById('temporary-value');
-        getUsers(all);
+        getUsersByGroupsId(all);
     };
-
-    // When the user clicks anywhere outside of the modal, close it
-    // window.onclick = function (event) {
-    //     if (event.target == modal) {
-    //         modal.style.display = "none";
-    //     }
-    // }
 
     function changePanel(element) {
         var attendanceList = document.getElementById("attendanceList");
@@ -877,6 +832,24 @@
             specific_months.style.display = "block";
 
         }
+    }
+
+    function savePresence(){
+
+        var checkedValue = "";
+        var elementsByClassName = document.getElementsByClassName('option');
+        for(var i=0; elementsByClassName[i]; ++i){
+            if(elementsByClassName[i].checked){
+
+                checkedValue = checkedValue + " " + elementsByClassName[i].value;
+                console.log(checkedValue);
+
+            }
+        }
+    }
+
+    function something(){
+        console.log("something")
     }
 
 </script>

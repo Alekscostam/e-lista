@@ -5,9 +5,14 @@ import com.app.elista.appcompany.AppCompany;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -25,8 +30,14 @@ public class ApiControllerTest {
 
     List<String> listDayForGroup;
     List<String> listOfTimes;
-    ApiController apiController;
 
+
+    @Autowired
+    DatesService datesService;
+
+    public ApiControllerTest(DatesService datesService) {
+        this.datesService = datesService;
+    }
 
     @Before
     public void init(){
@@ -69,18 +80,18 @@ public class ApiControllerTest {
 
     @Test
     public void shouldDivideStringToList() {
-        String dayForGroup = "Wtorek, Sobota";
-        String times = "12:54, 13:20";
-        String ids = "1, 2";
-
-        List<String> listDayForGroup = apiController.divideStringToList(dayForGroup);
-        List<String> listOfTimes = apiController.divideStringToList(times);
-        List<String> listOfIds = apiController.divideStringToList(ids);
-
-        assertEquals("listDayForGroup: ",listDayForGroup.get(0),"Wtorek");
-        assertEquals("listOfTimes: ",listOfTimes.get(1),"13:20");
-        assertEquals("listOfIds: ",listOfIds.get(0),"1");
-        String value = "as";
+//        String dayForGroup = "Wtorek, Sobota";
+//        String times = "12:54, 13:20";
+//        String ids = "1, 2";
+//
+//        List<String> listDayForGroup = apiController.divideStringToList(dayForGroup);
+//        List<String> listOfTimes = apiController.divideStringToList(times);
+//        List<String> listOfIds = apiController.divideStringToList(ids);
+//
+//        assertEquals("listDayForGroup: ",listDayForGroup.get(0),"Wtorek");
+//        assertEquals("listOfTimes: ",listOfTimes.get(1),"13:20");
+//        assertEquals("listOfIds: ",listOfIds.get(0),"1");
+//        String value = "as";
     }
 
 
@@ -98,6 +109,17 @@ public class ApiControllerTest {
 
     @Test
     public void shouldConvertStringListsToTermListsx() {
+
+
+//        List<String> convertedDates= new ArrayList<>();
+//
+//        List<LocalDateTime> collect = localDateTimes.stream().sorted().collect(Collectors.toList());
+//        for (int i = 0; i < collect.size(); i++) {
+//            String format = dtf.format(collect.get(i));
+//            convertedDates.add(format);
+//        }
+//        datesService.saveDates(convertedDates);
+
 
 
     }

@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Service
 public class PricesService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPricesService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PricesService.class);
     ;
 
     @Autowired

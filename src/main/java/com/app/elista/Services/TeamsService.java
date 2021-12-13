@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class TeamsService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsPricesService.class);;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TeamsService.class);;
 
 
     private final JdbcTemplate jdbcTemplate;
@@ -46,7 +46,7 @@ public class TeamsService {
         return  teams;
     }
 
-    public List<AllInfo> findAllInformationsByTeamUUID(UUID idCompany) {
+    public List<AllInfo> findAllInfoByAppCompanyUUID(UUID idCompany) {
         String sqlTeams = "SELECT t.id_team, t.team_name,t.terms,t.place, t.color, t.description, t.leader_name, t.start_date, t.end_date, t.first_free, t.free_space, t.group_size,t.id_company FROM teams t WHERE t.id_company='"+idCompany+"';";
         List<Teams> teams = jdbcTemplate.query(
                 sqlTeams,
@@ -107,6 +107,13 @@ public class TeamsService {
         teams.forEach(t -> t.setAppCompany(null));
         return teams;
 
+    }
+
+    public List<Teams> findAllByCompanyWithoutAppCompanyReset(AppCompany appCompany) {
+
+        List<Teams> teams = teamsRepository.findAll().stream().filter(team -> team.getAppCompany().getIdCompany().equals(appCompany.getIdCompany())).collect(Collectors.toList());
+
+        return teams;
 
     }
 

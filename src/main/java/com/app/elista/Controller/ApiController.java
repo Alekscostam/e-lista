@@ -2,9 +2,7 @@ package com.app.elista.Controller;
 
 import com.app.elista.Services.*;
 import com.app.elista.appcompany.AppCompany;
-import com.app.elista.model.Prices;
-import com.app.elista.model.Teams;
-import com.app.elista.model.Users;
+import com.app.elista.model.*;
 import com.app.elista.model.extended.AllInfo;
 import com.app.elista.model.extended.TermsPricesTeams;
 import org.slf4j.Logger;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -31,12 +30,16 @@ public class ApiController {
     private final UsersService usersService;
     private final TeamsService teamsService;
     private final TeamsPricesService teamsPricesService;
+    private final DatesService datesService;
+    private final DatesForGroupsService datesForGroupsService;
 
-    public ApiController(PricesService pricesService, UsersService usersService, TeamsService teamsService, TeamsPricesService teamsPricesService) {
+    public ApiController(PricesService pricesService, UsersService usersService, TeamsService teamsService, TeamsPricesService teamsPricesService, DatesService datesService , DatesForGroupsService datesForGroupsService) {
         this.pricesService = pricesService;
         this.usersService = usersService;
         this.teamsService = teamsService;
         this.teamsPricesService = teamsPricesService;
+        this.datesService = datesService;
+        this.datesForGroupsService = datesForGroupsService;
     }
 
     @GetMapping("calendar")
@@ -46,11 +49,56 @@ public class ApiController {
 
     @GetMapping("attendanceList")
     public ModelAndView attendanceList(@AuthenticationPrincipal AppCompany appCompany) {
+
+        setDates(appCompany);
+
         List<Teams> teamIdsAndTeamNamesByUUID = teamsService.findTeamIdsAndTeamNamesByUUID(appCompany.getIdCompany());
         ModelAndView mav = new ModelAndView("attendanceList");
         mav.addObject("teams", teamIdsAndTeamNamesByUUID);
 
         return mav;
+    }
+
+    private void setDates(AppCompany appCompany) {
+        String localDateTime = getLocalDateTime();
+//        Dates dates = datesService.saveDate(localDateTime);
+        Dates date = datesService.saveOrGetDateByLdt(localDateTime);
+
+        String actuallyDayWeekText = getActuallyDayWeekText();
+//        String actuallyDayWeekText = "Poniedziałek";
+
+        List<Teams> allTeams = teamsService.findAllByCompanyWithoutAppCompanyReset(appCompany);
+        List<TermsPricesTeams> termsPricesTeams  = new ArrayList<>();
+
+//        Dates asd = new Dates()
+
+
+        for (int i = 0; i < allTeams.size(); i++) {
+            List<String> terms = teamsService.getTermsForTeams(allTeams.get(i));
+            termsPricesTeams.add(new TermsPricesTeams(allTeams.get(i),terms));
+        }
+        for (int i = 0; i < termsPricesTeams.size(); i++) {
+            for (int i1 = 0; i1 < termsPricesTeams.get(i).getTerms().size(); i1++) {
+                if (termsPricesTeams.get(i).getTerms().get(i1).contains(actuallyDayWeekText)) {
+                    Teams teams = termsPricesTeams.get(i).getTeams();
+                    datesForGroupsService.saveDatesAndGroups(teams,date);
+                }
+                System.out.println("nie zawiera");
+            }
+        }
+    }
+
+
+    public String getActuallyDayWeekText(){
+       Date date=new Date();
+       Calendar c = Calendar.getInstance();
+       c.setTime(date);
+       int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+       String dayWeekText = new SimpleDateFormat("EEEE").format(date);
+       System.out.println(dayWeekText);
+
+
+       return dayWeekText.substring(0, 1).toUpperCase() + dayWeekText.substring(1);
     }
 
     @GetMapping("usersList")
@@ -71,7 +119,7 @@ public class ApiController {
 
     @GetMapping("optionGroupList")
     public ModelAndView optionGroupList(@AuthenticationPrincipal AppCompany appCompany) {
-        List<AllInfo> allByUUID = teamsService.findAllInformationsByTeamUUID(appCompany.getIdCompany());
+        List<AllInfo> allByUUID = teamsService.findAllInfoByAppCompanyUUID(appCompany.getIdCompany());
         ModelAndView mav = new ModelAndView("optionGroupList");
         List<Prices> allPrices = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
         mav.addObject("prices", allPrices);
@@ -83,7 +131,7 @@ public class ApiController {
     @GetMapping("getGroups")
     @ResponseBody
     public  List<AllInfo>  getGroups(@AuthenticationPrincipal AppCompany appCompany) {
-        List<AllInfo> allByUUID = teamsService.findAllInformationsByTeamUUID(appCompany.getIdCompany());
+        List<AllInfo> allByUUID = teamsService.findAllInfoByAppCompanyUUID(appCompany.getIdCompany());
         return allByUUID;
     }
 
@@ -170,15 +218,15 @@ public class ApiController {
     }
 
 
+    // TODO: 13.12.2021 usunac brak grupy
     @ResponseBody
-    @GetMapping("/getUsers")
-    public List<Users> getUsers(String groupId, @AuthenticationPrincipal AppCompany appCompany) {
+    @GetMapping("/getUsersByGroupsId")
+    public List<Users> getUsersByGroupsId(String groupId, @AuthenticationPrincipal AppCompany appCompany) {
 
         if (groupId.equals("all")) {
             return usersService.findAllUsersByAppCompanyId(String.valueOf(appCompany.getIdCompany()));
         }
         else if(groupId.equals("none")){
-            // TODO: 06.12.2021 FIND USER WITHOUT GROUP
             return Collections.emptyList();
         }
         else {
@@ -188,6 +236,15 @@ public class ApiController {
                 return usersService.findAllUsersWithoutGroups(String.valueOf(appCompany.getIdCompany()));
             }
         }
+    }
+
+    // TODO: 13.12.2021  Get users by date
+    @ResponseBody
+    @GetMapping("/getUsersByDates")
+    public List<Users> getUsersByDates(@AuthenticationPrincipal AppCompany appCompany) {
+
+
+        return Collections.emptyList();
     }
 
     @ResponseBody
@@ -205,12 +262,13 @@ public class ApiController {
     @GetMapping("/getTeamsAndPrices")
     public  List <TermsPricesTeams> getTeamsAndPrices(@AuthenticationPrincipal AppCompany appCompany){
 
+
         List <TermsPricesTeams> termsPricesTeams = new ArrayList<>();
         List<Teams> teams = teamsService.findAllByCompany(appCompany);
 
-        for (int i = 0; i < teams.size(); i++) {
-            List<Prices> prices = pricesService.findAllPricesByTeam(teams.get(i));
-            termsPricesTeams.add(new TermsPricesTeams(prices,teams.get(i)));
+        for (Teams team : teams) {
+            List<Prices> prices = pricesService.findAllPricesByTeam(team);
+            termsPricesTeams.add(new TermsPricesTeams(prices, team));
         }
 
         return termsPricesTeams;
@@ -400,4 +458,20 @@ public class ApiController {
         return dtf.format(now);
 
     }
+
+//    @PostMapping("postDates")
+//    @ResponseBody
+//    public String deleteGroup(String groupId) {
+//        String msg = "";
+//        try {
+//            Long id = Long.valueOf(groupId);
+//            teamsPricesService.deleteGroupFromGP(id);
+//            msg = teamsService.deleteGroupById(id);
+//            return msg;
+//        } catch (NumberFormatException ex) {
+//            LOGGER.error(ex.getMessage());
+//            LOGGER.error("Nie zaznaczono zadnej opcji!");
+//            return msg;
+//        }
+//    }
 }

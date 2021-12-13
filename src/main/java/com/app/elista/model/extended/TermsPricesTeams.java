@@ -8,7 +8,12 @@ import java.util.List;
 public class TermsPricesTeams {
     List<String> terms;
     List<Prices> prices;
-     Teams team;
+    Teams team;
+
+    public TermsPricesTeams(Teams team,List<String> terms) {
+        this.terms = terms;
+        this.team = team;
+    }
 
     public TermsPricesTeams(List<Prices> prices, Teams team) {
         this.prices = prices;
