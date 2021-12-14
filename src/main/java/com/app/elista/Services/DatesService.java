@@ -41,11 +41,7 @@ public class DatesService {
     public Dates saveDate(String dates){
 
         Optional<Dates> first = datesRepository.findAll().stream().filter(date -> date.getDatesGroup().equals(dates)).findFirst();
-        //Dates save = datesRepository.save(new Dates(dates));
-        //return save;
         return first.orElseGet(() -> datesRepository.save(new Dates(dates)));
-
-
     }
 
     public void saveDates(List<String> convertedDates) {

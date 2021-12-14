@@ -76,15 +76,26 @@ public class UsersService {
     }
 
     public List<Users> findAllUsersByGroupId(String groupId) {
-        List<Users> users = usersRepository.findAll();
-        List<Users> collect = users
-                .stream()
+        List<Users> users = usersRepository.findAll().stream()
                 .filter(u -> u.getTeams().getIdTeam().equals(Long.valueOf(groupId)))
                 .collect(Collectors.toList());
-        setNullForAppCompany(collect);
-        return collect;
+        setNullForAppCompany(users);
+        return users;
+    }
+
+    public List<Users> findAllUsersByGroupsId(List<String> groupsId) {
+
+        List<Users> users = new ArrayList<>();
+
+        for (String s : groupsId) {
+            users.addAll(findAllUsersByGroupId(s));
+        }
+
+
+        return users;
 
     }
+
 
     public List<Users> findAllUsersWithoutGroups(String appCompanyId) {
         List<Users> users = usersRepository.findAll();
@@ -100,7 +111,7 @@ public class UsersService {
     public void setNullForAppCompany(List<Users> users) {
         users.forEach(u -> u.setAppCompany(null));
         users.forEach(u -> u.getTeams().setAppCompany(null));
-//        users.forEach(u -> u.getPrices().setAppCompany(null));
+
     }
 
     public List<Users> deleteGroupById(Long groupId) {
@@ -152,5 +163,18 @@ public class UsersService {
         }
         usersRepository.saveAll(allUsers);
         LOGGER.info("Cena indywidualna u użytkowników została zmodyfikowana");
+    }
+
+    public List<Users> findAllUsersByUserIds(List<String> allValues) {
+
+        List<Long> collect = allValues.stream().map(Long::valueOf).collect(Collectors.toList());
+
+        return  usersRepository.findAllById(collect);
+    }
+
+
+    public Users findUserByUserId(Long userId) {
+
+        return usersRepository.findById(userId).get();
     }
 }

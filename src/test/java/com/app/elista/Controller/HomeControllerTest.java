@@ -6,35 +6,31 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
 public class HomeControllerTest {
 
-    @Autowired
-    DatesService datesService;
-
-    @Before
-    public void init(DatesService datesService){
-        this.datesService = datesService;
-//        apiController = new ApiController(pricesService, teamsService, teamsPricesService);
-//       listDayForGroup = Arrays.asList("jeden","dwa","trzy");
-//        listOfTimes = Arrays.asList("1:1","2:2","3:3");
-    }
-    @Bean
     @Test
-    public void home() {
+    public void home() throws ParseException {
 
+        String date = "2021-12-08";
 
+        String year = date.substring(0,4);
+        String month = date.substring(5,7);
+        String day = date.substring(8,10);
 
+        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(date);
 
-
-
+        SimpleDateFormat format = new SimpleDateFormat("EEEE");
+        System.out.println(format.format(date1));
 
     }
 }

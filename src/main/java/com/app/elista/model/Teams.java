@@ -9,6 +9,19 @@ import java.util.Objects;
 @Entity
 public class Teams {
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Teams teams = (Teams) o;
+        return Objects.equals(idTeam, teams.idTeam) && Objects.equals(teamName, teams.teamName) && Objects.equals(leaderName, teams.leaderName) && Objects.equals(place, teams.place) && Objects.equals(startDate, teams.startDate) && Objects.equals(endDate, teams.endDate) && Objects.equals(freeSpace, teams.freeSpace) && Objects.equals(groupSize, teams.groupSize) && Objects.equals(color, teams.color) && Objects.equals(firstFree, teams.firstFree) && Objects.equals(description, teams.description) && Objects.equals(terms, teams.terms) && Objects.equals(appCompany, teams.appCompany);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idTeam, teamName, leaderName, place, startDate, endDate, freeSpace, groupSize, color, firstFree, description, terms, appCompany);
+    }
+
+    @Override
     public String toString() {
         return "Teams{" +
                 "idTeam=" + idTeam +
@@ -200,19 +213,6 @@ public class Teams {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Teams teams = (Teams) o;
-        return Objects.equals(idTeam, teams.idTeam) && Objects.equals(teamName, teams.teamName) && Objects.equals(leaderName, teams.leaderName) && Objects.equals(place, teams.place) && Objects.equals(startDate, teams.startDate) && Objects.equals(endDate, teams.endDate) && Objects.equals(freeSpace, teams.freeSpace) && Objects.equals(groupSize, teams.groupSize) && Objects.equals(color, teams.color) && Objects.equals(firstFree, teams.firstFree) && Objects.equals(description, teams.description) && Objects.equals(terms, teams.terms) && Objects.equals(appCompany, teams.appCompany);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idTeam, teamName, leaderName, place, startDate, endDate, freeSpace, groupSize, color, firstFree, description, terms, appCompany);
     }
 
 

@@ -11,6 +11,6 @@ public class RedirectedController {
 
     @GetMapping()
     public String redirectToApp(){
-        return "redirect:/app/calender";
+        return "redirect:/app/calendar";
     }
 }

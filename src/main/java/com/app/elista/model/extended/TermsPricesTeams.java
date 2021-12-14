@@ -46,7 +46,7 @@ public class TermsPricesTeams {
         this.prices = prices;
     }
 
-    public Teams getTeams() {
+    public Teams getTeam() {
         return team;
     }
 

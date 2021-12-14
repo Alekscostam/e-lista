@@ -51,12 +51,12 @@
                         </select>
                     </div>
                     <input
-                            onchange="something()"
+                            onchange="getUsersByDate(this)"
                             style = " min-width: 170px"
                             type="date"
                             lang="fr-CA"
                             data-date=""
-                            id=""
+                            id="id-date-group"
                             data-date-format="DD MMMM YYYY"
                     />
                     <script type="text/javascript">
@@ -457,7 +457,7 @@
                 +
                 '<tr style=""> ' +
                 '<td scope="row">' +
-                '<input style="width: 20px !important;" type="checkbox"  th:name="userId"  value="' + user[i]['idUser'] + '" class="option"/>' +
+                '<input style="width: 20px !important;" type="checkbox"  th:name="userId"  value="' + user[i]['idUser'] + '" class="optionUserInput"/>' +
                 '</td>' +
                 '<td id="table-user-name">' + user[i]['name'] + '</td>' +
                 '<td id="table-user-surname">' + user[i]['surname'] + '</td>' +
@@ -513,12 +513,7 @@
         var options = '<option  name="groupId" value="">Zmień grupę</option>';
         for (let i = 0; i < teamsPrices.length; i++) {
 
-            if (teamsPrices[i]['teams']['teamName'] == teamName) {
-                options = options + '<option  style="color: #1e1c35" value="' + teamsPrices[i]['teams']['idTeam'] + '">' + teamsPrices[i]['teams']['teamName'] + '</option>';
-             // moreInformationForEdit(fdsa,userIdentifier,userClasses);
-            } else {
-                options = options + '<option style="color: #1e1c35" value="' + teamsPrices[i]['teams']['idTeam'] + '">' + teamsPrices[i]['teams']['teamName'] + '</option>';
-            }
+                options = options + '<option style="color: #1e1c35" value="' + teamsPrices[i]['team']['idTeam'] + '">' + teamsPrices[i]['team']['teamName'] + '</option>';
         }
 
         var result =
@@ -610,11 +605,7 @@
             for (var i = 0; i < elementsGroup.length; i++) {
                 elementsGroup[i].style.display = "none";
             }
-            // showOrHidePrices("none","part-prices");
         }
-        // else if (event === undefined) {
-        //     groupId = event.value;
-        // }
         else {
             groupId = event.value;
 
@@ -635,7 +626,6 @@
 
     function generatedDivPricesForEdit(prices, ids, classes) {
 
-        console.log("prices: " + prices);
         var result = "";
         for (let i = 0; i < prices['prices'].length; i++) {
 
@@ -655,7 +645,7 @@
         showOrHidePrices("block", "part-prices-edit");
     }
 
-    function editUser(name, surname, individualPriceId, individualPriceName, individualPriceValue, individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate, teamName, dateOfRecording, email, phone, idUser,) {
+    function editUser(name, surname, individualPriceId, individualPriceName, individualPriceValue, individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate, teamName, dateOfRecording, email, phone, idUser) {
 
         var xhr = new XMLHttpRequest();
 
@@ -835,21 +825,60 @@
     }
 
     function savePresence(){
+        // TODO ZAPISYWA OBECNYCH I NIE OBECNYCH CZYLI POBIERAC ID OBECNYCH I NIE OBVECNYCH NA KJONKRETNA DATE
+
+        let date = document.getElementById("id-date-group").value;
 
         var checkedValue = "";
-        var elementsByClassName = document.getElementsByClassName('option');
-        for(var i=0; elementsByClassName[i]; ++i){
-            if(elementsByClassName[i].checked){
+        var allValue = "";
+        var checkedValueOptions = document.getElementsByClassName('optionUserInput');
+        var allValueOptions = document.getElementsByClassName('optionUserInput');
 
-                checkedValue = checkedValue + " " + elementsByClassName[i].value;
-                console.log(checkedValue);
+        for (let i = 0; i < allValueOptions.length; i++) {
+            allValue = allValue + " " + allValueOptions[i].value;
+
+        }
+
+        for(var i=0; checkedValueOptions[i]; ++i){
+            if(checkedValueOptions[i].checked){
+                checkedValue = checkedValue + " " + checkedValueOptions[i].value;
 
             }
         }
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', "/app/postPresences?checkedValue="  + checkedValue + "&allValue=" + allValue + "&date=" + date, true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            var presences;
+            if (this.readyState === 4 && this.status === 200) {
+                presences = JSON.parse(xhr.responseText);
+                // generateTable(presences);
+            }
+        }
+
+
     }
 
-    function something(){
-        console.log("something")
+    function getUsersByDate(element){
+        var xhr = new XMLHttpRequest();
+        var date = "";
+
+        date = element.value;
+
+
+        xhr.open('GET', "/app/getUsersByDate?date=" + date, true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            var users;
+            if (this.readyState === 4 && this.status === 200) {
+                users = JSON.parse(xhr.responseText);
+                generateTable(users);
+            }
+        }
     }
 
 </script>
