@@ -443,7 +443,7 @@
             var users;
             if (this.readyState === 4 && this.status === 200) {
                 users = JSON.parse(xhr.responseText);
-                console.log("users: "+users);
+                console.log("users: "+ users);
                 generateTable(users);
             }
         }
@@ -459,6 +459,7 @@
             var modalLabel = "exampleModalLabelPrice" + user[i]['idUser'];
 
             var idUser = user[i]['idUser'];
+            console.log(idUser);
             var name = "'" + user[i]['name'] + "'";
             var surname = "'" + user[i]['surname'] + "'";
             var email = "'" + user[i]['email'] + "'";
