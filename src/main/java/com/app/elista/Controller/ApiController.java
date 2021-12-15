@@ -109,6 +109,9 @@ public class ApiController {
         }
 
         List<TermsPricesTeams> termsPricesTeams = setDates(appCompany, result,dayWeekName);
+
+        LOGGER.error("termsPricesTeams.toString(): " +termsPricesTeams.toString());
+
         List<Users> users = new ArrayList<>();
 
         if (!termsPricesTeams.isEmpty()) {
