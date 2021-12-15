@@ -15,8 +15,6 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Dates {
 
-
-
     @SequenceGenerator(
             name = "Dates_sequence",
             sequenceName = "Dates_sequence",
