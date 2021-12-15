@@ -84,7 +84,7 @@ public class UsersService {
                 .collect(Collectors.toList());
         setNullForAppCompany(users);
 
-        LOGGER.info("termsPricesTeamsFiltered:" + users.toString());
+        LOGGER.info("termsPricesTeamsFiltered: w findAllUsersBygroupdid" + users.toString());
         return users;
     }
 
