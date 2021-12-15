@@ -93,7 +93,7 @@ public class ApiController {
 
     @ResponseBody
     @GetMapping("/getUsersByDate")
-    public List<Users> getUsersByDate(@AuthenticationPrincipal AppCompany appCompany, String date) {
+    public List<Users> getUsersByDate(String date,@AuthenticationPrincipal AppCompany appCompany) {
 
         String result = changeFormatDate(date);
         String dayWeekName = "";
@@ -115,9 +115,7 @@ public class ApiController {
                 List<Users> allUsersByGroupId = usersService.findAllUsersByGroupId(String.valueOf(termsPricesTeam.getTeam().getIdTeam()));
                 users.addAll(allUsersByGroupId);
             }
-        } else {
-            return Collections.emptyList();
-        }
+        } 
 
         return users;
 

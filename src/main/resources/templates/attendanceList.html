@@ -429,10 +429,30 @@
             }
         }
     }
+    function getUsersByDate(element){
+        var xhr = new XMLHttpRequest();
+        var date = "";
+
+        date = element.value;
+
+        console.log("date:" +date);
+        xhr.open('GET', "/app/getUsersByDate?date=" + date, true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            var users;
+            if (this.readyState === 4 && this.status === 200) {
+                users = JSON.parse(xhr.responseText);
+                console.log("users: "+users);
+                generateTable(users);
+            }
+        }
+    }
+
 
     function generateTable(user) {
         var result = "";
-        console.log(user);
+        console.log("generateTable: "+user);
         for (let i = 0; i < user.length; i++) {
             var modal = "exampleModalPrice" + user[i]['idUser'];
 
@@ -623,6 +643,8 @@
             }
         }
     }
+
+
 
     function generatedDivPricesForEdit(prices, ids, classes) {
 
@@ -860,26 +882,6 @@
         }
 
 
-    }
-
-    function getUsersByDate(element){
-        var xhr = new XMLHttpRequest();
-        var date = "";
-
-        date = element.value;
-
-        console.log(date);
-        xhr.open('GET', "/app/getUsersByDate?date=" + date, true);
-        xhr.send('');
-
-        xhr.onreadystatechange = function () {
-            var users;
-            if (this.readyState === 4 && this.status === 200) {
-                users = JSON.parse(xhr.responseText);
-                console.log(users);
-                generateTable(users);
-            }
-        }
     }
 
 </script>
