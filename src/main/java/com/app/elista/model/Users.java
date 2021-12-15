@@ -97,5 +97,27 @@ public class Users {
         return Objects.hash(idUser, appCompany, name, surname, phone, email, adult, individualPriceId, individualPriceName, individualPriceValue, individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate, dateOfRecording, teams);
     }
 
+    @Override
+    public String toString() {
+        return "Users{" +
+                "idUser=" + idUser +
+                ", appCompany=" + appCompany +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", phone=" + phone +
+                ", email='" + email + '\'' +
+                ", adult=" + adult +
+                ", individualPriceId=" + individualPriceId +
+                ", individualPriceName='" + individualPriceName + '\'' +
+                ", individualPriceValue=" + individualPriceValue +
+                ", individualPriceCycle=" + individualPriceCycle +
+                ", individualPriceDesc='" + individualPriceDesc + '\'' +
+                ", currentPaymentDate='" + currentPaymentDate + '\'' +
+                ", nextPaymentDate='" + nextPaymentDate + '\'' +
+                ", dateOfRecording='" + dateOfRecording + '\'' +
+                ", teams=" + teams +
+                '}';
+    }
+
 }
 

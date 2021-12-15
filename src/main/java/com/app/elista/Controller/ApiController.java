@@ -115,7 +115,7 @@ public class ApiController {
                 List<Users> allUsersByGroupId = usersService.findAllUsersByGroupId(String.valueOf(termsPricesTeam.getTeam().getIdTeam()));
                 users.addAll(allUsersByGroupId);
             }
-        } 
+        }
 
         return users;
 
