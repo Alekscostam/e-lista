@@ -1,9 +1,18 @@
 package com.app.elista.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
 public class Dates {
 
 
@@ -20,25 +29,6 @@ public class Dates {
     @Id
     private Long idDates;
     private String datesGroup;
-
-    public Dates() {
-    }
-
-    public Long getIdDates() {
-        return idDates;
-    }
-
-    public void setIdDates(Long idDates) {
-        this.idDates = idDates;
-    }
-
-    public String getDatesGroup() {
-        return datesGroup;
-    }
-
-    public void setDatesGroup(String datesGroup) {
-        this.datesGroup = datesGroup;
-    }
 
     public Dates(String datesGroup) {
         this.datesGroup = datesGroup;

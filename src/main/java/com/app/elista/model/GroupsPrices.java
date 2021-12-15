@@ -1,7 +1,17 @@
 package com.app.elista.model;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Objects;
 import javax.persistence.*;
 @Entity
+
+@NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
 public class GroupsPrices {
 
     @Id
@@ -16,7 +26,9 @@ public class GroupsPrices {
     @JoinColumn(name = "id_team")
     Teams teams;
 
-    public GroupsPrices() {
+    public GroupsPrices(Prices prices, Teams teams) {
+        this.prices = prices;
+        this.teams = teams;
     }
 
     @Override
@@ -32,32 +44,4 @@ public class GroupsPrices {
         return Objects.hash(idGroupPrice, prices, teams);
     }
 
-    public GroupsPrices(Prices prices, Teams teams) {
-        this.prices = prices;
-        this.teams = teams;
-    }
-
-    public Long getIdGroupPrice() {
-        return idGroupPrice;
-    }
-
-    public void setIdGroupPrice(Long idGroupPrice) {
-        this.idGroupPrice = idGroupPrice;
-    }
-
-    public Prices getPrices() {
-        return prices;
-    }
-
-    public void setPrices(Prices prices) {
-        this.prices = prices;
-    }
-
-    public Teams getTeams() {
-        return teams;
-    }
-
-    public void setTeams(Teams teams) {
-        this.teams = teams;
-    }
 }

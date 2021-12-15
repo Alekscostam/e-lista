@@ -4,16 +4,20 @@ package com.app.elista.model;
 
 
 import com.app.elista.appcompany.AppCompany;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
 public class Prices {
-
-
-    public Prices() {
-    }
 
     @SequenceGenerator(
             name = "Prices_sequence",
@@ -31,66 +35,10 @@ public class Prices {
     @JoinColumn(name="id_company", nullable=false)
     private AppCompany appCompany;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Prices prices = (Prices) o;
-        return Objects.equals(idPrice, prices.idPrice) && Objects.equals(name, prices.name) && Objects.equals(value, prices.value) && Objects.equals(cycle, prices.cycle)  && Objects.equals(description, prices.description);
-    }
-
-    public Long getIdPrice() {
-        return idPrice;
-    }
-
-    public void setIdPrice(Long idPrice) {
-        this.idPrice = idPrice;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(idPrice, name, value, cycle, description);
-    }
-
     private String name;
     private Integer value;
     private Short cycle;
-
     private String description;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getValue() {
-        return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    public Short getCycle() {
-        return cycle;
-    }
-
-    public void setCycle(Short cycle) {
-        this.cycle = cycle;
-    }
-
-
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Prices(AppCompany appCompany, String name, Integer value, Short cycle, String description) {
         this.appCompany = appCompany;
@@ -100,11 +48,17 @@ public class Prices {
         this.description = description;
     }
 
-    public AppCompany getAppCompany() {
-        return appCompany;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Prices prices = (Prices) o;
+        return Objects.equals(idPrice, prices.idPrice) && Objects.equals(name, prices.name) && Objects.equals(value, prices.value) && Objects.equals(cycle, prices.cycle)  && Objects.equals(description, prices.description);
     }
 
-    public void setAppCompany(AppCompany appCompany) {
-        this.appCompany = appCompany;
+    @Override
+    public int hashCode() {
+        return Objects.hash(idPrice, name, value, cycle, description);
     }
+
 }

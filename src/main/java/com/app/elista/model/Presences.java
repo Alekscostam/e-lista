@@ -1,23 +1,18 @@
 package com.app.elista.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
 public class Presences {
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Presences presences = (Presences) o;
-        return Objects.equals(idPresence, presences.idPresence) && Objects.equals(idDates, presences.idDates) && Objects.equals(user, presences.user) && Objects.equals(presence, presences.presence);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idPresence, idDates, user, presence);
-    }
 
     @Id
     @SequenceGenerator(
@@ -45,39 +40,11 @@ public class Presences {
         this.user = user;
     }
 
-    public Boolean getPresence() {
-        return presence;
-    }
-
-    public void setPresence(Boolean presence) {
-        this.presence = presence;
-    }
-
-    public Presences() {
-
-    }
-
-    public Long getIdDates() {
-        return idDates;
-    }
-
-    public void setIdDates(Long idDates) {
+    public Presences(Long idDates, Users user) {
         this.idDates = idDates;
+        this.user = user;
     }
 
-    public Users getUser() {
-        return user;
-    }
 
-    public void setUser(Users users) {
-        this.user = users;
-    }
 
-    public Long getIdPresence() {
-        return idPresence;
-    }
-
-    public void setIdPresence(Long idPresence) {
-        this.idPresence = idPresence;
-    }
 }

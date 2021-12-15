@@ -1,6 +1,7 @@
 package com.app.elista.Controller;
 
 import com.app.elista.Services.*;
+import com.app.elista.Services.additionalMethods.HelperMethods;
 import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.*;
 import com.app.elista.model.extended.AllInfo;
@@ -19,6 +20,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.app.elista.Services.additionalMethods.HelperMethods.*;
 
 @Controller
 @RequestMapping("app/")
@@ -256,6 +259,7 @@ public class ApiController {
     @PostMapping("/deleteUser")
     public void deleteUser(String userId, String groupId) {
 
+        presencesService.deletePresencesByUserId(userId);
         usersService.deleteUser(userId);
         Teams team = teamsService.findTeamById(groupId);
         team.setFreeSpace((short) (team.getFreeSpace() - (short) 1));
@@ -325,32 +329,30 @@ public class ApiController {
     @ResponseBody
     public String postPresences(String checkedValue, String allValue, String date, @AuthenticationPrincipal AppCompany appCompany) {
 
-
-
-
         if(date.equals("")){
             return "Prosze wybrać datę!";
 
         }
         else{
             String changedDate = changeFormatDate(date);
-            List<String> checkedValues = Arrays.stream(checkedValue.substring(1).split(" ")).collect(Collectors.toList());
+            List<String> checkedValues = new ArrayList<>();
+            if(checkedValue.equals(""))
+            {
+               checkedValues = new ArrayList<>(checkedValues);
+
+            }else {
+               checkedValues = Arrays.stream(checkedValue.substring(1).split(" ")).collect(Collectors.toList());
+
+            }
             List<String> allValues = Arrays.stream(allValue.substring(1).split(" ")).collect(Collectors.toList());
             List<Users> allUsersByUserIds = usersService.findAllUsersByUserIds(allValues);
 
 
-            Dates foundDate = datesService.saveDate(date);
+            Dates foundDate = datesService.saveDate(changedDate);
             presencesService.savePresences(foundDate.getIdDates(), checkedValues,allUsersByUserIds);
 
             return "zapisano";
         }
-
-
-
-
-
-
-
 
     }
 
@@ -390,7 +392,8 @@ public class ApiController {
             groupColor = "ffffff";
         }
 
-        List<String> listsPriceIds = divideStringToList(priceIds);
+        List<String> listsPriceIds =  divideStringToList(priceIds);
+
 
         boolean resultFirstFree = Boolean.TRUE;
 
@@ -434,33 +437,5 @@ public class ApiController {
         return new ModelAndView("redirect:/app/optionGroupList");
     }
 
-    public List<String> divideStringToList(String elementToDivide) {
 
-        if (elementToDivide != null) {
-            String[] splitOne = elementToDivide.replaceAll("\\s+", "").split(",");
-            return Arrays.asList(splitOne);
-
-        } else
-            return Collections.emptyList();
-    }
-
-    public String stringListsToString(String dayToDivide, String elementToDivideOne, String elementToDivideTwo) {
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        List<String> dayNames = divideStringToList(dayToDivide);
-        List<String> timesFrom = divideStringToList(elementToDivideOne);
-        List<String> timesTo = divideStringToList(elementToDivideTwo);
-
-        for (int i = 0; i < dayNames.size(); i++) {
-            stringBuilder.append(dayNames.get(i)).append(": ").append(timesFrom.get(i)).append(" - ").append(timesTo.get(i)).append(";");
-        }
-        return stringBuilder.toString();
-    }
-
-    public String getLocalDateTime() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDateTime now = LocalDateTime.now();
-        return dtf.format(now);
-    }
 }

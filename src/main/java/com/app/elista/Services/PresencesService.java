@@ -4,21 +4,26 @@ import com.app.elista.model.Presences;
 import com.app.elista.model.Users;
 import com.app.elista.repositories.PresencesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PresencesService {
 
     @Autowired
     PresencesRepository presencesRepository;
+    JdbcTemplate jdbcTemplate;
 
-    public PresencesService(PresencesRepository presencesRepository) {
+    public PresencesService(PresencesRepository presencesRepository,JdbcTemplate jdbcTemplate) {
         this.presencesRepository = presencesRepository;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public void savePresences(Long dateId, List<String> presencesUsers, List<Users> users) {
@@ -29,19 +34,56 @@ public class PresencesService {
         // TODO: 14.12.2021 sprawdzic czy update czy save. Jesli update to updetuje tabelke Presences ale tylko kolumne presence
 
         for (Users user : users) {
-            for (Long presencesUser : convertedPresencesUsersId) {
-                if (Objects.equals(user.getIdUser(), presencesUser)) {
-                    presences.add(new Presences(true, dateId, user));
-                } else {
+            if(presencesUsers.isEmpty()){
+                presences.add(new Presences(false, dateId, user));
+            }
+            else{
+                boolean result = true;
+                for (Long presencesUser : convertedPresencesUsersId) {
+
+                    if (Objects.equals(user.getIdUser(), presencesUser)) {
+                        presences.add(new Presences(true, dateId, user));
+                        result = false;
+                        break;
+                    }
+                }
+                if (result){
                     presences.add(new Presences(false, dateId, user));
                 }
             }
         }
 
-        presencesRepository.saveAll(presences);
+        List<Presences> filteredPresences = new ArrayList<>();
+
+        for (Presences value : presences) {
+
+            Users user = value.getUser();
+            Boolean presence = value.getPresence();
+            Long idDates = value.getIdDates();
+            filteredPresences.add(filteredPresence(user, idDates, presence));
+        }
+        presencesRepository.saveAll(filteredPresences);
     }
 
+    public Presences filteredPresence(Users user,Long dateId, Boolean presences){
+        Optional<Presences> first = presencesRepository
+                .findAll().stream()
+                .filter(p -> p.getUser().equals(user))
+                .filter(p -> p.getIdDates().equals(dateId)).findFirst();
 
+        if (first.isPresent()) {
+            first.get().setPresence(presences);
+        return first.get();
+        }
+        else{
+        return new Presences(presences, dateId,user);
+        }
+
+    }
+
+   public void deletePresencesByUserId(String userId){
+           String deleteQuery = "delete from presences where id_user = ?";
+           jdbcTemplate.update(deleteQuery,Long.valueOf(userId));
+   }
     // TODO: 14.12.2021 utworzyc usuwanie użytkownika z tabelki preneces w przypadku usunięcia go
-
 }
