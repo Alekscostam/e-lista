@@ -88,6 +88,7 @@ public class ApiController {
                 }
             }
         }
+        LOGGER.info("termsPricesTeamsFiltered:" + termsPricesTeamsFiltered.toString());
         return termsPricesTeamsFiltered;
     }
 

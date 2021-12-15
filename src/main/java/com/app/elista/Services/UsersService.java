@@ -76,10 +76,15 @@ public class UsersService {
     }
 
     public List<Users> findAllUsersByGroupId(String groupId) {
+
+
+
         List<Users> users = usersRepository.findAll().stream()
                 .filter(u -> u.getTeams().getIdTeam().equals(Long.valueOf(groupId)))
                 .collect(Collectors.toList());
         setNullForAppCompany(users);
+
+        LOGGER.info("termsPricesTeamsFiltered:" + users.toString());
         return users;
     }
 
