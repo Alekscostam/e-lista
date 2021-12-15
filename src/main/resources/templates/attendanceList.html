@@ -432,7 +432,7 @@
 
     function generateTable(user) {
         var result = "";
-
+        console.log(user);
         for (let i = 0; i < user.length; i++) {
             var modal = "exampleModalPrice" + user[i]['idUser'];
 
@@ -868,7 +868,7 @@
 
         date = element.value;
 
-
+        console.log(date);
         xhr.open('GET', "/app/getUsersByDate?date=" + date, true);
         xhr.send('');
 
@@ -876,6 +876,7 @@
             var users;
             if (this.readyState === 4 && this.status === 200) {
                 users = JSON.parse(xhr.responseText);
+                console.log(users);
                 generateTable(users);
             }
         }
