@@ -85,10 +85,11 @@ public class ApiController {
                     Teams teams = termsPricesTeam.getTeam();
                     datesForGroupsService.saveDatesAndGroups(teams, date);
                     termsPricesTeamsFiltered.add(termsPricesTeam);
+                    LOGGER.info("termsPricesTeam w setDates:" + termsPricesTeam.toString());
                 }
             }
         }
-        LOGGER.info("termsPricesTeamsFiltered:" + termsPricesTeamsFiltered.toString());
+        LOGGER.info("termsPricesTeamsFiltered w setDates:" + termsPricesTeamsFiltered.toString());
         return termsPricesTeamsFiltered;
     }
 
