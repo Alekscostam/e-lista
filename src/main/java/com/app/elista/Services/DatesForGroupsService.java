@@ -61,11 +61,15 @@ public class DatesForGroupsService {
 
     public List<Teams> findGroupsByDateIdAndAppCompany(Long idDate, AppCompany appCompany) {
         System.out.println("findGroupsByDateIdAndAppCompany appCompany" + appCompany.toString());
-        List<Teams> teamsList = datesForGroupsRepository.findGroupsByDateId(idDate).get()
+        List<Teams> teams = datesForGroupsRepository
+                .findAll()
                 .stream()
-                .filter(team -> team.getAppCompany().equals(appCompany)).collect(Collectors.toList());
-//        System.out.println("teamsList" + teamsList);
-        return teamsList;
+                .filter(a -> a.getTeams().getAppCompany().equals(appCompany))
+                .filter(d -> d.getIdDates().equals(idDate))
+                .map(DatesForGroups::getTeams)
+                .collect(Collectors.toList());
+        System.out.println("teamsList" + teams);
+        return teams;
     }
 
     public void postToDatesForGroups(AppCompany appCompany, String dateChanged, String dayWeekName, Long dateId) {
