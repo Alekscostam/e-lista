@@ -63,9 +63,9 @@ public class ApiController {
         return mav;
     }
 
-    private void setDates(AppCompany appCompany, String localDateTime, String weekName) {
+    private void setDates(AppCompany appCompany, String dateForCheck, String weekName) {
 
-        Dates date = datesService.saveOrGetDateByLdt(localDateTime);
+        Dates date = datesService.saveOrGetDateByLdt(dateForCheck);
 
         List<Teams> allTeams = teamsService.findAllByCompanyWithoutAppCompanyReset(appCompany);
         List<TermsPricesTeams> termsPricesTeams = new ArrayList<>();
@@ -91,7 +91,7 @@ public class ApiController {
         String dateChanged = changeFormatDate(date);
         String dayWeekName = "";
         try{
-            dayWeekName = getDayWeekName(dateChanged);
+            dayWeekName = getDayWeekName(date);
             setDates(appCompany,dateChanged,dayWeekName);
         }catch (ParseException parseException)
         {

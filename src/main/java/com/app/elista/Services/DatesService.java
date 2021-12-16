@@ -83,16 +83,17 @@ public class DatesService {
 
     }
 
-    public Dates saveOrGetDateByLdt(String localDateTime) {
+    public Dates saveOrGetDateByLdt(String dateForCheck) {
 
         List<Dates> allDates = findAllDates();
-        Optional<Dates> first = allDates.stream().filter(dates -> dates.getDatesGroup().equals(localDateTime)).findFirst();
+        Optional<Dates> first = allDates.stream().filter(dates -> dates.getDatesGroup().equals(dateForCheck)).findFirst();
 
-        return first.orElseGet(() -> datesRepository.save(new Dates(localDateTime)));
+        return first.orElseGet(() -> datesRepository.save(new Dates(dateForCheck)));
 
     }
 
     public Dates findDateByDate(String date) {
+
         Optional<Dates> byDate = datesRepository.findByDate(date);
         return byDate.orElse(null);
 
