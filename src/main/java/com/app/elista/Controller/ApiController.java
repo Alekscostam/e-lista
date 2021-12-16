@@ -118,15 +118,8 @@ public class ApiController {
 
         // TODO: 15.12.2021 Tu nie powinno byc zapisywania tylko sam odczyt bo to metoda get
 
-
         Dates dateByDate = datesService.findDateByDate(dateChanged);
-
-
         List<Teams> groupIdsByDateId = datesForGroupsService.findGroupsByDateIdAndAppCompany(dateByDate.getIdDates(),appCompany);
-
-
-
-//        LOGGER.error("termsPricesTeams.toString(): " +termsPricesTeams.toString());
 
         List<Users> users = new ArrayList<>();
 
