@@ -77,9 +77,7 @@ public class DatesForGroupsService {
 
     public List<Teams> findGroupsByDateId(Long idDate, List<Teams> teams) {
         List<DatesForGroups> collect = datesForGroupsRepository
-                .findAll()
-                .stream()
-                .filter(d -> d.getIdDates().equals(idDate)).collect(Collectors.toList());
+                .findAll();
 
         List<Teams>  filteredTeams= new ArrayList<>();
         for (Teams team : teams) {
