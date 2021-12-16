@@ -113,7 +113,7 @@
     <table style="padding: 5px" class="table ">
         <thead>
         <tr>
-            <th class="colth" style="" scope="col"></th>
+            <th class="colth" scope="col">Obecność</th>
             <th class="colth" scope="col">Imię</th>
             <th class="colth" scope="col">Nazwisko</th>
             <th class="colth" scope="col">Grupa</th>
@@ -839,13 +839,10 @@
             li_description.style.display = "none";
         }
     }
-
     // Get the modal
     var modal = document.getElementById("myModal");
-
     // Get the button that opens the modal
     var btn = document.getElementById("myBtn");
-
     var span = document.getElementsByClassName("close")[0];
 
     span.onclick = function () {
@@ -883,10 +880,7 @@
     }
 
     function savePresence(){
-        // TODO ZAPISYWA OBECNYCH I NIE OBECNYCH CZYLI POBIERAC ID OBECNYCH I NIE OBVECNYCH NA KJONKRETNA DATE
-
         let date = document.getElementById("id-date-group").value;
-
         var checkedValue = "";
         var allValue = "";
         var checkedValueOptions = document.getElementsByClassName('optionUserInput');
@@ -900,12 +894,9 @@
         for(var i=0; checkedValueOptions[i]; ++i){
             if(checkedValueOptions[i].checked){
                 checkedValue = checkedValue + " " + checkedValueOptions[i].value;
-
             }
         }
-
         var xhr = new XMLHttpRequest();
-
         xhr.open('POST', "/app/postPresences?checkedValue="  + checkedValue + "&allValue=" + allValue + "&date=" + date, true);
         xhr.send('');
 
@@ -916,8 +907,6 @@
                 // generateTable(presences);
             }
         }
-
-
     }
 
 </script>

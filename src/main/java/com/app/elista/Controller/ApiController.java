@@ -54,9 +54,6 @@ public class ApiController {
 
     @GetMapping("attendanceList")
     public ModelAndView attendanceList(@AuthenticationPrincipal AppCompany appCompany) {
-//        String localDateTime = getLocalDateTime();
-//        String actuallyDayWeekText = getActuallyDayWeekText();
-//        setDates(appCompany, localDateTime,actuallyDayWeekText);
 
         List<Teams> teamIdsAndTeamNamesByUUID = teamsService.findTeamIdsAndTeamNamesByUUID(appCompany.getIdCompany());
         ModelAndView mav = new ModelAndView("attendanceList");
@@ -81,9 +78,6 @@ public class ApiController {
                 if (termsPricesTeam.getTerms().get(i1).contains(weekName)) {
                     Teams teams = termsPricesTeam.getTeam();
                     datesForGroupsService.saveDatesAndGroups(teams, date);
-                    System.out.println("was saved ");
-                    System.out.println(date.getIdDates());
-                    System.out.println(dateForCheck);
                 }
             }
         }
@@ -97,12 +91,7 @@ public class ApiController {
         String dayWeekName = "";
         try {
             dayWeekName = getDayWeekName(date);
-
-            System.out.println("HERE1");
             Dates dateFind = datesService.saveOrGetDateByLdt(dateChanged);
-            System.out.println(dateFind);
-            System.out.println("dayWeekName: " + dayWeekName);
-//            datesForGroupsService.postToDatesForGroups(appCompany, dateChanged, dayWeekName, dateFind.getIdDates());
             setDates(appCompany, dateChanged, dayWeekName);
 
         } catch (ParseException parseException) {
@@ -134,21 +123,13 @@ public class ApiController {
         }
 
         List<Presences> presences = presencesService.findPresencesByDate(dateByDate, users);
-        List<UserPresence> userPresenceList = new ArrayList<>();
 
         if (presences.isEmpty()) {
             presences.clear();
-
-            for (int i = 0; i < users.size(); i++) {
-
-
-                presences.add(new Presences(users.get(i), false));
+            for (Users user : users) {
+                presences.add(new Presences(user, false));
             }
-
-        } else {
-//
         }
-
         return presences;
     }
 
@@ -168,7 +149,6 @@ public class ApiController {
         SimpleDateFormat format = new SimpleDateFormat("EEEE");
         String formatDate = format.format(result);
 
-        System.out.println("formatDate:" + formatDate);
         switch (formatDate) {
             case "Monday":
                 formatDate = "Poniedziałek";
@@ -196,7 +176,6 @@ public class ApiController {
                 break;
         }
 
-        System.out.println("formatDate2:" + formatDate);
         return formatDate;
     }
 
@@ -229,6 +208,16 @@ public class ApiController {
         List<Prices> allPrices = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
         mav.addObject("prices", allPrices);
         mav.addObject("allInfos", allByUUID);
+        return mav;
+    }
+
+    @GetMapping("priceList")
+    public ModelAndView priceList(@AuthenticationPrincipal AppCompany appCompany) {
+
+        ModelAndView mav = new ModelAndView("priceList");
+        List<Prices> allPrices = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
+        mav.addObject("prices", allPrices);
+
         return mav;
     }
 
@@ -387,7 +376,7 @@ public class ApiController {
             price.setDescription(priceDescription);
             price.setCycle(priceCycle);
             pricesService.savePrice(price);
-            usersService.updateAllUsersByPrice(price);
+            usersService.updateAllUsersByPrice(price, appCompany);
             return "Cena została zmodyfikowana!";
         } else {
             Prices price = new Prices(appCompany, priceName, priceValue, priceCycle, priceDescription);
@@ -506,9 +495,8 @@ public class ApiController {
         }
         return new ModelAndView("redirect:/app/optionGroupList");
     }
-
-
 }
 
 
 // TODO: 16.12.2021 EDYCJA GRUPY! :)  
+// TODO: 16.12.2021 Ceny do osobnej zakładki!!! 

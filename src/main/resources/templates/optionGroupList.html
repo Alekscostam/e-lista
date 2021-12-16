@@ -187,7 +187,7 @@
                             <option style="background-color: #f4e1d2;" value="f4e1d2">#f4e1d2</option>
                         </select>
 
-                        <span style="font-size: 0.7em"> Data od:</span>
+                        <span style="font-size: 0.7em"> Daty od i do:</span>
                         <input
                                 class="form-control my-2"
                                 type="date"
@@ -195,7 +195,7 @@
                                 name="groupDataFrom"
                                 placeholder="Data rozpoczęcia"
                         />
-                        <span style="font-size: 0.7em"> Data do:</span>
+
                         <input
                                 class="form-control my-2"
                                 type="date"
@@ -263,104 +263,12 @@
     </div>
 </section>
 
-<section id="price-add" style="display: none">
-    <div id="alert-price-fail" style="display: none" class="alert alert-danger alert-dismissible fade show"
-         role="alert">
-        Zaznacz cene do usunięcia!
-    </div>
-    <div id="alert-price-success" style="display: none" class="alert alert-success alert-dismissible fade show"
-         role="alert">
-        Cena została usunięta!
-    </div>
-    <div class="container-fluid text-center">
-        <div class="row" style="padding: 10px">
-            <div class="col-lg-8 right-panel container-custom">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th style="font-size: 0.9em" class="colth" scope="col"></th>
-                        <th style="font-size: 0.9em" class="colth" scope="col">Nazwa</th>
-                        <th style="font-size: 0.9em" class="colth" scope="col">Cena</th>
-                        <th style="font-size: 0.9em" class="colth" scope="col">Okres wplat</th>
-                        <th style="font-size: 0.9em" class="colth" scope="col">Informacje</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody id="tbody-element-prices">
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-lg-4 right-panel">
-                <!--                <form class="login-form" th:action="@{/app/postPrice}" method="POST">-->
-                <input
-                        hidden
-                        id="id-of-the-new-price"
-                        class="form-control my-3"
-                        type="number"
-                        name="idPriceNumber"
-                />
-                <input
-                        id="name-of-the-new-price"
-                        class="form-control my-3"
-                        type="text"
-                        name="priceName"
-                        placeholder="Nazwa karnetu *"
-                />
-                <input
-                        id="value-for-new-price"
-                        class="form-control my-3"
-                        type="number"
-                        name="priceValue"
-                        placeholder="Cena (w zł) *"
-                />
-                <input
-                        id="cycle-for-new-price"
-                        class="form-control my-3"
-                        type="number"
-                        name="priceCycle"
-                        placeholder="Cykl rozliczeniowy (w dniach) *"
-                />
-                <textarea
-                        id="description-for-new-price"
-                        class="form-control mr-sm-2 my-2"
-                        type="textarea"
-                        name="priceDescription"
-                        placeholder="informacja dodatkowa"
-                ></textarea>
-                <hr/>
-                <!--                                    window.location.reload();-->
-                <span id="alert-edit-save"></span>
-                <button
-                        id="button-edit-price"
-                        class="btn btn-outline-info w-100"
-                        onclick="addPrice(this);"
-                        type="submit">
-                    Edytuj
-                </button>
-
-                <button id="button-save-price" class="btn btn-outline-success w-100"
-                        onclick="addPrice('button-save-price'); "
-                        type="submit">
-                    Zapisz
-                </button>
-                <!--                </form>-->
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
-<!-- Modal -->
-
-
 <script type="text/javascript">
 
     window.onload = function () {
-        // let all = document.getElementById('temporary-value');
+
         getGroups();
-        getPrices();
+
     };
 
 
@@ -383,7 +291,6 @@
 
                 }
             }
-
             document.getElementById('alert-price-fail').style.display = "none";
             document.getElementById('alert-price-success').style.display = "block";
 
@@ -682,7 +589,6 @@
             }
         }
     }
-
 
   function  generateTablePrices(prices){
       var result = "";

@@ -5,34 +5,33 @@ import com.app.elista.model.Prices;
 import com.app.elista.model.Teams;
 import com.app.elista.model.Users;
 import com.app.elista.repositories.UsersRepository;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+
 @Service
 public class UsersService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UsersService.class);
 
+    @Autowired
+    private UsersRepository usersRepository;
+
     public UsersService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 
-    @Autowired
-    UsersRepository usersRepository;
-
     public Users saveUser(Users user) {
         try {
             usersRepository.save(user);
-                LOGGER.info("Zapisano/Zmodyfikowano nowego/istniejącego użytkownika");
+            LOGGER.info("Zapisano/Zmodyfikowano nowego/istniejącego użytkownika");
 
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), "cos poszlo nie tak przy dodawaniu/modyfikowaniu użytkownika");
@@ -72,12 +71,10 @@ public class UsersService {
 
 
     public List<Users> findAllUsers() {
-    return    usersRepository.findAll();
+        return usersRepository.findAll();
     }
 
     public List<Users> findAllUsersByGroupId(String groupId) {
-
-
 
         List<Users> users = usersRepository.findAll().stream()
                 .filter(u -> u.getTeams().getIdTeam().equals(Long.valueOf(groupId)))
@@ -89,16 +86,12 @@ public class UsersService {
     }
 
     public List<Users> findAllUsersByGroupsId(List<String> groupsId) {
-
         List<Users> users = new ArrayList<>();
 
         for (String s : groupsId) {
             users.addAll(findAllUsersByGroupId(s));
         }
-
-
         return users;
-
     }
 
 
@@ -124,49 +117,29 @@ public class UsersService {
 
         List<Users> collect = allUsers.stream().filter(users -> Objects.equals(users.getTeams().getIdTeam(), groupId)).collect(Collectors.toList());
 
-//        List<Users> updatedUsers = new ArrayList<>();
-//
-//
-//        for (int i = 0; i < collect.size(); i++) {
-//            Users user = new Users(
-//                    collect.get(i).getAppCompany(),
-//                    collect.get(i).getName(),
-//                    collect.get(i).getSurname(),
-//                    collect.get(i).getPhone(),
-//                    collect.get(i).getEmail(),
-//                    collect.get(i).getAdult(),
-//                    collect.get(i).getCurrentPaymentDate(),
-//                    collect.get(i).getNextPaymentDate(),
-//                    collect.get(i).getDateOfRecording(),
-//                    collect.get(i).getPrices());
-//            user.setIdUser(collect.get(i).getIdUser());
-//            updatedUsers.add(user);
-//        }
-//
-//
-//
-//
-//        usersRepository.saveAll(updatedUsers);
-
         return collect;
     }
 
-    public void updateAllUsersByPrice(Prices price) {
+    public void updateAllUsersByPrice(Prices price, AppCompany appCompany) {
 
-        List<Users> allUsers = findAllUsers();
-
-        List<Users> collect = allUsers
-                .stream()
-                .filter(user -> user.getIndividualPriceId().equals(price.getIdPrice()))
+        List<Users> allUsersFilteredByCompany = usersRepository.findAll().stream()
+                .filter(user -> user.getAppCompany().equals(appCompany))
                 .collect(Collectors.toList());
 
-        for (Users users : collect) {
-            users.setIndividualPriceCycle(price.getCycle());
-            users.setIndividualPriceName(price.getName());
-            users.setIndividualPriceValue(price.getValue());
-            users.setIndividualPriceDesc(price.getDescription());
+        for (Users user : allUsersFilteredByCompany) {
+            try{
+            if (user.getIndividualPriceId().equals(price.getIdPrice())) {
+                user.setIndividualPriceName(price.getName());
+                user.setIndividualPriceValue(price.getValue());
+                user.setIndividualPriceCycle(price.getCycle());
+                user.setIndividualPriceDesc(price.getDescription());
+                LOGGER.info("Modyfikacja użytkownika!");
+            }}
+            catch(NullPointerException npe){
+                LOGGER.info("użytkownik ma cene indywidualną!");
+            }
         }
-        usersRepository.saveAll(allUsers);
+        usersRepository.saveAll(allUsersFilteredByCompany);
         LOGGER.info("Cena indywidualna u użytkowników została zmodyfikowana");
     }
 
@@ -174,12 +147,6 @@ public class UsersService {
 
         List<Long> collect = allValues.stream().map(Long::valueOf).collect(Collectors.toList());
 
-        return  usersRepository.findAllById(collect);
-    }
-
-
-    public Users findUserByUserId(Long userId) {
-
-        return usersRepository.findById(userId).get();
+        return usersRepository.findAllById(collect);
     }
 }
