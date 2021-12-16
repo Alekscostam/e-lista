@@ -157,10 +157,8 @@ public class ApiController {
         SimpleDateFormat format = new SimpleDateFormat("EEEE");
         String formatDate = format.format(result);
 
+        System.out.println("formatDate:" +formatDate);
         switch (formatDate) {
-            case "monday":
-                formatDate= "Poniedziałek";
-                break;
             case "tuesday":
                 formatDate= "Wtorek";
                 break;
