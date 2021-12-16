@@ -77,8 +77,13 @@ public class DatesForGroupsService {
         if (filteredAll.isEmpty())
         {
             System.out.println(filteredAll.isEmpty());
+            System.out.println(dayWeekName);
+            System.out.println(dateChanged);
+            System.out.println(dateId);
             for (int i = 0; i < all.size(); i++) {
+                System.out.println(all.get(i).getTeams().getTerms().toString());
                 if (all.get(i).getTeams().getTerms().contains(dayWeekName)) {
+
                      datesForGroupsRepository.save(new DatesForGroups(dateId,all.get(i).getTeams()));
                     LOGGER.error("DODAWANIE TERMINU DO DATE FOR GROUPS ");
                 }
