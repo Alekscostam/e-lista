@@ -83,6 +83,8 @@ public class DatesForGroupsService {
         for (Teams team : teams) {
             for (DatesForGroups datesForGroups : collect) {
                 if (team.getIdTeam().equals(datesForGroups.getTeams().getIdTeam())) {
+                    System.out.println("collect: "+filteredTeams);
+                    System.out.println("collect: "+filteredTeams);
                     filteredTeams.add(team);
                 }
             }
