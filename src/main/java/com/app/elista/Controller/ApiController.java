@@ -102,7 +102,7 @@ public class ApiController {
             System.out.println(dateFind);
             System.out.println("dayWeekName: " + dayWeekName);
 //            datesForGroupsService.postToDatesForGroups(appCompany, dateChanged, dayWeekName, dateFind.getIdDates());
-            setDates(appCompany,date,dayWeekName);
+            setDates(appCompany,dateChanged,dayWeekName);
 
         } catch (ParseException parseException) {
             LOGGER.error(parseException.getMessage());
