@@ -62,10 +62,12 @@ public class DatesForGroupsService {
 
     public Teams findGroupByDateId(Long idDate, Teams team) {
         System.out.println("findGroupsByDateIdAndAppCompany appCompany" + team.toString());
+        System.out.println("findGroupsByDateIdAndAppCompany appCompany" + idDate.toString());
+        System.out.println("findGroupsByDateIdAndAppCompany appCompany" + team.getIdTeam().toString());
        Teams teams = datesForGroupsRepository
                 .findAll()
                 .stream()
-                .filter(a -> a.getTeams().equals(team))
+                .filter(a -> a.getTeams().getIdTeam().equals(team.getIdTeam()))
                 .filter(d -> d.getIdDates().equals(idDate))
                 .map(DatesForGroups::getTeams).findFirst().get();
 
