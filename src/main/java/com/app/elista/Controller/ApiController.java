@@ -93,7 +93,9 @@ public class ApiController {
         try{
             dayWeekName = getDayWeekName(date);
 
+            System.out.println("HERE1");
             Dates dateFind = datesService.saveOrGetDateByLdt(dateChanged);
+            System.out.println(dateFind);
            datesForGroupsService.postToDatesForGroups(appCompany,dateChanged,dayWeekName,dateFind.getIdDates());
 
 

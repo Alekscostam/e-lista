@@ -69,10 +69,14 @@ public class DatesForGroupsService {
 
         List<DatesForGroups> all = datesForGroupsRepository.findAll();
 
-        List<DatesForGroups> filteredAll = all.stream().filter(app -> app.getTeams().getAppCompany().equals(appCompany)).filter(dfg -> dfg.getIdDates().equals(dateId)).collect(Collectors.toList());
+        List<DatesForGroups> filteredAll = all.stream()
+                .filter(app -> app.getTeams().getAppCompany().equals(appCompany))
+                .filter(dfg -> dfg.getIdDates().equals(dateId)).collect(Collectors.toList());
+        System.out.println(all.toString());
 
         if (filteredAll.isEmpty())
         {
+            System.out.println(filteredAll.isEmpty());
             for (int i = 0; i < all.size(); i++) {
                 if (all.get(i).getTeams().getTerms().contains(dayWeekName)) {
                      datesForGroupsRepository.save(new DatesForGroups(dateId,all.get(i).getTeams()));
