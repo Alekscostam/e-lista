@@ -1,7 +1,6 @@
 package com.app.elista.Controller;
 
 import com.app.elista.Services.*;
-import com.app.elista.Services.additionalMethods.HelperMethods;
 import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.*;
 import com.app.elista.model.extended.AllInfo;
@@ -13,11 +12,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -67,7 +63,7 @@ public class ApiController {
         return mav;
     }
 
-    private List<TermsPricesTeams> setDates(AppCompany appCompany, String localDateTime, String weekName) {
+    private void setDates(AppCompany appCompany, String localDateTime, String weekName) {
 
         Dates date = datesService.saveOrGetDateByLdt(localDateTime);
 
@@ -84,20 +80,28 @@ public class ApiController {
                 if (termsPricesTeam.getTerms().get(i1).contains(weekName)) {
                     Teams teams = termsPricesTeam.getTeam();
                     datesForGroupsService.saveDatesAndGroups(teams, date);
-                    termsPricesTeamsFiltered.add(termsPricesTeam);
+
                     LOGGER.info("termsPricesTeam w setDates:" + termsPricesTeam.toString());
                 }
             }
         }
         LOGGER.info("termsPricesTeamsFiltered w setDates:" + termsPricesTeamsFiltered.toString());
-        return termsPricesTeamsFiltered;
+
     }
+
+
+    @ResponseBody
+    @PostMapping("postDates")
+    public void postDates(AppCompany appCompany, String localDateTime, String weekName){
+        setDates(appCompany,localDateTime,weekName);
+    }
+
 
     @ResponseBody
     @GetMapping("/getUsersByDate")
     public List<Users> getUsersByDate(String date,@AuthenticationPrincipal AppCompany appCompany) {
 
-        String result = changeFormatDate(date);
+        String dateChanged = changeFormatDate(date);
         String dayWeekName = "";
 
         try{
@@ -108,16 +112,24 @@ public class ApiController {
 
         }
 
-        List<TermsPricesTeams> termsPricesTeams = setDates(appCompany, result,dayWeekName);
+        // TODO: 15.12.2021 Tu nie powinno byc zapisywania tylko sam odczyt bo to metoda get
 
-        LOGGER.error("termsPricesTeams.toString(): " +termsPricesTeams.toString());
+
+        Dates dateByDate = datesService.findDateByDate(dateChanged);
+
+
+        List<Teams> groupIdsByDateId = datesForGroupsService.findGroupsByDateId(dateByDate.getIdDates());
+
+
+
+//        LOGGER.error("termsPricesTeams.toString(): " +termsPricesTeams.toString());
 
         List<Users> users = new ArrayList<>();
 
-        if (!termsPricesTeams.isEmpty()) {
+        if (!groupIdsByDateId.isEmpty()) {
 
-            for (TermsPricesTeams termsPricesTeam : termsPricesTeams) {
-                List<Users> allUsersByGroupId = usersService.findAllUsersByGroupId(String.valueOf(termsPricesTeam.getTeam().getIdTeam()));
+            for (Teams team : groupIdsByDateId) {
+                List<Users> allUsersByGroupId = usersService.findAllUsersByGroupId(String.valueOf(team.getIdTeam()));
                 users.addAll(allUsersByGroupId);
             }
         }

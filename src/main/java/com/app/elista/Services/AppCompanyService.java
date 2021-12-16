@@ -29,7 +29,7 @@ public class AppCompanyService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailService emailService;
-    private static Logger LOGGER = LoggerFactory.getLogger(AppCompanyService.class);;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AppCompanyService.class);;
     private static final String NOTVALID="NOTVALID";
     private static final String EXPIRED="EXPIRED";
 

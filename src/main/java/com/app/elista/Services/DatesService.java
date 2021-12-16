@@ -13,32 +13,30 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 public class DatesService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DatesService.class);;
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatesService.class);
+    ;
 
     @Autowired
     DatesRepository datesRepository;
     @Autowired
     DatesForGroupsService datesForGroupsService;
 
-    public DatesService( DatesRepository datesRepository,DatesForGroupsService datesForGroupsService) {
+    public DatesService(DatesRepository datesRepository, DatesForGroupsService datesForGroupsService) {
 
         this.datesRepository = datesRepository;
         this.datesForGroupsService = datesForGroupsService;
     }
 
-    public boolean checkDatesExistsFroTeam(Teams teams){
+    public boolean checkDatesExistsFroTeam(Teams teams) {
 
         return false;
     }
-    public Dates saveDate(String dates){
+
+    public Dates saveDate(String dates) {
 
         Optional<Dates> first = datesRepository.findAll().stream().filter(date -> date.getDatesGroup().equals(dates)).findFirst();
         return first.orElseGet(() -> datesRepository.save(new Dates(dates)));
@@ -50,10 +48,9 @@ public class DatesService {
         for (int i = 0; i < convertedDates.size(); i++) {
             int finalI = i;
             Optional<Dates> first = datesRepository.findAll().stream().filter(date -> date.getDatesGroup().equals(convertedDates.get(finalI))).findFirst();
-            if(first.isPresent()){
+            if (first.isPresent()) {
                 datesToSave.add(first.get());
-            }
-            else{
+            } else {
                 datesToSave.add(new Dates(convertedDates.get(finalI)));
             }
         }
@@ -62,17 +59,19 @@ public class DatesService {
 
     }
 
-    public List<Dates> findAllDates(){
+    public List<Dates> findAllDates() {
 
         return datesRepository.findAll();
-    };
+    }
+
+    ;
 
     public void updatesDates(List<Dates> allDates) throws ParseException {
 
 
         Optional<Dates> first = allDates.stream().findFirst();
         Dates dates = allDates.get(allDates.size() - 1);
-        Date objectToDate=new SimpleDateFormat("dd-MM-yyyy").parse(dates.getDatesGroup());
+        Date objectToDate = new SimpleDateFormat("dd-MM-yyyy").parse(dates.getDatesGroup());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDateTime ldt = LocalDateTime.ofInstant(objectToDate.toInstant(), ZoneId.systemDefault()).plusDays(1);
         String format = dtf.format(ldt);
@@ -89,7 +88,14 @@ public class DatesService {
         List<Dates> allDates = findAllDates();
         Optional<Dates> first = allDates.stream().filter(dates -> dates.getDatesGroup().equals(localDateTime)).findFirst();
 
-            return first.orElseGet(() -> datesRepository.save(new Dates(localDateTime)));
+        return first.orElseGet(() -> datesRepository.save(new Dates(localDateTime)));
+
+    }
+
+    public Dates findDateByDate(String date) {
+        Optional<Dates> byDate = datesRepository.findByDate(date);
+        return byDate.orElse(null);
+
 
     }
 }

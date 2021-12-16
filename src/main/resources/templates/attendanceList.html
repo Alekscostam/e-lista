@@ -51,7 +51,7 @@
                         </select>
                     </div>
                     <input
-                            onchange="getUsersByDate(this)"
+                            onchange="secondFunction(this);"
                             style = " min-width: 170px"
                             type="date"
                             lang="fr-CA"
@@ -429,6 +429,30 @@
             }
         }
     }
+
+
+    // const secondFunction = async () => {
+    //     const result = await firstFunction()
+    //     // do something else here after firstFunction completes
+    // }
+    // function firstFunction(){
+    //
+    // }
+
+    async function firstFunction(element){
+            getUsersByDate(element)
+        return;
+    };
+
+    async function secondFunction(element){
+        await firstFunction(element);
+
+        console.log("asd:"+element);
+    };
+
+
+
+
     function getUsersByDate(element){
         var xhr = new XMLHttpRequest();
         var date = "";

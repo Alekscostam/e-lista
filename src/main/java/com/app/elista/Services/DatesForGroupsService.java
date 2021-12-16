@@ -4,16 +4,13 @@ import com.app.elista.model.Dates;
 import com.app.elista.model.DatesForGroups;
 import com.app.elista.model.Teams;
 import com.app.elista.repositories.DatesForGroupsRepository;
-import com.app.elista.repositories.PricesRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class DatesForGroupsService {
@@ -58,5 +55,11 @@ public class DatesForGroupsService {
             datesForGroupsRepository.save(new DatesForGroups(date.getIdDates(),team));
         }
 
+    }
+
+    public List<Teams> findGroupsByDateId(Long idDate) {
+        List<Teams> teamsList = datesForGroupsRepository.findGroupsByDateId(idDate).get();
+
+        return teamsList;
     }
 }
