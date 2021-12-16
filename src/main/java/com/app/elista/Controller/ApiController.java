@@ -157,32 +157,35 @@ public class ApiController {
         SimpleDateFormat format = new SimpleDateFormat("EEEE");
         String formatDate = format.format(result);
 
-        System.out.println("formatDate:" +formatDate);
+        System.out.println("formatDate:" + formatDate);
         switch (formatDate) {
-            case "tuesday":
-                formatDate= "Wtorek";
+            case "Monday":
+                formatDate = "Poniedziałek";
                 break;
-            case "wednesday":
-                formatDate= "Środa";
+            case "Tuesday":
+                formatDate = "Wtorek";
                 break;
-            case "thursday":
-                formatDate= "Czwartek";
+            case "Wednesday":
+                formatDate = "Środa";
                 break;
-            case "friday":
-                formatDate= "Piątek";
+            case "Thursday":
+                formatDate = "Czwartek";
                 break;
-            case "saturday":
-                formatDate= "Sobota";
+            case "Friday":
+                formatDate = "Piątek";
                 break;
-            case "sunday":
-                formatDate= "Niedziela";
+            case "Saturday":
+                formatDate = "Sobota";
+                break;
+            case "Sunday":
+                formatDate = "Niedziela";
                 break;
             default:
-                formatDate= "Poniedziałek";
+                formatDate = formatDate.substring(0, 1).toUpperCase() + formatDate.substring(1);
                 break;
         }
 
-
+        System.out.println("formatDate2:" + formatDate);
         return formatDate;
     }
 
