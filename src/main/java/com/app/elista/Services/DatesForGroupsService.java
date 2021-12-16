@@ -81,7 +81,7 @@ public class DatesForGroupsService {
             System.out.println(dateChanged);
             System.out.println(dateId);
             for (int i = 0; i < all.size(); i++) {
-                System.out.println(all.get(i).getTeams().getTerms().toString());
+                System.out.println("all.get(i).getTeams().getTerms().toString(): "+ all.get(i).getTeams().getTerms().toString());
                 if (all.get(i).getTeams().getTerms().contains(dayWeekName)) {
 
                      datesForGroupsRepository.save(new DatesForGroups(dateId,all.get(i).getTeams()));

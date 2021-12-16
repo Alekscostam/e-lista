@@ -92,5 +92,22 @@ public class Teams {
         return Objects.hash(idTeam, teamName, leaderName, place, startDate, endDate, freeSpace, groupSize, color, firstFree, description, terms, appCompany);
     }
 
-
+    @Override
+    public String toString() {
+        return "Teams{" +
+                "idTeam=" + idTeam +
+                ", teamName='" + teamName + '\'' +
+                ", leaderName='" + leaderName + '\'' +
+                ", place='" + place + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", freeSpace=" + freeSpace +
+                ", groupSize=" + groupSize +
+                ", color='" + color + '\'' +
+                ", firstFree=" + firstFree +
+                ", description='" + description + '\'' +
+                ", terms='" + terms + '\'' +
+                ", appCompany=" + appCompany +
+                '}';
+    }
 }
