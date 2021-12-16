@@ -60,69 +60,21 @@ public class DatesForGroupsService {
 
     }
 
-    // TODO: 16.12.2021 cos tu lipa 
-    public Teams findGroupByDateId(Long idDate, Teams team) {
-        System.out.println("findGroupsByDateIdAndAppCompany appCompany" + team.toString());
-        System.out.println("findGroupsByDateIdAndAppCompany appCompany" + idDate.toString());
-        System.out.println("findGroupsByDateIdAndAppCompany appCompany" + team.getIdTeam().toString());
-       Teams teams = datesForGroupsRepository
-                .findAll()
-                .stream()
-                .filter(a -> a.getTeams().getIdTeam().equals(team.getIdTeam()))
-                .filter(d -> d.getIdDates().equals(idDate))
-                .map(DatesForGroups::getTeams).findFirst().get();
-
-        return teams;
-    }
-
     public List<Teams> findGroupsByDateId(Long idDate, List<Teams> teams) {
         List<DatesForGroups> collect = datesForGroupsRepository
                 .findAll()
                 .stream()
                 .filter(d -> d.getIdDates().equals(idDate)).collect(Collectors.toList());
 
-        System.out.println("idDate: " + idDate );
         List<Teams>  filteredTeams= new ArrayList<>();
         for (Teams team : teams) {
             for (DatesForGroups datesForGroups : collect) {
                 if (team.getIdTeam().equals(datesForGroups.getTeams().getIdTeam())) {
                     filteredTeams.add(team);
+                    LOGGER.info("Grupy zanlezione");
                 }
             }
         }
-        System.out.println("filteredTeams: "+filteredTeams);
-
         return filteredTeams;
-    }
-
-    public void postToDatesForGroups(AppCompany appCompany, String dateChanged, String dayWeekName, Long dateId) {
-
-        List<DatesForGroups> all = datesForGroupsRepository.findAll();
-
-        List<DatesForGroups> filteredAll = all.stream()
-                .filter(app -> app.getTeams().getAppCompany().equals(appCompany))
-                .filter(dfg -> dfg.getIdDates().equals(dateId)).collect(Collectors.toList());
-        System.out.println(all.toString());
-
-        if (filteredAll.isEmpty())
-        {
-            System.out.println(filteredAll.isEmpty());
-            System.out.println(dayWeekName);
-            System.out.println(dateChanged);
-            System.out.println(dateId);
-            for (int i = 0; i < all.size(); i++) {
-                System.out.println("all.get(i).getTeams().getTerms().toString(): "+ all.get(i).getTeams().getTerms().toString());
-                if (all.get(i).getTeams().getTerms().contains(dayWeekName)) {
-
-                     datesForGroupsRepository.save(new DatesForGroups(dateId,all.get(i).getTeams()));
-                    LOGGER.error("DODAWANIE TERMINU DO DATE FOR GROUPS ");
-                }
-            }
-        }
-        else{
-
-        }
-
-
     }
 }

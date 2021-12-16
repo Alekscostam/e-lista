@@ -5,6 +5,7 @@ import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.*;
 import com.app.elista.model.extended.AllInfo;
 import com.app.elista.model.extended.TermsPricesTeams;
+import com.app.elista.model.extended.UserPresence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +103,7 @@ public class ApiController {
             System.out.println(dateFind);
             System.out.println("dayWeekName: " + dayWeekName);
 //            datesForGroupsService.postToDatesForGroups(appCompany, dateChanged, dayWeekName, dateFind.getIdDates());
-            setDates(appCompany,dateChanged,dayWeekName);
+            setDates(appCompany, dateChanged, dayWeekName);
 
         } catch (ParseException parseException) {
             LOGGER.error(parseException.getMessage());
@@ -113,24 +114,14 @@ public class ApiController {
 
     @ResponseBody
     @GetMapping("/getUsersByDate")
-    public List<Users> getUsersByDate(String date, @AuthenticationPrincipal AppCompany appCompany) {
+    public List<Presences> getUsersByDate(String date, @AuthenticationPrincipal AppCompany appCompany) {
 
         String dateChanged = changeFormatDate(date);
-        String dayWeekName = "";
 
-        try {
-            dayWeekName = getDayWeekName(date);
-        } catch (ParseException parseException) {
-            LOGGER.error(parseException.getMessage());
-
-        }
         List<Teams> allTeams = teamsService.findAllByCompanyWithoutAppCompanyReset(appCompany);
         Dates dateByDate = datesService.findDateByDate(dateChanged);
 
-
-        List<Teams> filteredAllTeams = datesForGroupsService.findGroupsByDateId(dateByDate.getIdDates(),allTeams);
-
-        System.out.println("groupIdsByDateId: " + filteredAllTeams.toString());
+        List<Teams> filteredAllTeams = datesForGroupsService.findGroupsByDateId(dateByDate.getIdDates(), allTeams);
 
         List<Users> users = new ArrayList<>();
 
@@ -142,8 +133,23 @@ public class ApiController {
             }
         }
 
-        return users;
+        List<Presences> presences = presencesService.findPresencesByDate(dateByDate, users);
+        List<UserPresence> userPresenceList = new ArrayList<>();
 
+        if (presences.isEmpty()) {
+            presences.clear();
+
+            for (int i = 0; i < users.size(); i++) {
+
+
+                presences.add(new Presences(users.get(i), false));
+            }
+
+        } else {
+//
+        }
+
+        return presences;
     }
 
     public String getActuallyDayWeekText() {
@@ -291,17 +297,31 @@ public class ApiController {
     // TODO: 13.12.2021 usunac brak grupy
     @ResponseBody
     @GetMapping("/getUsersByGroupsId")
-    public List<Users> getUsersByGroupsId(String groupId, @AuthenticationPrincipal AppCompany appCompany) {
+    public List<Presences> getUsersByGroupsId(String groupId, @AuthenticationPrincipal AppCompany appCompany) {
+
+        List<Presences> presences = new ArrayList<>();
 
         if (groupId.equals("all")) {
-            return usersService.findAllUsersByAppCompanyId(String.valueOf(appCompany.getIdCompany()));
+            List<Users> allUsersByAppCompanyId = usersService.findAllUsersByAppCompanyId(String.valueOf(appCompany.getIdCompany()));
+            for (Users users : allUsersByAppCompanyId) {
+                presences.add(new Presences(users, false));
+            }
+            return presences;
         } else if (groupId.equals("none")) {
             return Collections.emptyList();
         } else {
             if (!groupId.isEmpty()) {
-                return usersService.findAllUsersByGroupId(groupId);
+                List<Users> allUsersByGroupId = usersService.findAllUsersByGroupId(groupId);
+                for (Users users : allUsersByGroupId) {
+                    presences.add(new Presences(users, false));
+                }
+                return presences;
             } else {
-                return usersService.findAllUsersWithoutGroups(String.valueOf(appCompany.getIdCompany()));
+                List<Users> allUsersWithoutGroups = usersService.findAllUsersWithoutGroups(String.valueOf(appCompany.getIdCompany()));
+                for (Users users : allUsersWithoutGroups) {
+                    presences.add(new Presences(users, false));
+                }
+                return presences;
             }
         }
     }
@@ -489,3 +509,6 @@ public class ApiController {
 
 
 }
+
+
+// TODO: 16.12.2021 EDYCJA GRUPY! :)  

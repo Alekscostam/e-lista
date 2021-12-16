@@ -33,6 +33,10 @@ public class Presences {
     private Users user;
     private Boolean presence;
 
+    public Presences(Users user, Boolean presence) {
+        this.user = user;
+        this.presence = presence;
+    }
 
     public Presences(Boolean presence, Long idDates, Users user) {
         this.presence = presence;

@@ -1,5 +1,6 @@
 package com.app.elista.Services;
 
+import com.app.elista.model.Dates;
 import com.app.elista.model.Presences;
 import com.app.elista.model.Users;
 import com.app.elista.repositories.PresencesRepository;
@@ -21,7 +22,7 @@ public class PresencesService {
     PresencesRepository presencesRepository;
     JdbcTemplate jdbcTemplate;
 
-    public PresencesService(PresencesRepository presencesRepository,JdbcTemplate jdbcTemplate) {
+    public PresencesService(PresencesRepository presencesRepository, JdbcTemplate jdbcTemplate) {
         this.presencesRepository = presencesRepository;
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -34,10 +35,9 @@ public class PresencesService {
         // TODO: 14.12.2021 sprawdzic czy update czy save. Jesli update to updetuje tabelke Presences ale tylko kolumne presence
 
         for (Users user : users) {
-            if(presencesUsers.isEmpty()){
+            if (presencesUsers.isEmpty()) {
                 presences.add(new Presences(false, dateId, user));
-            }
-            else{
+            } else {
                 boolean result = true;
                 for (Long presencesUser : convertedPresencesUsersId) {
 
@@ -47,7 +47,7 @@ public class PresencesService {
                         break;
                     }
                 }
-                if (result){
+                if (result) {
                     presences.add(new Presences(false, dateId, user));
                 }
             }
@@ -65,7 +65,7 @@ public class PresencesService {
         presencesRepository.saveAll(filteredPresences);
     }
 
-    public Presences filteredPresence(Users user,Long dateId, Boolean presences){
+    public Presences filteredPresence(Users user, Long dateId, Boolean presences) {
         Optional<Presences> first = presencesRepository
                 .findAll().stream()
                 .filter(p -> p.getUser().equals(user))
@@ -73,17 +73,34 @@ public class PresencesService {
 
         if (first.isPresent()) {
             first.get().setPresence(presences);
-        return first.get();
-        }
-        else{
-        return new Presences(presences, dateId,user);
+            return first.get();
+        } else {
+            return new Presences(presences, dateId, user);
         }
 
     }
 
-   public void deletePresencesByUserId(String userId){
-           String deleteQuery = "delete from presences where id_user = ?";
-           jdbcTemplate.update(deleteQuery,Long.valueOf(userId));
-   }
-    // TODO: 14.12.2021 utworzyc usuwanie użytkownika z tabelki preneces w przypadku usunięcia go
+    public void deletePresencesByUserId(String userId) {
+        String deleteQuery = "delete from presences where id_user = ?";
+        jdbcTemplate.update(deleteQuery, Long.valueOf(userId));
+    }
+
+    public List<Presences> findPresencesByDate(Dates date, List<Users> users) {
+
+        List<Presences> presences = presencesRepository.findAll().stream()
+                .filter(d -> d.getIdDates().equals(date.getIdDates())).collect(Collectors.toList());
+
+        List<Presences> presencesFiltered = new ArrayList<>();
+
+        for (Users user : users) {
+            for (Presences presence : presences) {
+                if (user.equals(presence.getUser())) {
+                    presencesFiltered.add(presence);
+                }
+            }
+        }
+        return presencesFiltered;
+    }
 }
+
+

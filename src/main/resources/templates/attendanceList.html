@@ -476,43 +476,54 @@
 
     function generateTable(user) {
         var result = "";
-        console.log("generateTable: "+user);
+
+        // console.log("generateTable: "+user);
         for (let i = 0; i < user.length; i++) {
-            var modal = "exampleModalPrice" + user[i]['idUser'];
 
-            var modalLabel = "exampleModalLabelPrice" + user[i]['idUser'];
 
-            var idUser = user[i]['idUser'];
-            console.log(idUser);
-            var name = "'" + user[i]['name'] + "'";
-            var surname = "'" + user[i]['surname'] + "'";
-            var email = "'" + user[i]['email'] + "'";
-            var phone = user[i]['phone'];
-            var dateOfRecording = "'" + user[i]['dateOfRecording'] + "'";
-            var teamName = "'" + user[i]['teams']['teamName'] + "'";
-            var individualPriceId = user[i]['individualPriceId'];
-            var individualPriceName = "'" + user[i]['individualPriceName'] + "'";
-            var individualPriceValue = user[i]['individualPriceValue'];
-            var individualPriceCycle = user[i]['individualPriceCycle'];
-            var individualPriceDesc = "'" + user[i]['individualPriceDesc'] + "'";
-            var currentPaymentDate = "'" + user[i]['currentPaymentDate'] + "'";
-            var nextPaymentDate = "'" + user[i]['nextPaymentDate'] + "'";
+            var modal = "exampleModalPrice" + user[i]['user']['idUser'];
+
+            var modalLabel = "exampleModalLabelPrice" + user[i]['user']['idUser'];
+
+
+            var presence = user[i]['presence'];
+            var presenceResult;
+
+            if(presence===true)
+            {
+                 presenceResult ='<tr style=""> <td scope="row"><input style="width: 20px !important;" checked type="checkbox" value="' + user[i]['user']['idUser'] + '" th:name="userId"  class="optionUserInput"/></td>';
+
+            }
+            else{
+                 presenceResult ='<tr style=""> <td scope="row"><input style="width: 20px !important;" type="checkbox" value="' + user[i]['user']['idUser'] + '" th:name="userId"  class="optionUserInput"/></td>';
+            }
+
+            var idUser = user[i]['user']['idUser'];
+            var name = "'" + user[i]['user']['name'] + "'";
+            var surname = "'" + user[i]['user']['surname'] + "'";
+            var email = "'" + user[i]['user']['email'] + "'";
+            var phone = user[i]['user']['phone'];
+            var dateOfRecording = "'" + user[i]['user']['dateOfRecording'] + "'";
+            var teamName = "'" + user[i]['user']['teams']['teamName'] + "'";
+            var individualPriceId = user[i]['user']['individualPriceId'];
+            var individualPriceName = "'" + user[i]['user']['individualPriceName'] + "'";
+            var individualPriceValue = user[i]['user']['individualPriceValue'];
+            var individualPriceCycle = user[i]['user']['individualPriceCycle'];
+            var individualPriceDesc = "'" + user[i]['user']['individualPriceDesc'] + "'";
+            var currentPaymentDate = "'" + user[i]['user']['currentPaymentDate'] + "'";
+            var nextPaymentDate = "'" + user[i]['user']['nextPaymentDate'] + "'";
 
             result = result
-                +
-                '<tr style=""> ' +
-                '<td scope="row">' +
-                '<input style="width: 20px !important;" type="checkbox"  th:name="userId"  value="' + user[i]['idUser'] + '" class="optionUserInput"/>' +
-                '</td>' +
-                '<td id="table-user-name">' + user[i]['name'] + '</td>' +
-                '<td id="table-user-surname">' + user[i]['surname'] + '</td>' +
-                '<td id="table-user-groupName">' + user[i]['teams']['teamName'] + '</td>' +
+                + presenceResult +
+                '<td id="table-user-name">' + user[i]['user']['name'] + '</td>' +
+                '<td id="table-user-surname">' + user[i]['user']['surname'] + '</td>' +
+                '<td id="table-user-groupName">' + user[i]['user']['teams']['teamName'] + '</td>' +
                 '<td id="table-user-settlement">' +
-                '<Button class="price" onclick="changePriceStatus(this,' + user[i]['individualPriceValue'] + ')">' + user[i]['individualPriceValue'] + '</Button>' +
+                '<Button class="price" onclick="changePriceStatus(this,' + user[i]['user']['individualPriceValue'] + ')">' + user[i]['user']['individualPriceValue'] + '</Button>' +
                 '</td>' +
-                '<td id="table-user-email">' + user[i]['email'] + '</td>' +
-                '<td id="table-user-phone">' + user[i]['phone'] + '</td>' +
-                '<td id="table-user-dataOfRecording">' + user[i]['dateOfRecording'] + '</td>' +
+                '<td id="table-user-email">' + user[i]['user']['email'] + '</td>' +
+                '<td id="table-user-phone">' + user[i]['user']['phone'] + '</td>' +
+                '<td id="table-user-dataOfRecording">' + user[i]['user']['dateOfRecording'] + '</td>' +
                 '<td data-label="info.">' +
                 '<Button type="button" class="option-card-button" onclick="editUser(' + name + ',' + surname + ',' + individualPriceId + ',' + individualPriceName + ',' + individualPriceValue + ',' + individualPriceCycle + ',' + individualPriceDesc + ',' + currentPaymentDate + ',' + nextPaymentDate + ',' + teamName + ',' + dateOfRecording + ',' + email + ',' + phone + ',' + idUser + ')">Edytuj</Button>&nbsp;' +
                 '<Button  class="option-card-button" data-toggle="modal" data-target="#' + modal + '" >Usuń</Button>' +
@@ -531,7 +542,7 @@
                 '             </div>\n' +
                 '             <div class="modal-footer">\n' +
                 '                 <button id="button-delete-price" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
-                '                         onclick="deleteUser(' + user[i]['teams']['idTeam'] + ',' + user[i]['idUser'] + ')">Tak</button>\n' +
+                '                         onclick="deleteUser(' + user[i]['user']['teams']['idTeam'] + ',' + user[i]['user']['idUser'] + ')">Tak</button>\n' +
                 '                 <button type="button" class="option-card-button" style="font-size: 1em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
                 '             </div>\n' +
                 '         </div>\n' +
