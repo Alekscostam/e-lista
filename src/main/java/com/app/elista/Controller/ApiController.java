@@ -52,9 +52,9 @@ public class ApiController {
 
     @GetMapping("attendanceList")
     public ModelAndView attendanceList(@AuthenticationPrincipal AppCompany appCompany) {
-        String localDateTime = getLocalDateTime();
-        String actuallyDayWeekText = getActuallyDayWeekText();
-        setDates(appCompany, localDateTime,actuallyDayWeekText);
+//        String localDateTime = getLocalDateTime();
+//        String actuallyDayWeekText = getActuallyDayWeekText();
+//        setDates(appCompany, localDateTime,actuallyDayWeekText);
 
         List<Teams> teamIdsAndTeamNamesByUUID = teamsService.findTeamIdsAndTeamNamesByUUID(appCompany.getIdCompany());
         ModelAndView mav = new ModelAndView("attendanceList");
@@ -69,7 +69,6 @@ public class ApiController {
 
         List<Teams> allTeams = teamsService.findAllByCompanyWithoutAppCompanyReset(appCompany);
         List<TermsPricesTeams> termsPricesTeams = new ArrayList<>();
-        List<TermsPricesTeams> termsPricesTeamsFiltered = new ArrayList<>();
 
         for (Teams allTeam : allTeams) {
             List<String> terms = teamsService.getTermsForTeams(allTeam);
@@ -80,20 +79,25 @@ public class ApiController {
                 if (termsPricesTeam.getTerms().get(i1).contains(weekName)) {
                     Teams teams = termsPricesTeam.getTeam();
                     datesForGroupsService.saveDatesAndGroups(teams, date);
-
-                    LOGGER.info("termsPricesTeam w setDates:" + termsPricesTeam.toString());
                 }
             }
         }
-        LOGGER.info("termsPricesTeamsFiltered w setDates:" + termsPricesTeamsFiltered.toString());
-
     }
 
 
     @ResponseBody
     @PostMapping("postDates")
-    public void postDates(AppCompany appCompany, String localDateTime, String weekName){
-        setDates(appCompany,localDateTime,weekName);
+    public void postDates(String date, @AuthenticationPrincipal AppCompany appCompany ){
+        String dateChanged = changeFormatDate(date);
+        String dayWeekName = "";
+        try{
+            dayWeekName = getDayWeekName(dateChanged);
+            setDates(appCompany,dateChanged,dayWeekName);
+        }catch (ParseException parseException)
+        {
+            LOGGER.error(parseException.getMessage());
+            LOGGER.error("Błąd przy zapisie daty ");
+        }
     }
 
 

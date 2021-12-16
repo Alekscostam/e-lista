@@ -51,7 +51,7 @@
                         </select>
                     </div>
                     <input
-                            onchange="secondFunction(this);"
+                            onchange="dataChanged(this);"
                             style = " min-width: 170px"
                             type="date"
                             lang="fr-CA"
@@ -430,28 +430,29 @@
         }
     }
 
+    async function setDates(element){
+        var xhr = new XMLHttpRequest();
+        var date = "";
 
-    // const secondFunction = async () => {
-    //     const result = await firstFunction()
-    //     // do something else here after firstFunction completes
-    // }
-    // function firstFunction(){
-    //
-    // }
+        date = element.value;
 
-    async function firstFunction(element){
-            getUsersByDate(element)
+
+        xhr.open('POST', "/app/postDates?date=" + date, true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+
+            }
+        }
         return;
-    };
+    }
 
-    async function secondFunction(element){
-        await firstFunction(element);
+    async function dataChanged(element){
+        await setDates(element);
 
-        console.log("asd:"+element);
-    };
-
-
-
+        getUsersByDate(element)
+    }
 
     function getUsersByDate(element){
         var xhr = new XMLHttpRequest();
@@ -467,7 +468,6 @@
             var users;
             if (this.readyState === 4 && this.status === 200) {
                 users = JSON.parse(xhr.responseText);
-                console.log("users: "+ users);
                 generateTable(users);
             }
         }
