@@ -122,7 +122,7 @@ public class ApiController {
         Dates dateByDate = datesService.findDateByDate(dateChanged);
 
 
-        List<Teams> groupIdsByDateId = datesForGroupsService.findGroupsByDateId(dateByDate.getIdDates());
+        List<Teams> groupIdsByDateId = datesForGroupsService.findGroupsByDateIdAndAppCompany(dateByDate.getIdDates(),appCompany);
 
 
 

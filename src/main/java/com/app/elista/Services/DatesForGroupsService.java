@@ -1,5 +1,6 @@
 package com.app.elista.Services;
 
+import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.Dates;
 import com.app.elista.model.DatesForGroups;
 import com.app.elista.model.Teams;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DatesForGroupsService {
@@ -57,8 +59,8 @@ public class DatesForGroupsService {
 
     }
 
-    public List<Teams> findGroupsByDateId(Long idDate) {
-        List<Teams> teamsList = datesForGroupsRepository.findGroupsByDateId(idDate).get();
+    public List<Teams> findGroupsByDateIdAndAppCompany(Long idDate, AppCompany appCompany) {
+        List<Teams> teamsList = datesForGroupsRepository.findGroupsByDateId(idDate).get().stream().filter(team -> team.getAppCompany().equals(appCompany)).collect(Collectors.toList());
 
         return teamsList;
     }
