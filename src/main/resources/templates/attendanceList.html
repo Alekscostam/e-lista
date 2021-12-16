@@ -442,7 +442,7 @@
 
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
-                // getUsersByDate(element);
+                getUsersByDate(element);
             }
         }
 
@@ -451,7 +451,7 @@
     async function dataChanged(element){
         await setDates(element);
         console.log("skonczona funcja ");
-        getUsersByDate(element);
+        // getUsersByDate(element);
     }
 
     function getUsersByDate(element){
