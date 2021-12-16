@@ -81,6 +81,8 @@ public class ApiController {
                     Teams teams = termsPricesTeam.getTeam();
                     datesForGroupsService.saveDatesAndGroups(teams, date);
                     System.out.println("was saved ");
+                    System.out.println(date.getIdDates());
+                    System.out.println(dateForCheck);
                 }
             }
         }
