@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -35,7 +36,7 @@ public class ApiController {
     private final DatesForGroupsService datesForGroupsService;
     private final PresencesService presencesService;
 
-    public ApiController(PricesService pricesService, UsersService usersService, TeamsService teamsService, TeamsPricesService teamsPricesService, DatesService datesService, DatesForGroupsService datesForGroupsService,PresencesService presencesService) {
+    public ApiController(PricesService pricesService, UsersService usersService, TeamsService teamsService, TeamsPricesService teamsPricesService, DatesService datesService, DatesForGroupsService datesForGroupsService, PresencesService presencesService) {
         this.pricesService = pricesService;
         this.usersService = usersService;
         this.teamsService = teamsService;
@@ -87,24 +88,20 @@ public class ApiController {
 
     @ResponseBody
     @PostMapping("postDates")
-    public void postDates(String date, @AuthenticationPrincipal AppCompany appCompany ){
+    public void postDates(String date, @AuthenticationPrincipal AppCompany appCompany) {
         String dateChanged = changeFormatDate(date);
         String dayWeekName = "";
-        try{
+        try {
             dayWeekName = getDayWeekName(date);
 
             System.out.println("HERE1");
             Dates dateFind = datesService.saveOrGetDateByLdt(dateChanged);
             System.out.println(dateFind);
-            System.out.println("dayWeekName: "+dayWeekName);
-           datesForGroupsService.postToDatesForGroups(appCompany,dateChanged,dayWeekName,dateFind.getIdDates());
+            System.out.println("dayWeekName: " + dayWeekName);
+            datesForGroupsService.postToDatesForGroups(appCompany, dateChanged, dayWeekName, dateFind.getIdDates());
 
 
-
-
-
-        }catch (ParseException parseException)
-        {
+        } catch (ParseException parseException) {
             LOGGER.error(parseException.getMessage());
             LOGGER.error("Błąd przy zapisie daty ");
         }
@@ -113,15 +110,14 @@ public class ApiController {
 
     @ResponseBody
     @GetMapping("/getUsersByDate")
-    public List<Users> getUsersByDate(String date,@AuthenticationPrincipal AppCompany appCompany) {
+    public List<Users> getUsersByDate(String date, @AuthenticationPrincipal AppCompany appCompany) {
 
         String dateChanged = changeFormatDate(date);
         String dayWeekName = "";
 
-        try{
-             dayWeekName = getDayWeekName(date);
-        }catch (ParseException parseException)
-        {
+        try {
+            dayWeekName = getDayWeekName(date);
+        } catch (ParseException parseException) {
             LOGGER.error(parseException.getMessage());
 
         }
@@ -129,7 +125,7 @@ public class ApiController {
         // TODO: 15.12.2021 Tu nie powinno byc zapisywania tylko sam odczyt bo to metoda get
 
         Dates dateByDate = datesService.findDateByDate(dateChanged);
-        List<Teams> groupIdsByDateId = datesForGroupsService.findGroupsByDateIdAndAppCompany(dateByDate.getIdDates(),appCompany);
+        List<Teams> groupIdsByDateId = datesForGroupsService.findGroupsByDateIdAndAppCompany(dateByDate.getIdDates(), appCompany);
 
         List<Users> users = new ArrayList<>();
 
@@ -156,16 +152,43 @@ public class ApiController {
 
     public String getDayWeekName(String date) throws ParseException {
 
-        Date result=new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        Date result = new SimpleDateFormat("yyyy-MM-dd").parse(date);
 
         SimpleDateFormat format = new SimpleDateFormat("EEEE");
         String formatDate = format.format(result);
 
-        return formatDate.substring(0, 1).toUpperCase() + formatDate.substring(1);
+        switch (formatDate) {
+            case "monday":
+                formatDate= "Poniedziałek";
+                break;
+            case "tuesday":
+                formatDate= "Wtorek";
+                break;
+            case "wednesday":
+                formatDate= "Środa";
+                break;
+            case "thursday":
+                formatDate= "Czwartek";
+                break;
+            case "friday":
+                formatDate= "Piątek";
+                break;
+            case "saturday":
+                formatDate= "Sobota";
+                break;
+            case "sunday":
+                formatDate= "Niedziela";
+                break;
+            default:
+                formatDate= "Poniedziałek";
+                break;
+        }
+
+
+        return formatDate;
     }
 
-   public String changeFormatDate(String date)
-    {
+    public String changeFormatDate(String date) {
         String year = date.substring(0, 4);
         String month = date.substring(5, 7);
         String day = date.substring(8, 10);
@@ -347,23 +370,22 @@ public class ApiController {
         }
 
     }
+
     @PostMapping("postPresences")
     @ResponseBody
     public String postPresences(String checkedValue, String allValue, String date, @AuthenticationPrincipal AppCompany appCompany) {
 
-        if(date.equals("")){
+        if (date.equals("")) {
             return "Prosze wybrać datę!";
 
-        }
-        else{
+        } else {
             String changedDate = changeFormatDate(date);
             List<String> checkedValues = new ArrayList<>();
-            if(checkedValue.equals(""))
-            {
-               checkedValues = new ArrayList<>(checkedValues);
+            if (checkedValue.equals("")) {
+                checkedValues = new ArrayList<>(checkedValues);
 
-            }else {
-               checkedValues = Arrays.stream(checkedValue.substring(1).split(" ")).collect(Collectors.toList());
+            } else {
+                checkedValues = Arrays.stream(checkedValue.substring(1).split(" ")).collect(Collectors.toList());
 
             }
             List<String> allValues = Arrays.stream(allValue.substring(1).split(" ")).collect(Collectors.toList());
@@ -371,7 +393,7 @@ public class ApiController {
 
 
             Dates foundDate = datesService.saveDate(changedDate);
-            presencesService.savePresences(foundDate.getIdDates(), checkedValues,allUsersByUserIds);
+            presencesService.savePresences(foundDate.getIdDates(), checkedValues, allUsersByUserIds);
 
             return "zapisano";
         }
@@ -414,7 +436,7 @@ public class ApiController {
             groupColor = "ffffff";
         }
 
-        List<String> listsPriceIds =  divideStringToList(priceIds);
+        List<String> listsPriceIds = divideStringToList(priceIds);
 
 
         boolean resultFirstFree = Boolean.TRUE;
