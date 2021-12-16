@@ -60,6 +60,7 @@ public class DatesForGroupsService {
 
     }
 
+    // TODO: 16.12.2021 cos tu lipa 
     public Teams findGroupByDateId(Long idDate, Teams team) {
         System.out.println("findGroupsByDateIdAndAppCompany appCompany" + team.toString());
         System.out.println("findGroupsByDateIdAndAppCompany appCompany" + idDate.toString());
