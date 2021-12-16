@@ -77,14 +77,15 @@ public class DatesForGroupsService {
 
     public List<Teams> findGroupsByDateId(Long idDate, List<Teams> teams) {
         List<DatesForGroups> collect = datesForGroupsRepository
-                .findAll();
+                .findAll()
+                .stream()
+                .filter(d -> d.getIdDates().equals(idDate)).collect(Collectors.toList());
 
+        System.out.println("idDate: " + idDate );
         List<Teams>  filteredTeams= new ArrayList<>();
         for (Teams team : teams) {
             for (DatesForGroups datesForGroups : collect) {
                 if (team.getIdTeam().equals(datesForGroups.getTeams().getIdTeam())) {
-                    System.out.println("collect: "+filteredTeams);
-                    System.out.println("collect: "+filteredTeams);
                     filteredTeams.add(team);
                 }
             }
