@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,17 +60,27 @@ public class DatesForGroupsService {
 
     }
 
-    public List<Teams> findGroupsByDateIdAndAppCompany(Long idDate, AppCompany appCompany) {
-        System.out.println("findGroupsByDateIdAndAppCompany appCompany" + appCompany.toString());
-        List<Teams> teams = datesForGroupsRepository
+    public Teams findGroupByDateId(Long idDate, Teams team) {
+        System.out.println("findGroupsByDateIdAndAppCompany appCompany" + team.toString());
+       Teams teams = datesForGroupsRepository
                 .findAll()
                 .stream()
-                .filter(a -> a.getTeams().getAppCompany().equals(appCompany))
+                .filter(a -> a.getTeams().equals(team))
                 .filter(d -> d.getIdDates().equals(idDate))
-                .map(DatesForGroups::getTeams)
-                .collect(Collectors.toList());
-        System.out.println("teamsList" + teams);
+                .map(DatesForGroups::getTeams).findFirst().get();
+
         return teams;
+    }
+
+    public List<Teams> findGroupsByDateId(Long idDate, List<Teams> teams) {
+
+        List<Teams>  filteredTeams= new ArrayList<>();
+        for (int i = 0; i < teams.size(); i++) {
+
+           filteredTeams.add( findGroupByDateId(idDate,teams.get(i)));
+        }
+
+        return filteredTeams;
     }
 
     public void postToDatesForGroups(AppCompany appCompany, String dateChanged, String dayWeekName, Long dateId) {

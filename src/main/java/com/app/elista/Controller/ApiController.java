@@ -122,17 +122,19 @@ public class ApiController {
             LOGGER.error(parseException.getMessage());
 
         }
-
+        List<Teams> allTeams = teamsService.findAllByCompanyWithoutAppCompanyReset(appCompany);
         Dates dateByDate = datesService.findDateByDate(dateChanged);
-        List<Teams> groupIdsByDateId = datesForGroupsService.findGroupsByDateIdAndAppCompany(dateByDate.getIdDates(), appCompany);
 
-        System.out.println("groupIdsByDateId: " + groupIdsByDateId.toString());
+
+        List<Teams> filteredAllTeams = datesForGroupsService.findGroupsByDateId(dateByDate.getIdDates(),allTeams);
+
+        System.out.println("groupIdsByDateId: " + filteredAllTeams.toString());
 
         List<Users> users = new ArrayList<>();
 
-        if (!groupIdsByDateId.isEmpty()) {
+        if (!filteredAllTeams.isEmpty()) {
 
-            for (Teams team : groupIdsByDateId) {
+            for (Teams team : filteredAllTeams) {
                 List<Users> allUsersByGroupId = usersService.findAllUsersByGroupId(String.valueOf(team.getIdTeam()));
                 users.addAll(allUsersByGroupId);
             }
