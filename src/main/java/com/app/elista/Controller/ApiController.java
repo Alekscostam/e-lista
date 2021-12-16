@@ -80,6 +80,7 @@ public class ApiController {
                 if (termsPricesTeam.getTerms().get(i1).contains(weekName)) {
                     Teams teams = termsPricesTeam.getTeam();
                     datesForGroupsService.saveDatesAndGroups(teams, date);
+                    System.out.println("was saved ");
                 }
             }
         }
@@ -98,8 +99,8 @@ public class ApiController {
             Dates dateFind = datesService.saveOrGetDateByLdt(dateChanged);
             System.out.println(dateFind);
             System.out.println("dayWeekName: " + dayWeekName);
-            datesForGroupsService.postToDatesForGroups(appCompany, dateChanged, dayWeekName, dateFind.getIdDates());
-
+//            datesForGroupsService.postToDatesForGroups(appCompany, dateChanged, dayWeekName, dateFind.getIdDates());
+            setDates(appCompany,date,dayWeekName);
 
         } catch (ParseException parseException) {
             LOGGER.error(parseException.getMessage());
