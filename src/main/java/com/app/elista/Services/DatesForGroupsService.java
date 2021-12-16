@@ -60,8 +60,11 @@ public class DatesForGroupsService {
     }
 
     public List<Teams> findGroupsByDateIdAndAppCompany(Long idDate, AppCompany appCompany) {
-        List<Teams> teamsList = datesForGroupsRepository.findGroupsByDateId(idDate).get().stream().filter(team -> team.getAppCompany().equals(appCompany)).collect(Collectors.toList());
-
+        System.out.println("appCompany" + appCompany.toString());
+        List<Teams> teamsList = datesForGroupsRepository.findGroupsByDateId(idDate).get()
+                .stream()
+                .filter(team -> team.getAppCompany().equals(appCompany)).collect(Collectors.toList());
+        System.out.println("teamsList" + teamsList);
         return teamsList;
     }
 
