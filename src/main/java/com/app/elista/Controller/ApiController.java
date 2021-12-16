@@ -92,7 +92,14 @@ public class ApiController {
         String dayWeekName = "";
         try{
             dayWeekName = getDayWeekName(date);
-            setDates(appCompany,dateChanged,dayWeekName);
+
+            Dates dateFind = datesService.saveOrGetDateByLdt(dateChanged);
+           datesForGroupsService.postToDatesForGroups(appCompany,dateChanged,dayWeekName,dateFind.getIdDates());
+
+
+
+
+
         }catch (ParseException parseException)
         {
             LOGGER.error(parseException.getMessage());

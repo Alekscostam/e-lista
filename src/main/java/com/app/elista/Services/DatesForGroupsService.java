@@ -64,4 +64,26 @@ public class DatesForGroupsService {
 
         return teamsList;
     }
+
+    public void postToDatesForGroups(AppCompany appCompany, String dateChanged, String dayWeekName, Long dateId) {
+
+        List<DatesForGroups> all = datesForGroupsRepository.findAll();
+
+        List<DatesForGroups> filteredAll = all.stream().filter(app -> app.getTeams().getAppCompany().equals(appCompany)).filter(dfg -> dfg.getIdDates().equals(dateId)).collect(Collectors.toList());
+
+        if (filteredAll.isEmpty())
+        {
+            for (int i = 0; i < all.size(); i++) {
+                if (all.get(i).getTeams().getTerms().contains(dayWeekName)) {
+                     datesForGroupsRepository.save(new DatesForGroups(dateId,all.get(i).getTeams()));
+                    LOGGER.error("DODAWANIE TERMINU DO DATE FOR GROUPS ");
+                }
+            }
+        }
+        else{
+
+        }
+
+
+    }
 }
