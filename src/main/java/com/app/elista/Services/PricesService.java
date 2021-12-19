@@ -74,8 +74,8 @@ public class PricesService {
         pricesRepository.save(price);
     }
 
-    public List<Prices> findAllPricesByTeam(Teams team) {
-      String sql = "SELECT p.id_price, p.name, p.value, p.cycle, p.description FROM groups_prices gp, prices p, teams t WHERE t.id_team = gp.id_team AND p.id_price = gp.id_price AND t.id_team ='" + team.getIdTeam() + "';";
+    public List<Prices> findAllIdsPricesByIdTeam(Long idTeam) {
+      String sql = "SELECT p.id_price, p.name, p.value, p.cycle, p.description FROM groups_prices gp, prices p, teams t WHERE t.id_team = gp.id_team AND p.id_price = gp.id_price AND t.id_team ='" + idTeam + "';";
         return jdbcTemplate.query(
                 sql,
                 new BeanPropertyRowMapper(Prices.class));

@@ -515,15 +515,15 @@
 
             result = result
                 + presenceResult +
-                '<td id="table-user-name">' + user[i]['user']['name'] + '</td>' +
-                '<td id="table-user-surname">' + user[i]['user']['surname'] + '</td>' +
-                '<td id="table-user-groupName">' + user[i]['user']['teams']['teamName'] + '</td>' +
-                '<td id="table-user-settlement">' +
+                '<td >' + user[i]['user']['name'] + '</td>' +
+                '<td >' + user[i]['user']['surname'] + '</td>' +
+                '<td >' + user[i]['user']['teams']['teamName'] + '</td>' +
+                '<td >' +
                 '<Button class="price" onclick="changePriceStatus(this,' + user[i]['user']['individualPriceValue'] + ')">' + user[i]['user']['individualPriceValue'] + '</Button>' +
                 '</td>' +
-                '<td id="table-user-email">' + user[i]['user']['email'] + '</td>' +
-                '<td id="table-user-phone">' + user[i]['user']['phone'] + '</td>' +
-                '<td id="table-user-dataOfRecording">' + user[i]['user']['dateOfRecording'] + '</td>' +
+                '<td >' + user[i]['user']['email'] + '</td>' +
+                '<td >' + user[i]['user']['phone'] + '</td>' +
+                '<td >' + user[i]['user']['dateOfRecording'] + '</td>' +
                 '<td data-label="info.">' +
                 '<Button type="button" class="option-card-button" onclick="editUser(' + name + ',' + surname + ',' + individualPriceId + ',' + individualPriceName + ',' + individualPriceValue + ',' + individualPriceCycle + ',' + individualPriceDesc + ',' + currentPaymentDate + ',' + nextPaymentDate + ',' + teamName + ',' + dateOfRecording + ',' + email + ',' + phone + ',' + idUser + ')">Edytuj</Button>&nbsp;' +
                 '<Button  class="option-card-button" data-toggle="modal" data-target="#' + modal + '" >Usuń</Button>' +

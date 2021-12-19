@@ -30,13 +30,6 @@
                     </button>
                     <button
                             class="navigation-card-button"
-                            onclick="changePanel('price-add')"
-                            type="submit"
-                    >
-                        Lista cen
-                    </button>
-                    <button
-                            class="navigation-card-button"
                             onclick="changePanel('group-add')"
                             type="submit"
                     >
@@ -66,6 +59,7 @@
                         <th class="colth" scope="col"></th>
                         <th class="colth" scope="col"><span style="font-size: 0.9em!important">Nazwa</span></th>
                         <th class="colth" scope="col"><span style="font-size: 0.9em!important">Terminy</span></th>
+                        <th class="colth" scope="col"><span style="font-size: 0.9em!important">Ceny</span></th>
                         <th class="colth" scope="col"><span style="font-size: 0.9em!important">Lokalizacja</span></th>
                         <th class="colth" scope="col"><span style="font-size: 0.9em!important">Prowadzący</span></th>
                         <th class="colth" scope="col"><span style="font-size: 0.9em!important">Miejsca</span></th>
@@ -226,37 +220,6 @@
                             type="submit">
                         Zapisz
                     </button>
-
-                </form>
-            </div>
-            <div class="col-lg-6 right-panel">
-                <form class="login-form" th:action="@{/app/postGroup}" method="POST">
-                    <ul style="font-size: 0.7em"
-                        class="list-group list-unstyled list-group-flush">
-                        <li class="my-2">
-                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
-                            <b>Wyświetl dostępne ceny</b>
-                            </hr>
-                        </li>
-                        <li class="my-2">
-                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
-                            <b>Wyświetl dostępne ceny</b>
-                            </hr>
-                        </li>
-                        <li class="my-2">
-                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
-                            <b>Wyświetl dostępne ceny</b>
-                            </hr>
-                        </li>
-                        <li class="my-2">
-                            <input style="width: 20px !important;" type="checkbox" id="input-prices">
-                            <b>Wyświetl dostępne ceny</b>
-                            </hr>
-                        </li>
-                    </ul>
-                    <button id="button-save-settings-price" class="btn btn-outline-success w-100" type="submit">
-                        Zapisz
-                    </button>
                 </form>
             </div>
         </div>
@@ -270,31 +233,6 @@
         getGroups();
 
     };
-
-
-    function deletePrice(element) {
-
-        // let checker = checkSelectedItem(element, "selected-option-input");
-
-            var xhr = new XMLHttpRequest();
-
-            xhr.open('POST', "/app/deletePrice?priceId=" + element, true);
-
-            xhr.send('');
-            var result = "";
-            xhr.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    result = xhr.responseText;
-                    getPrices();
-                    document.getElementById('alert').value = result;
-                } else {
-
-                }
-            }
-            document.getElementById('alert-price-fail').style.display = "none";
-            document.getElementById('alert-price-success').style.display = "block";
-
-    }
 
     function deleteGroup(element) {
 
@@ -318,47 +256,10 @@
             document.getElementById('alert-price-success-group').style.display = "block";
     }
 
-    function addPrice(element) {
-
-        let idPriceNumber = "";
-        if (element === 'button-save-price') {
-            idPriceNumber = "";
-        } else {
-            idPriceNumber = document.getElementById('id-of-the-new-price').value;
-        }
-
-        var xhr = new XMLHttpRequest();
-        let priceName = document.getElementById('name-of-the-new-price').value;
-        let priceValue = document.getElementById('value-for-new-price').value;
-        let priceCycle = document.getElementById('cycle-for-new-price').value;
-        let priceDescription = document.getElementById('description-for-new-price').value;
-
-        xhr.open('POST', "/app/postPrice?idPriceNumber=" + idPriceNumber +
-            "&priceName=" + priceName +
-            "&priceValue=" + priceValue +
-            "&priceCycle=" + priceCycle +
-            "&priceDescription=" + priceDescription, true);
-
-        xhr.send('');
-        var result = "";
-        xhr.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                result = xhr.responseText;
-
-                document.getElementById('alert').result;
-            } else {
-
-            }
-        }
-
-    }
 
     function update(element, table) {
-        // console.log(element.outerHTML);
         let splitResult = splitElement(element);
-        if (table === "price") {
-            editPrice(splitResult);
-        }
+
         if (table === "group") {
             var startTerms = element.outerHTML.indexOf("startTerms:") + 11;
             var stopTerms = element.outerHTML.indexOf(":stopTerms");
@@ -398,54 +299,36 @@
         }
 
     }
-
     function removeId(elementToRemove) {
         document.getElementById(elementToRemove).value = "";
     }
 
-    function editPrice(splitResult) {
-        document.getElementById("id-of-the-new-price").value = splitResult[0];
-        document.getElementById("name-of-the-new-price").value = splitResult[1];
-        document.getElementById("value-for-new-price").value = splitResult[2];
-        document.getElementById("cycle-for-new-price").value = splitResult[3];
-        document.getElementById("description-for-new-price").value = splitResult[4];
-    }
 
-    function editGroup(splitResult, splitTerms) {
-        console.log(splitTerms);
-        document.getElementById("group-id").value = splitResult[0];
-        document.getElementById("group-name").value = splitResult[1];
-        document.getElementById("group-location").value = splitResult[2];
-        document.getElementById("group-leader-name").value = splitResult[3];
-        document.getElementById("group-size").value = splitResult[4];
-        document.getElementById("group-description").value = splitResult[5];
-        document.getElementById("group-color").value = splitResult[6];
-        document.getElementById("group-data-of-start").value = splitResult[7];
-        document.getElementById("group-data-of-end").value = splitResult[8];
-        document.getElementById("group-first-free").checked = splitResult[9];
-
+    function editGroup(idTeam,teamName,place,leaderName,groupSize,description,startDate,endDate,color, checkedPrices, createTerms,moreInfos) {
+        console.log(idTeam);
+        console.log(teamName);
+        console.log(place);
+        console.log(leaderName);
+        console.log(groupSize);
+        console.log(description);
+        console.log(startDate);
+        console.log(endDate);
+        console.log(color);
+        console.log(checkedPrices);
+        console.log(createTerms);
+        console.log(moreInfos);
 
     }
 
     function changePanel(element) {
-        var price_add = document.getElementById("price-add");
         var group_table = document.getElementById("group-table");
         var group_add = document.getElementById("group-add");
         if (element === "group-table") {
-            price_add.style.display = "none";
             group_table.style.display = "block";
             group_add.style.display = "none";
             return;
         }
-        if (element === "price-add") {
-            price_add.style.display = "block";
-            group_table.style.display = "none";
-            group_add.style.display = "none";
-
-        }
-
         if (element === "group-add") {
-            price_add.style.display = "none";
             group_table.style.display = "none";
             group_add.style.display = "block";
 
@@ -467,11 +350,9 @@
         var dd = String(today.getDate()).padStart(2, "0");
         var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
         var yyyy = today.getFullYear();
-        // 2015-08-09
+
         today = yyyy + "-" + mm + "-" + dd;
-        console.log(today);
-        // 1996-06-12
-        // var today = moment().format('DD-MM-YYYY');
+
         document.getElementById("date-picker").innerText = today;
         document.getElementById("date-picker").innerHTML = today;
         document.getElementById("date-picker").value = today;
@@ -482,8 +363,8 @@
 
         document.getElementById("term").innerHTML =
             termIncrease +
-            '<div id="part-term" style="display: flex;">\n' +
-            '<select name="groupDayFor" class="form-control mr-sm-2 my-2 w-100"  aria-label="Default select example">\n' +
+            '<div style="display: flex;">\n' +
+            '<select name="groupDayFor" class="form-control mr-sm-2 my-2 w-100"  >\n' +
             '<option value="Poniedziałek" selected>Poniedziałek</option>\n' +
             '<option value="Wtorek" >Wtorek</option>\n' +
             '<option value="Środa" >Środa</option>\n' +
@@ -491,10 +372,75 @@
             '<option value="Piątek" >Piątek</option>\n' +
             '<option value="Sobota" >Sobota</option>\n' +
             '<option value="Niedziela" >Niedziela</option>\n' +
-            "</select>\n" +
-            '<input id="appt-time-start" type="time" name="groupTimeFrom" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
-            '<input id="appt-time-stop" type="time" name="groupTimeTo" class="w-100" style="color:black!important; height:40px; font-size:0.8em" >\n' +
-            '<a style="color:black!important; height:40px; font-size:1.2em" ><i class=\'bx bx-x\'></i></a>\n' +
+            '</select>\n' +
+            '<select name="groupTimeFromHour" class="form-control mr-sm-2 my-2" style="width: auto!important" >\n' +
+            '<option value="06" selected>06</option>\n' +
+            '<option value="07" >07</option>\n' +
+            '<option value="08" >08</option>\n' +
+            '<option value="09" >09</option>\n' +
+            '<option value="10" >10</option>\n' +
+            '<option value="11" >11</option>\n' +
+            '<option value="12" >12</option>\n' +
+            '<option value="13" >13</option>\n' +
+            '<option value="14" >14</option>\n' +
+            '<option value="15" >15</option>\n' +
+            '<option value="16" >16</option>\n' +
+            '<option value="17" >17</option>\n' +
+            '<option value="18" >18</option>\n' +
+            '<option value="19" >19</option>\n' +
+            '<option value="20" >20</option>\n' +
+            '<option value="21" >21</option>\n' +
+            '<option value="22" >22</option>\n' +
+            '<option value="23" >23</option>\n' +
+            '</select>\n' +
+            '<select name="groupTimeFromMinute" class="form-control mr-sm-2 my-2 " style="width: auto!important" >\n' +
+            '<option value="00" selected>00</option>\n' +
+            '<option value="05" >05</option>\n' +
+            '<option value="10" >10</option>\n' +
+            '<option value="15" >15</option>\n' +
+            '<option value="20" >20</option>\n' +
+            '<option value="25" >25</option>\n' +
+            '<option value="30" >30</option>\n' +
+            '<option value="35" >35</option>\n' +
+            '<option value="40" >40</option>\n' +
+            '<option value="45" >45</option>\n' +
+            '<option value="50" >50</option>\n' +
+            '<option value="55" >55</option>\n' +
+            '</select> \n ' +
+            '-  <select name="groupTimeToHour" class="form-control mr-sm-2 my-2 " style="width: auto!important"  >\n' +
+            '<option value="06" selected>06</option>\n' +
+            '<option value="07" >07</option>\n' +
+            '<option value="08" >08</option>\n' +
+            '<option value="09" >09</option>\n' +
+            '<option value="10" >10</option>\n' +
+            '<option value="11" >11</option>\n' +
+            '<option value="12" >12</option>\n' +
+            '<option value="13" >13</option>\n' +
+            '<option value="14" >14</option>\n' +
+            '<option value="15" >15</option>\n' +
+            '<option value="16" >16</option>\n' +
+            '<option value="17" >17</option>\n' +
+            '<option value="18" >18</option>\n' +
+            '<option value="19" >19</option>\n' +
+            '<option value="20" >20</option>\n' +
+            '<option value="21" >21</option>\n' +
+            '<option value="22" >22</option>\n' +
+            '<option value="23" >23</option>\n' +
+            '</select>\n' +
+            '<select name="groupTimeToMinute" class="form-control mr-sm-2 my-2 " style="width: auto!important" >\n' +
+            '<option value="00" selected>00</option>\n' +
+            '<option value="05" >05</option>\n' +
+            '<option value="10" >10</option>\n' +
+            '<option value="15" >15</option>\n' +
+            '<option value="20" >20</option>\n' +
+            '<option value="25" >25</option>\n' +
+            '<option value="30" >30</option>\n' +
+            '<option value="35" >35</option>\n' +
+            '<option value="40" >40</option>\n' +
+            '<option value="45" >45</option>\n' +
+            '<option value="50" >50</option>\n' +
+            '<option value="55" >55</option>\n' +
+            '</select>\n' +
             "</div>";
     }
 
@@ -523,8 +469,30 @@
             for (let j = 0; j < groups[i]['terms'].length; j++)
             {
                 createTerms = createTerms + groups[i]['terms'][j] + '</br>' ;
+            }
+            var checkedIds = "";
+
+            var pricesInfos ="";
+            for (let j = 0; j <  groups[i]['checkedPrices'].length; j++) {
+                pricesInfos =  pricesInfos +'' +''  + groups[i]['checkedPrices'][j]['name'] +' - '+ groups[i]['checkedPrices'][j]['value']+'zł<b> - </b>'+ groups[i]['checkedPrices'][j]['cycle'] +'dni' +'<br>';
 
             }
+
+            console.log("pricesInfos: " + pricesInfos);
+
+
+            createTerms = "'" + createTerms + "'";
+            idTeam = "'" +  groups[i]['teams']['idTeam']  + "'";
+            teamName = "'" + groups[i]['teams']['teamName'] + "'";
+            place = "'" + groups[i]['teams']['place'] + "'";
+            leaderName = "'" + groups[i]['teams']['leaderName']  + "'";
+            groupSize = "'" + groups[i]['teams']['groupSize'] + "'";
+            description = "'" + groups[i]['teams']['description'] + "'";
+            startDate = "'" + groups[i]['teams']['startDate'] + "'";
+            endDate = "'" + groups[i]['teams']['endDate']  + "'";
+            color = "'" + groups[i]['teams']['color'] + "'";
+            checkedPrices = "'" + groups[i]['checkedPrices'] + "'";
+            moreInfos = "'" + groups[i]['moreInfos'][0] + "'";
 
             var modal = "exampleModalGroup"+ groups[i]['teams']['idTeam'];
             var modalLabel="exampleModalLabelGroup"+ groups[i]['teams']['idTeam'];
@@ -535,108 +503,45 @@
                 '<td scope="row">' +
                 '<input hidden style="width: 20px !important;" type="checkbox"  th:name="groupId"  th:value="' + groups[i]['teams']['idTeam'] + '"   class="option"/>' +
                 '</td>' +
-                '<td id="table-team-name">' + groups[i]['teams']['teamName'] + '</td>' +
-                '<td id="table-team-terms">' + createTerms + '</td>' +
-                '<td id="table-team-place">' + groups[i]['teams']['place'] + '</td>' +
-                '<td id="table-team-leaderName">' + groups[i]['teams']['leaderName'] + '</td>' +
-                '<td id="table-team-space">' + groups[i]['teams']['freeSpace'] + ' / ' + groups[i]['teams']['groupSize'] + '</td>' +
-                '<td id="table-team-desc">' + groups[i]['teams']['description'] + '</td>' +
-                '<td id="table-team-startDate">' + groups[i]['teams']['startDate'] + '</td>' +
-                '<td id="table-team-endDate">' + groups[i]['teams']['endDate'] + '</td>' +
-                '<td id="table-team-color">' + groups[i]['teams']['color'] + '</td>' +
+                '<td >' + groups[i]['teams']['teamName'] + '</td>' +
+                '<td >' + createTerms + '</td>' +
+                '<td >' + pricesInfos + '</td>' +
+                '<td >' + groups[i]['teams']['place'] + '</td>' +
+                '<td >' + groups[i]['teams']['leaderName'] + '</td>' +
+                '<td >' + groups[i]['teams']['freeSpace'] + ' / ' + groups[i]['teams']['groupSize'] + '</td>' +
+                '<td >' + groups[i]['teams']['description'] + '</td>' +
+                '<td >' + groups[i]['teams']['startDate'] + '</td>' +
+                '<td >' + groups[i]['teams']['endDate'] + '</td>' +
+                '<td >' + groups[i]['teams']['color'] + '</td>' +
                 '<td data-label="info."> ' +
-                '<button  class="option-card-button">Edytuj</button>&nbsp;' +
+                '<button  class="option-card-button" onclick="editGroup(' + idTeam+ ',' + teamName  + ',' + place  + ',' + leaderName + ',' + groupSize + ',' + description + ',' + startDate + ',' + endDate + ',' + color+ ','  + createTerms + ','  + moreInfos + ')">Edytuj</button>&nbsp;' +
                 '<button  class="option-card-button" ' +
                 'data-toggle="modal" data-target="#'+modal+'" >Usuń</button>' +
                 '</td>' +
-                '                            <div class="modal fade"   id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
-                '                                <div class="modal-dialog" role="document">\n' +
-                '                                    <div class="modal-content">\n' +
-                '                                        <div class="modal-header">\n' +
-                '                                            <h5 class="modal-title" id="'+modalLabel+'">Usuwanie grupy</h5>\n' +
-                '                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
-                '                                                <span aria-hidden="true">&times;</span>\n' +
-                '                                            </button>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="modal-body">\n' +
-                '                                            Czy napewno chcesz usunąć grupę?\n' +
-                '                                        </div>\n' +
-                '                                        <div class="modal-footer">\n' +
-                '                                            <button class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
-                '                                                    onclick="deleteGroup(' + groups[i]['teams']['idTeam'] + ')">Tak</button>\n' +
-                '                                            <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
-                '                                        </div>\n' +
-                '                                    </div>\n' +
-                '                                </div>\n' +
-                '                            </div>'
+                ' <div class="modal fade"   id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
+                '     <div class="modal-dialog" role="document">\n' +
+                '         <div class="modal-content">\n' +
+                '             <div class="modal-header">\n' +
+                '                 <h5 class="modal-title" id="'+modalLabel+'">Usuwanie grupy</h5>\n' +
+                '                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
+                '                     <span aria-hidden="true">&times;</span>\n' +
+                '                 </button>\n' +
+                '             </div>\n' +
+                '             <div class="modal-body">\n' +
+                '                 Czy napewno chcesz usunąć grupę?\n' +
+                '             </div>\n' +
+                '             <div class="modal-footer">\n' +
+                '                 <button class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
+                '                         onclick="deleteGroup(' + groups[i]['teams']['idTeam'] + ')">Tak</button>\n' +
+                '                 <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
+                '             </div>\n' +
+                '         </div>\n' +
+                '     </div>\n' +
+                ' </div>'
             '</tr>';
         }
 
         document.getElementById("tbody-element-group").innerHTML = result;
-    }
-
-    function getPrices() {
-        var xhr = new XMLHttpRequest();
-
-        xhr.open('GET', "/app/getPrices", true);
-        xhr.send('');
-
-        xhr.onreadystatechange = function () {
-            var prices;
-            if (this.readyState === 4 && this.status === 200) {
-                prices = JSON.parse(xhr.responseText);
-                generateTablePrices(prices);
-            }
-        }
-    }
-
-  function  generateTablePrices(prices){
-      var result = "";
-
-      for (let i = 0; i < prices.length; i++) {
-
-          var modal = "exampleModalPrice"+ prices[i]['idPrice'];
-          var modalLabel="exampleModalLabelPrice"+ prices[i]['idPrice'];
-
-          result = result
-              +
-              '<tr style="font-size: 0.9em!important"> ' +
-              '<td scope="row">' +
-              '<input hidden style="width: 20px !important;" type="checkbox"  th:name="priceId"  th:value="' + prices[i]['idPrice'] + '"   class="option"/>' +
-              '</td>' +
-              '<td id="table-price-name">' + prices[i]['name'] + '</td>' +
-              '<td id="table-price-value">' + prices[i]['value'] + '</td>' +
-              '<td id="table-price-cycle">' + prices[i]['cycle'] + '</td>' +
-              '<td id="table-price-desc">' + prices[i]['description'] + '</td>' +
-              '<td data-label="info.">' +
-              '<button  class="option-card-button">Edytuj</button>&nbsp;' +
-              '<button  class="option-card-button" ' +
-              'data-toggle="modal" data-target="#'+modal+'">Usuń</button>' +
-              '</td>' +
-              '                            <div class="modal fade" id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
-              '                                <div class="modal-dialog" role="document">\n' +
-              '                                    <div class="modal-content">\n' +
-              '                                        <div class="modal-header">\n' +
-              '                                            <h5 class="modal-title" id="'+modalLabel+'">Usuwanie ceny</h5>\n' +
-              '                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
-              '                                                <span aria-hidden="true">&times;</span>\n' +
-              '                                            </button>\n' +
-              '                                        </div>\n' +
-              '                                        <div class="modal-body">\n' +
-              '                                            Czy napewno chcesz usunąć cenę?\n' +
-              '                                        </div>\n' +
-              '                                        <div class="modal-footer">\n' +
-              '                                            <button class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
-              '                                                    onclick="deletePrice(' + prices[i]['idPrice'] + ')">Tak</button>\n' +
-              '                                            <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
-              '                                        </div>\n' +
-              '                                    </div>\n' +
-              '                                </div>\n' +
-              '                            </div>'
-          '</tr>';
-      }
-
-      document.getElementById("tbody-element-prices").innerHTML = result;
     }
 
 </script>

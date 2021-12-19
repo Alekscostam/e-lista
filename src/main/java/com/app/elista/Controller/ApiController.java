@@ -5,7 +5,6 @@ import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.*;
 import com.app.elista.model.extended.AllInfo;
 import com.app.elista.model.extended.TermsPricesTeams;
-import com.app.elista.model.extended.UserPresence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -204,6 +203,9 @@ public class ApiController {
     @GetMapping("optionGroupList")
     public ModelAndView optionGroupList(@AuthenticationPrincipal AppCompany appCompany) {
         List<AllInfo> allByUUID = teamsService.findAllInfoByAppCompanyUUID(appCompany.getIdCompany());
+        for (AllInfo allInfo : allByUUID) {
+            allInfo.setCheckedPrices(pricesService.findAllIdsPricesByIdTeam(allInfo.getTeams().getIdTeam()));
+        }
         ModelAndView mav = new ModelAndView("optionGroupList");
         List<Prices> allPrices = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
         mav.addObject("prices", allPrices);
@@ -226,6 +228,9 @@ public class ApiController {
     @ResponseBody
     public List<AllInfo> getGroups(@AuthenticationPrincipal AppCompany appCompany) {
         List<AllInfo> allByUUID = teamsService.findAllInfoByAppCompanyUUID(appCompany.getIdCompany());
+        for (AllInfo allInfo : allByUUID) {
+            allInfo.setCheckedPrices(pricesService.findAllIdsPricesByIdTeam(allInfo.getTeams().getIdTeam()));
+        }
         return allByUUID;
     }
 
@@ -336,7 +341,7 @@ public class ApiController {
         List<Teams> teams = teamsService.findAllByCompany(appCompany);
 
         for (Teams team : teams) {
-            List<Prices> prices = pricesService.findAllPricesByTeam(team);
+            List<Prices> prices = pricesService.findAllIdsPricesByIdTeam(team.getIdTeam());
             termsPricesTeams.add(new TermsPricesTeams(prices, team));
         }
 
@@ -350,7 +355,7 @@ public class ApiController {
             Teams team = teamsService.findTeamById(groupId);
             team.setAppCompany(null);
             List<String> termsForTeam = teamsService.getTermsForTeams(team);
-            List<Prices> allPrices = pricesService.findAllPricesByTeam(team);
+            List<Prices> allPrices = pricesService.findAllIdsPricesByIdTeam(team.getIdTeam());
             return new TermsPricesTeams(termsForTeam, allPrices, team);
         } catch (NumberFormatException ne) {
             LOGGER.error(ne.getMessage());
@@ -445,7 +450,21 @@ public class ApiController {
     }
 
     @PostMapping("postGroup")
-    public ModelAndView postGroup(@AuthenticationPrincipal AppCompany appCompany, String groupId, String groupName, String groupPlace, String groupSize, String groupLeader, String groupDataFrom, String groupDataTo, String groupDescription, String priceIds, String groupDayFor, String groupTimeFrom, String groupTimeTo, String groupColor, String groupFirstFree) {
+    public ModelAndView postGroup(@AuthenticationPrincipal AppCompany appCompany, String groupId, String groupName, String groupPlace, String groupSize, String groupLeader, String groupDataFrom, String groupDataTo, String groupDescription, String priceIds, String groupDayFor,
+                                  String groupTimeFromHour,
+                                  String groupTimeFromMinute,
+                                  String groupTimeToHour,
+                                  String groupTimeToMinute,
+                                  String groupColor, String groupFirstFree) {
+
+
+        String[] splitTimeFromHour = groupTimeFromHour.split(",");
+        String[] splitTimeFromMinute = groupTimeFromMinute.split(",");
+        String[] splitTimeToHour = groupTimeToHour.split(",");
+        String[] splitTimeToMinute = groupTimeToMinute.split(",");
+        String[] splitDays = groupDayFor.split(",");
+
+
 
         if (groupColor == null) {
             groupColor = "ffffff";
@@ -461,7 +480,8 @@ public class ApiController {
         }
         String addedTerms = "";
         if (!groupDayFor.isEmpty()) {
-            addedTerms = stringListsToString(groupDayFor, groupTimeFrom, groupTimeTo);
+            addedTerms = splitDaysAndTimes(splitTimeFromHour, splitTimeFromMinute, splitTimeToHour, splitTimeToMinute, splitDays);
+
         }
 
         if (groupSize.isEmpty()) {
@@ -469,7 +489,7 @@ public class ApiController {
         }
 
         Teams team;
-// TODO: 08.12.2021 Update tabelki GP
+
         if (groupId != null && !(groupId.isEmpty())) {
             team = teamsService.findTeamById(groupId);
             team.setTeamName(groupName);
@@ -495,7 +515,22 @@ public class ApiController {
         }
         return new ModelAndView("redirect:/app/optionGroupList");
     }
+
+    private String splitDaysAndTimes(String[] splitTimeFromHour, String[] splitTimeFromMinute, String[] splitTimeToHour, String[] splitTimeToMinute, String[] splitDays) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+
+        for (int i = 0; i < splitDays.length; i++) {
+            stringBuilder.append(splitDays[i]+": " + splitTimeFromHour[i]+":"+ splitTimeFromMinute[i] +" - "+ splitTimeToHour[i] +":"+ splitTimeToMinute[i]+";");
+        }
+
+        return stringBuilder.toString();
+
+
+    }
 }
+
 
 
 // TODO: 16.12.2021 EDYCJA GRUPY! :)  

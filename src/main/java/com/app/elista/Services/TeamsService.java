@@ -79,6 +79,9 @@ public class TeamsService {
             allInfos.add(new AllInfo(team,terms,moreInfos));
         }
 
+
+
+
     return  allInfos;
     }
 
