@@ -76,7 +76,7 @@ public class TeamsService {
         }catch (Exception ex){
             LOGGER.error(ex.getMessage());
             LOGGER.error("Najpierw nalezy usunąc użytkowników z danej grupy");
-            return "Przed sunięciem grupy należy usunąc jej użytkowników!";
+            return "Przed usnięciem grupy należy usunąć jej użytkowników!";
         }
 
     }

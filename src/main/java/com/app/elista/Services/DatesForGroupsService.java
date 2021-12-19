@@ -8,6 +8,7 @@ import com.app.elista.repositories.DatesForGroupsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,10 +24,11 @@ public class DatesForGroupsService {
 
     @Autowired
     DatesForGroupsRepository datesForGroupsRepository;
+    JdbcTemplate jdbcTemplate;
 
-
-    public DatesForGroupsService(DatesForGroupsRepository datesForGroupsRepository) {
+    public DatesForGroupsService(DatesForGroupsRepository datesForGroupsRepository,JdbcTemplate jdbcTemplate) {
         this.datesForGroupsRepository = datesForGroupsRepository;
+        this.jdbcTemplate = jdbcTemplate;
 
     }
 
@@ -76,5 +78,12 @@ public class DatesForGroupsService {
             }
         }
         return filteredTeams;
+    }
+
+    public void deleteFromDatesForGroupsByIdGroup(Long id) {
+
+        String deleteQuery = "delete from dates_for_groups where id_team = ?";
+        jdbcTemplate.update(deleteQuery,id);
+        LOGGER.info("Usunieto dane z tabeli dates_for_groups");
     }
 }

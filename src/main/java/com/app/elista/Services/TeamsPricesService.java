@@ -66,7 +66,7 @@ public class TeamsPricesService {
 
     }
 
-    public void deleteGroupFromGP(Long groupId) {
+    public void deleteFromGroupsPricesByIdGroup(Long groupId) {
 
         String deleteQuery = "delete from groups_prices where id_team = ?";
         jdbcTemplate.update(deleteQuery,groupId);

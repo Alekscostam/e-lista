@@ -450,7 +450,8 @@ public class ApiController {
         String msg = "";
         try {
             Long id = Long.valueOf(groupId);
-            teamsPricesService.deleteGroupFromGP(id);
+            teamsPricesService.deleteFromGroupsPricesByIdGroup(id);
+            datesForGroupsService.deleteFromDatesForGroupsByIdGroup(id);
             msg = teamsService.deleteGroupById(id);
             return msg;
         } catch (NumberFormatException ex) {
@@ -521,7 +522,7 @@ public class ApiController {
         team = teamsService.saveTeam(team);
         if (!listsPriceIds.isEmpty()) {
             List<Prices> allPricesByPriceIds = pricesService.findAllByPriceIds(listsPriceIds);
-            teamsPricesService.deleteGroupFromGP(team.getIdTeam());
+            teamsPricesService.deleteFromGroupsPricesByIdGroup(team.getIdTeam());
             teamsPricesService.insertToGP(team, allPricesByPriceIds);
         }
         return new ModelAndView("redirect:/app/optionGroupList");
