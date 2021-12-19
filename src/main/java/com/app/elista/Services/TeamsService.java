@@ -1,6 +1,7 @@
 package com.app.elista.Services;
 
 import com.app.elista.appcompany.AppCompany;
+import com.app.elista.model.Prices;
 import com.app.elista.model.Teams;
 import com.app.elista.model.extended.AllInfo;
 import com.app.elista.model.extended.MoreInfo;
@@ -52,35 +53,16 @@ public class TeamsService {
                 sqlTeams,
                 new BeanPropertyRowMapper(Teams.class));
 
-        List<MoreInfo> moreInfos = new ArrayList<>();
+        List<Prices> prices = new ArrayList<>();
         List<AllInfo> allInfos = new ArrayList<>();
-        List<String> terms;
+
+        List<String> terms = new ArrayList<>();
+
         for (Teams team : teams) {
-
-            String sql = "SELECT p.id_price, p.name,p.value, p.cycle, p.description, gp.id_group_price, gp.id_team FROM  groups_prices gp LEFT  JOIN  prices p on gp.id_price = p.id_price WHERE id_team='" + team.getIdTeam() + "';";
-
-            List<String> query = jdbcTemplate.query(sql, (rs, rowNum) -> (
-                    rs.getString(1) + ";" + rs.getString(2) + ";" + rs.getString(3) + ";" + rs.getString(4) + ";" + rs.getString(5) + ";" + rs.getString(6) + ";" + rs.getString(7)));
-
-            for (String s : query) {
-                String[] split = s.replaceAll("\\s+", "").split(";");
-                MoreInfo moreInfo = new MoreInfo();
-                moreInfo.setPriceId(split[0]);
-                moreInfo.setPriceName(split[1]);
-                moreInfo.setPriceValue(split[2]);
-                moreInfo.setPriceCycle(split[3]);
-                moreInfo.setPriceDescription(split[4]);
-                moreInfo.setIdGroupPrice(split[5]);
-                moreInfo.setTeamId(split[6]);
-                moreInfos.add(moreInfo);
-            }
             String[] splitTerms = team.getTerms().split(";");
             terms = Arrays.asList(splitTerms);
-            allInfos.add(new AllInfo(team,terms,moreInfos));
+            allInfos.add(new AllInfo(team, terms, prices));
         }
-
-
-
 
     return  allInfos;
     }

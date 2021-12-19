@@ -202,16 +202,43 @@ public class ApiController {
 
     @GetMapping("optionGroupList")
     public ModelAndView optionGroupList(@AuthenticationPrincipal AppCompany appCompany) {
-        List<AllInfo> allByUUID = teamsService.findAllInfoByAppCompanyUUID(appCompany.getIdCompany());
-        for (AllInfo allInfo : allByUUID) {
-            allInfo.setCheckedPrices(pricesService.findAllIdsPricesByIdTeam(allInfo.getTeams().getIdTeam()));
-        }
+//        List<AllInfo> allByUUID = teamsService.findAllInfoByAppCompanyUUID(appCompany.getIdCompany());
+//        List<Prices> allPricesByAppCompany = pricesService.findAllPricesByAppCompany(appCompany);
+//        allPricesByAppCompany.forEach(p->p.setAppCompany(null));
+//        for (AllInfo allInfo : allByUUID) {
+//            allInfo.setCheckedPrices(pricesService.findAllIdsPricesByIdTeam(allInfo.getTeams().getIdTeam()));
+//            allInfo.setAllPrices(allPricesByAppCompany);
+//        }
+
         ModelAndView mav = new ModelAndView("optionGroupList");
-        List<Prices> allPrices = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
-        mav.addObject("prices", allPrices);
-        mav.addObject("allInfos", allByUUID);
+//        List<Prices> allPrices = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
+        mav.addObject("prices", new ArrayList<>());
+        mav.addObject("allInfos", new ArrayList<>());
         return mav;
     }
+
+    @GetMapping("getGroups")
+    @ResponseBody
+    public List<AllInfo> getGroups(@AuthenticationPrincipal AppCompany appCompany) {
+        List<AllInfo> allByUUID = teamsService.findAllInfoByAppCompanyUUID(appCompany.getIdCompany());
+        List<Prices> allPricesByAppCompany = pricesService.findAllPricesByAppCompany(appCompany);
+        allPricesByAppCompany.forEach(p->p.setAppCompany(null));
+        for (AllInfo allInfo : allByUUID) {
+            allInfo.setCheckedPrices(pricesService.findAllIdsPricesByIdTeam(allInfo.getTeams().getIdTeam()));
+            allInfo.setAllPrices(allPricesByAppCompany);
+        }
+        return allByUUID;
+    }
+
+    @ResponseBody
+    @GetMapping("getPrices")
+    public List<Prices> getPrices(@AuthenticationPrincipal AppCompany appCompany) {
+
+        List<Prices> all = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
+
+        return all;
+    }
+
 
     @GetMapping("priceList")
     public ModelAndView priceList(@AuthenticationPrincipal AppCompany appCompany) {
@@ -224,15 +251,6 @@ public class ApiController {
     }
 
 
-    @GetMapping("getGroups")
-    @ResponseBody
-    public List<AllInfo> getGroups(@AuthenticationPrincipal AppCompany appCompany) {
-        List<AllInfo> allByUUID = teamsService.findAllInfoByAppCompanyUUID(appCompany.getIdCompany());
-        for (AllInfo allInfo : allByUUID) {
-            allInfo.setCheckedPrices(pricesService.findAllIdsPricesByIdTeam(allInfo.getTeams().getIdTeam()));
-        }
-        return allByUUID;
-    }
 
     @ResponseBody
     @GetMapping("getPricesId")
@@ -243,14 +261,7 @@ public class ApiController {
     }
 
 
-    @ResponseBody
-    @GetMapping("getPrices")
-    public List<Prices> getPrices(@AuthenticationPrincipal AppCompany appCompany) {
 
-        List<Prices> all = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
-
-        return all;
-    }
 
     @PostMapping("optionGroupList")
     public String postGroup(String imie) {

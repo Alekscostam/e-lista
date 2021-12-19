@@ -1,5 +1,6 @@
 package com.app.elista.Services;
 
+import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.Prices;
 import com.app.elista.model.Teams;
 import com.app.elista.repositories.PricesRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PricesService {
@@ -43,8 +45,14 @@ public class PricesService {
             Prices prices = pricesRepository.findById(Long.valueOf(listsPriceId)).get();
             pricesList.add(prices);
         }
-
         return pricesList;
+    }
+
+    public List<Prices> findAllPricesByAppCompany(AppCompany appCompany) {
+
+        List<Prices> collect = pricesRepository.findAll().stream().filter(a -> a.getAppCompany().equals(appCompany)).collect(Collectors.toList());
+
+        return collect;
     }
 
     public List<Prices> findAllPricesByAppCompanyId(UUID idCompany) {

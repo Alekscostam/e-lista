@@ -26,7 +26,7 @@
 
                 <div id="day-form" class="form-inline my-0 my-lg-0" style="font-size: 0.9em;">
                     <!--                    <form lang="pl" class="form-inline my-0 my-lg-0">-->
-<!--                    <label for="group" style="font-weight: bold"></label>-->
+                    <!--                    <label for="group" style="font-weight: bold"></label>-->
                     <input
                             class="form-control my-1 mr-sm-2"
                             type="search"
@@ -52,7 +52,7 @@
                     </div>
                     <input
                             onchange="dataChanged(this);"
-                            style = " min-width: 170px"
+                            style=" min-width: 170px"
                             type="date"
                             lang="fr-CA"
                             data-date=""
@@ -430,7 +430,7 @@
         }
     }
 
-    async function setDates(element){
+    async function setDates(element) {
         var xhr = new XMLHttpRequest();
         var date = "";
 
@@ -448,19 +448,18 @@
 
     }
 
-    async function dataChanged(element){
+    async function dataChanged(element) {
         await setDates(element);
         console.log("skonczona funcja ");
-        // getUsersByDate(element);
     }
 
-    function getUsersByDate(element){
+    function getUsersByDate(element) {
         var xhr = new XMLHttpRequest();
         var date = "";
 
         date = element.value;
 
-        console.log("date:" +date);
+        console.log("date:" + date);
         xhr.open('GET', "/app/getUsersByDate?date=" + date, true);
         xhr.send('');
 
@@ -477,7 +476,6 @@
     function generateTable(user) {
         var result = "";
 
-        // console.log("generateTable: "+user);
         for (let i = 0; i < user.length; i++) {
 
 
@@ -489,13 +487,11 @@
             var presence = user[i]['presence'];
             var presenceResult;
 
-            if(presence===true)
-            {
-                 presenceResult ='<tr style=""> <td scope="row"><input style="width: 20px !important;" checked type="checkbox" value="' + user[i]['user']['idUser'] + '" th:name="userId"  class="optionUserInput"/></td>';
+            if (presence === true) {
+                presenceResult = '<tr style=""> <td scope="row"><input style="width: 20px !important;" checked type="checkbox" value="' + user[i]['user']['idUser'] + '" th:name="userId"  class="optionUserInput"/></td>';
 
-            }
-            else{
-                 presenceResult ='<tr style=""> <td scope="row"><input style="width: 20px !important;" type="checkbox" value="' + user[i]['user']['idUser'] + '" th:name="userId"  class="optionUserInput"/></td>';
+            } else {
+                presenceResult = '<tr style=""> <td scope="row"><input style="width: 20px !important;" type="checkbox" value="' + user[i]['user']['idUser'] + '" th:name="userId"  class="optionUserInput"/></td>';
             }
 
             var idUser = user[i]['user']['idUser'];
@@ -569,7 +565,7 @@
         var options = '<option  name="groupId" value="">Zmień grupę</option>';
         for (let i = 0; i < teamsPrices.length; i++) {
 
-                options = options + '<option style="color: #1e1c35" value="' + teamsPrices[i]['team']['idTeam'] + '">' + teamsPrices[i]['team']['teamName'] + '</option>';
+            options = options + '<option style="color: #1e1c35" value="' + teamsPrices[i]['team']['idTeam'] + '">' + teamsPrices[i]['team']['teamName'] + '</option>';
         }
 
         var result =
@@ -585,24 +581,23 @@
             '                 </button>\n' +
             '             </div>\n' +
             '             <div id="modal-body-edit' + idUser + '" class="modal-body">\n' +
-            '                   <input hidden value="' + idUser + '" class="form-control my-1 mr-sm-2" />' +
-            '                   <input hidden value="' + individualPriceId + '" class="form-control my-1 mr-sm-2" />' +
-            '                   <input value="' + name + '" class="form-control my-1 mr-sm-2" placeholder="Imie"/>' +
-            '                   <input value="' + surname + '" class="form-control my-1 mr-sm-2" placeholder="Nazwisko"/>' +
-            '                   <input disabled value="' + teamName + '" class="form-control my-1 mr-sm-2" placeholder="Nazwa grupy"/>' +
-            '                   <select onchange="moreInformationForEdit(this,' + userIdentifier + ',' + userClasses + ');" class="form-control select-input mr-sm-2 ' + userClasses + '" name="groupId">' + options + '</select>' +
-            '                   <div id="user-edit-identifier"  class="my-2"></div>' +
-            '                   <input value="' + individualPriceCycle + '" class="form-control my-1 mr-sm-2" placeholder="Cykl rozliczeniowy"/>' +
-            '                   <span style="font-size: 0.7em"> Data wpłaty od i do </span> ' +
-            '                   <input value="' + currentPaymentDate + '" class="form-control my-2" type="date" id="" name="" placeholder=""/>' +
-            '                   <input value="' + nextPaymentDate + '" class="form-control my-2" type="date" id="" name="" placeholder=""/>' +
-            '                   <input value="' + individualPriceValue + '" class="form-control my-1 mr-sm-2" placeholder="Rozliczenie"/>' +
-            '                   <input value="' + email + '" class="form-control my-1 mr-sm-2" placeholder="Email"/>' +
-            '                   <input value="' + phone + '" class="form-control my-1 mr-sm-2" placeholder="Telefon"/>' +
-            '                   <input value="' + dateOfRecording + '" class="form-control my-1 mr-sm-2" placeholder="Data zapisu"/>' +
+            '               <input hidden value="' + idUser + '" class="form-control my-1 mr-sm-2" />' +
+            '               <input hidden value="' + individualPriceId + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Imię</div>            <input value="' + name + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Nazwisko</div>         <input value="' + surname + '" class="form-control my-1 mr-sm-2" />' +
+            '                                                                                    <input disabled value="' + teamName + '" class="form-control my-1 mr-sm-2" />' +
+            '              <select onchange="moreInformationForEdit(this,' + userIdentifier + ',' + userClasses + ');" class="form-control select-input mr-sm-2 ' + userClasses + '" name="groupId">' + options + '</select>' +
+            '                                                                                       <div id="user-edit-identifier"  class="my-2"></div>' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Cykl rozliczeniowy(dni)</div>               <input value="' + individualPriceCycle + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Aktualna data wpłaty</div>         <input value="' + currentPaymentDate + '" class="form-control my-2" type="date" id="" name="" />' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Nastepna data wpłaty</div>          <input value="' + nextPaymentDate + '" class="form-control my-2" type="date" id="" name="" />' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Rozliczenie(zł)</div>      <input value="' + individualPriceValue + '" class="form-control my-1 mr-sm-2" placeholder="Rozliczenie"/>' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Email</div>                <input value="' + email + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Numer telefonu</div>             <input value="' + phone + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Data zapisu</div>             <input disabled value="' + dateOfRecording + '" class="form-control my-1 mr-sm-2" />' +
             '             </div>\n' +
             '             <div class="modal-footer">\n' +
-            '                 <button id="button-delete-price" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
+            '                 <button id="button-edit-price" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
             '                         onclick="">Edytuj</button>\n' +
             '                 <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 75px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
             '             </div>\n' +
@@ -635,7 +630,9 @@
             let elementsGroup = document.getElementsByClassName("group-info");
             for (var i = 0; i < elementsGroup.length; i++) {
                 elementsGroup[i].style.display = "none";
+
             }
+
             showOrHidePrices("none", "part-prices");
         } else {
             var xhr = new XMLHttpRequest();
@@ -661,8 +658,8 @@
             for (var i = 0; i < elementsGroup.length; i++) {
                 elementsGroup[i].style.display = "none";
             }
-        }
-        else {
+            showOrHidePrices("none", classes);
+        } else {
             groupId = event.value;
 
             var xhr = new XMLHttpRequest();
@@ -681,7 +678,6 @@
     }
 
 
-
     function generatedDivPricesForEdit(prices, ids, classes) {
 
         var result = "";
@@ -690,13 +686,14 @@
             console.log(prices['prices'][i]['idPrice']);
             result = result
                 +
-                '<div class="' + classes + '" style="display: flex;color:black; font-size:0.6em!important">\n' +
+                '<div class="part-prices-edit">\n' +
+                '<div class="' + classes + ' " style="display: flex;color:black; font-size: 0.6em!important;">\n' +
                 '<input style="width: 20px !important;" type="radio"   value="' + prices['prices'][i]['idPrice'] + '" name="priceId"/>\n' +
                 ' <b>' + "Nazwa:&nbsp;" + '</b>' + prices['prices'][i]['name'] + ", &nbsp;" +
                 ' <b>' + "Cena:&nbsp;" + '</b>' + prices['prices'][i]['value'] + "zł, &nbsp;" +
                 ' <b>' + "Rozliczenie:&nbsp;" + '</b>' + prices['prices'][i]['cycle'] + "dni, &nbsp;" +
-                ' <b>' + "Opis:&nbsp;" + '</b>' + prices['prices'][i]['description'];
-                '</div>';
+                ' <b>' + "Opis:&nbsp;" + '</b>' + prices['prices'][i]['description']+ "&nbsp;" +
+                '</div></div>';
         }
 
         document.getElementById(ids).innerHTML = result;
@@ -839,6 +836,7 @@
             li_description.style.display = "none";
         }
     }
+
     // Get the modal
     var modal = document.getElementById("myModal");
     // Get the button that opens the modal
@@ -879,7 +877,7 @@
         }
     }
 
-    function savePresence(){
+    function savePresence() {
         let date = document.getElementById("id-date-group").value;
         var checkedValue = "";
         var allValue = "";
@@ -891,13 +889,13 @@
 
         }
 
-        for(var i=0; checkedValueOptions[i]; ++i){
-            if(checkedValueOptions[i].checked){
+        for (var i = 0; checkedValueOptions[i]; ++i) {
+            if (checkedValueOptions[i].checked) {
                 checkedValue = checkedValue + " " + checkedValueOptions[i].value;
             }
         }
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', "/app/postPresences?checkedValue="  + checkedValue + "&allValue=" + allValue + "&date=" + date, true);
+        xhr.open('POST', "/app/postPresences?checkedValue=" + checkedValue + "&allValue=" + allValue + "&date=" + date, true);
         xhr.send('');
 
         xhr.onreadystatechange = function () {

@@ -225,13 +225,12 @@
         </div>
     </div>
 </section>
-
+<section id="modals">
+</section>
 <script type="text/javascript">
 
     window.onload = function () {
-
         getGroups();
-
     };
 
     function deleteGroup(element) {
@@ -281,7 +280,6 @@
     }
 
     function getPricesId(event) {
-
         let splitResult = splitElement(event);
         var xhr = new XMLHttpRequest();
 
@@ -291,20 +289,17 @@
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 result = JSON.parse(xhr.responseText);
-                console.log(result);
-
             } else {
-
             }
         }
-
     }
     function removeId(elementToRemove) {
         document.getElementById(elementToRemove).value = "";
     }
 
 
-    function editGroup(idTeam,teamName,place,leaderName,groupSize,description,startDate,endDate,color, checkedPrices, createTerms,moreInfos) {
+    function editGroup(idTeam,teamName,place,leaderName,groupSize,description,startDate,endDate,color,convertedTerms,checkedPriceIds,allPrices,allPriceIds) {
+
         console.log(idTeam);
         console.log(teamName);
         console.log(place);
@@ -314,9 +309,49 @@
         console.log(startDate);
         console.log(endDate);
         console.log(color);
-        console.log(checkedPrices);
-        console.log(createTerms);
-        console.log(moreInfos);
+        console.log(convertedTerms);
+        console.log(checkedPriceIds);
+        console.log(allPrices);
+        console.log(allPriceIds);
+
+        var modalEdit = "exampleModalGroupEdit" + idTeam;
+        var modalLabelEdit = "exampleModalLabelGroupEdit" + idTeam;
+
+        var result =
+
+            '<Button  id="editButton" hidden  class="option-card-button" data-toggle="modal" data-target="#' + modalEdit + '" >Usuń</Button>' +
+            '<div class="modal fade" id="' + modalEdit + '" tabindex="-1" role="dialog" aria-labelledby="' + modalLabelEdit + '" aria-hidden="true">\n' +
+            '     <div class="modal-dialog" role="document">\n' +
+            '         <div class="modal-content">\n' +
+            '             <div class="modal-header">\n' +
+            '                 <h5 class="modal-title" id="' + modalLabelEdit + '">Edytowanie grupy</h5>\n' +
+            '                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
+            '                     <span aria-hidden="true">&times;</span>\n' +
+            '                 </button>\n' +
+            '             </div>\n' +
+            '             <div id="modal-body-edit' + idTeam + '" class="modal-body">\n' +
+            '                <input hidden value="' + idTeam + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Nazwa grupy</div>       <input value="' + teamName + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Lokalizacja</div>       <input value="' + place + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Prowadzący</div>        <input value="' + leaderName + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Wielkośc grupy</div>    <input value="' + groupSize + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Opis</div>              <input value="' + description + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Data od</div>           <input type="date" value="' + startDate + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Data do</div>           <input type="date" value="' + endDate + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> kolor</div>             <input value="' + color + '" class="form-control my-1 mr-sm-2"/>' +
+            '             </div>\n' +
+            '             <div class="modal-footer">\n' +
+            '                 <button id="button-edit-group" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
+            '                         onclick="">Edytuj</button>\n' +
+            '                 <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 75px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
+            '             </div>\n' +
+            '         </div>\n' +
+            '     </div>\n' +
+            ' </div>';
+
+        document.getElementById("modals").innerHTML = result;
+        document.getElementById("editButton").click();
+
 
     }
 
@@ -335,27 +370,12 @@
         }
     }
 
-    window.onload = dataChange();
-
     function showOrHide(element, nameId) {
         if (document.getElementById(element).checked) {
             document.getElementById(nameId).style.display = "block";
             return;
         }
         document.getElementById(nameId).style.display = "none";
-    }
-
-    function dataChange() {
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, "0");
-        var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-        var yyyy = today.getFullYear();
-
-        today = yyyy + "-" + mm + "-" + dd;
-
-        document.getElementById("date-picker").innerText = today;
-        document.getElementById("date-picker").innerHTML = today;
-        document.getElementById("date-picker").value = today;
     }
 
     function addTerm() {
@@ -473,26 +493,34 @@
             var checkedIds = "";
 
             var pricesInfos ="";
+            var checkedPriceIds ="";
             for (let j = 0; j <  groups[i]['checkedPrices'].length; j++) {
-                pricesInfos =  pricesInfos +'' +''  + groups[i]['checkedPrices'][j]['name'] +' - '+ groups[i]['checkedPrices'][j]['value']+'zł<b> - </b>'+ groups[i]['checkedPrices'][j]['cycle'] +'dni' +'<br>';
-
+                pricesInfos =  pricesInfos +'' +''  + groups[i]['checkedPrices'][j]['name'] +' - '+ groups[i]['checkedPrices'][j]['value']+'zł - '+ groups[i]['checkedPrices'][j]['cycle'] +'dni' +'<br>';
+                checkedPriceIds = checkedPriceIds+',' +groups[i]['checkedPrices'][j]['idPrice'] ;
             }
 
-            console.log("pricesInfos: " + pricesInfos);
+            var allPrices = "";
+            var allPriceIds = "";
 
+            for (let j = 0; j <  groups[i]['allPrices'].length; j++) {
+                allPrices =  allPrices + groups[i]['allPrices'][j]['name'] +' - '+ groups[i]['allPrices'][j]['value']+'zł - '+ groups[i]['allPrices'][j]['cycle'] +'dni ' + groups[i]['allPrices'][j]['description'] +'<br>';
+                allPriceIds = allPriceIds+ ',' +groups[i]['allPrices'][j]['idPrice'];
+            }
 
-            createTerms = "'" + createTerms + "'";
-            idTeam = "'" +  groups[i]['teams']['idTeam']  + "'";
-            teamName = "'" + groups[i]['teams']['teamName'] + "'";
-            place = "'" + groups[i]['teams']['place'] + "'";
-            leaderName = "'" + groups[i]['teams']['leaderName']  + "'";
-            groupSize = "'" + groups[i]['teams']['groupSize'] + "'";
-            description = "'" + groups[i]['teams']['description'] + "'";
-            startDate = "'" + groups[i]['teams']['startDate'] + "'";
-            endDate = "'" + groups[i]['teams']['endDate']  + "'";
-            color = "'" + groups[i]['teams']['color'] + "'";
-            checkedPrices = "'" + groups[i]['checkedPrices'] + "'";
-            moreInfos = "'" + groups[i]['moreInfos'][0] + "'";
+          var  convertedTerms = "'" + createTerms + "'";
+          var  idTeam = "'" +  groups[i]['teams']['idTeam']  + "'";
+          var  teamName = "'" + groups[i]['teams']['teamName'] + "'";
+          var  place = "'" + groups[i]['teams']['place'] + "'";
+          var  leaderName = "'" + groups[i]['teams']['leaderName']  + "'";
+          var  groupSize = "'" + groups[i]['teams']['groupSize'] + "'";
+          var  description = "'" + groups[i]['teams']['description'] + "'";
+          var  startDate = "'" + groups[i]['teams']['startDate'] + "'";
+          var  endDate = "'" + groups[i]['teams']['endDate']  + "'";
+          var  color = "'" + groups[i]['teams']['color'] + "'";
+
+          var checkedPriceIds = "'" + checkedPriceIds+ "'";
+          var allPrices  = "'" + allPrices + "'";
+          var allPriceIds  = "'" + allPriceIds + "'";
 
             var modal = "exampleModalGroup"+ groups[i]['teams']['idTeam'];
             var modalLabel="exampleModalLabelGroup"+ groups[i]['teams']['idTeam'];
@@ -514,7 +542,7 @@
                 '<td >' + groups[i]['teams']['endDate'] + '</td>' +
                 '<td >' + groups[i]['teams']['color'] + '</td>' +
                 '<td data-label="info."> ' +
-                '<button  class="option-card-button" onclick="editGroup(' + idTeam+ ',' + teamName  + ',' + place  + ',' + leaderName + ',' + groupSize + ',' + description + ',' + startDate + ',' + endDate + ',' + color+ ','  + createTerms + ','  + moreInfos + ')">Edytuj</button>&nbsp;' +
+                '<button  class="option-card-button" onclick="editGroup('+idTeam+','+teamName+','+place+','+leaderName+','+groupSize+','+description+','+startDate+','+endDate+','+color+','+convertedTerms+','+checkedPriceIds+','+allPrices+','+allPriceIds+')">Edytuj</button>&nbsp;' +
                 '<button  class="option-card-button" ' +
                 'data-toggle="modal" data-target="#'+modal+'" >Usuń</button>' +
                 '</td>' +
@@ -538,7 +566,7 @@
                 '         </div>\n' +
                 '     </div>\n' +
                 ' </div>'
-            '</tr>';
+                '</tr>';
         }
 
         document.getElementById("tbody-element-group").innerHTML = result;
