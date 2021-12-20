@@ -26,6 +26,7 @@ public class ApiController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiController.class);
     private static final String redirectedOptionGroupList = "redirect:/app/optionGroupList";
     private static final String redirectedAttendanceList = "redirect:/app/attendanceList";
+    private static final String deleteDataFromAnotherGroups = "Usunięto dane z powiązanych tabel";
 
     @Autowired
     private final PricesService pricesService;
@@ -202,16 +203,8 @@ public class ApiController {
 
     @GetMapping("optionGroupList")
     public ModelAndView optionGroupList(@AuthenticationPrincipal AppCompany appCompany) {
-//        List<AllInfo> allByUUID = teamsService.findAllInfoByAppCompanyUUID(appCompany.getIdCompany());
-//        List<Prices> allPricesByAppCompany = pricesService.findAllPricesByAppCompany(appCompany);
-//        allPricesByAppCompany.forEach(p->p.setAppCompany(null));
-//        for (AllInfo allInfo : allByUUID) {
-//            allInfo.setCheckedPrices(pricesService.findAllIdsPricesByIdTeam(allInfo.getTeams().getIdTeam()));
-//            allInfo.setAllPrices(allPricesByAppCompany);
-//        }
 
         ModelAndView mav = new ModelAndView("optionGroupList");
-//        List<Prices> allPrices = pricesService.findAllPricesByAppCompanyId(appCompany.getIdCompany());
         mav.addObject("prices", new ArrayList<>());
         mav.addObject("allInfos", new ArrayList<>());
         return mav;
@@ -222,7 +215,7 @@ public class ApiController {
     public List<AllInfo> getGroups(@AuthenticationPrincipal AppCompany appCompany) {
         List<AllInfo> allByUUID = teamsService.findAllInfoByAppCompanyUUID(appCompany.getIdCompany());
         List<Prices> allPricesByAppCompany = pricesService.findAllPricesByAppCompany(appCompany);
-        allPricesByAppCompany.forEach(p->p.setAppCompany(null));
+        allPricesByAppCompany.forEach(p -> p.setAppCompany(null));
         for (AllInfo allInfo : allByUUID) {
             allInfo.setCheckedPrices(pricesService.findAllIdsPricesByIdTeam(allInfo.getTeams().getIdTeam()));
             allInfo.setAllPrices(allPricesByAppCompany);
@@ -251,7 +244,6 @@ public class ApiController {
     }
 
 
-
     @ResponseBody
     @GetMapping("getPricesId")
     public List<String> findInformationAboutGroupEditable(@AuthenticationPrincipal AppCompany appCompany, String groupId) {
@@ -259,8 +251,6 @@ public class ApiController {
 
         return idPricesByIdTeam;
     }
-
-
 
 
     @PostMapping("optionGroupList")
@@ -335,11 +325,25 @@ public class ApiController {
     @PostMapping("/deleteUser")
     public void deleteUser(String userId, String groupId) {
 
-        presencesService.deletePresencesByUserId(userId);
-        usersService.deleteUser(userId);
-        Teams team = teamsService.findTeamById(groupId);
-        team.setFreeSpace((short) (team.getFreeSpace() - (short) 1));
-        teamsService.saveTeam(team);
+        try{
+            usersService.deleteUser(userId);
+            LOGGER.info("Usunięto użytkownika");
+            Teams team = teamsService.findTeamById(groupId);
+            team.setFreeSpace((short) (team.getFreeSpace() - (short) 1));
+            teamsService.saveTeam(team);
+            LOGGER.info("Zmodyfikowano grupę");
+        }
+        catch (Exception ex){
+            presencesService.deletePresencesByUserId(userId);
+            LOGGER.info( deleteDataFromAnotherGroups);
+            usersService.deleteUser(userId);
+            LOGGER.info("Usunięto użytkownika");
+            Teams team = teamsService.findTeamById(groupId);
+            team.setFreeSpace((short) (team.getFreeSpace() - (short) 1));
+            teamsService.saveTeam(team);
+            LOGGER.info("Zmodyfikowano grupę");
+        }
+
 
     }
 
@@ -433,13 +437,14 @@ public class ApiController {
 
     @PostMapping("deletePrice")
     public ModelAndView deletePrice(String priceId) {
+        Long id = Long.valueOf(priceId);
         try {
-            Long id = Long.valueOf(priceId);
-            teamsPricesService.deletePriceFromGP(id);
             pricesService.deletePriceById(id);
-
-        } catch (NumberFormatException ex) {
-            LOGGER.error(ex.getMessage(), " - Nie zaznacozno żadnej opcji!");
+        } catch (Exception ex) {
+            teamsPricesService.deletePriceFromGP(id);
+            LOGGER.error(ex.getMessage(), deleteDataFromAnotherGroups);
+            pricesService.deletePriceById(id);
+            LOGGER.error(ex.getMessage(), "Usunięto cenę");
         }
         return new ModelAndView(redirectedOptionGroupList);
     }
@@ -448,15 +453,18 @@ public class ApiController {
     @ResponseBody
     public String deleteGroup(String groupId) {
         String msg = "";
+
+        Long id = Long.valueOf(groupId);
         try {
-            Long id = Long.valueOf(groupId);
+            msg = teamsService.deleteGroupById(id);
+            LOGGER.info("Usunięto grupę");
+            return msg;
+        } catch (Exception ex) {
             teamsPricesService.deleteFromGroupsPricesByIdGroup(id);
             datesForGroupsService.deleteFromDatesForGroupsByIdGroup(id);
+            LOGGER.info(deleteDataFromAnotherGroups);
             msg = teamsService.deleteGroupById(id);
-            return msg;
-        } catch (NumberFormatException ex) {
-            LOGGER.error(ex.getMessage());
-            LOGGER.error("Nie zaznaczono zadnej opcji!");
+            LOGGER.info("Usunięto grupę");
             return msg;
         }
     }
@@ -469,21 +477,17 @@ public class ApiController {
                                   String groupTimeToMinute,
                                   String groupColor, String groupFirstFree) {
 
-
         String[] splitTimeFromHour = groupTimeFromHour.split(",");
         String[] splitTimeFromMinute = groupTimeFromMinute.split(",");
         String[] splitTimeToHour = groupTimeToHour.split(",");
         String[] splitTimeToMinute = groupTimeToMinute.split(",");
         String[] splitDays = groupDayFor.split(",");
 
-
-
         if (groupColor == null) {
             groupColor = "ffffff";
         }
 
         List<String> listsPriceIds = divideStringToList(priceIds);
-
 
         boolean resultFirstFree = Boolean.TRUE;
 
@@ -534,7 +538,7 @@ public class ApiController {
 
 
         for (int i = 0; i < splitDays.length; i++) {
-            stringBuilder.append(splitDays[i]+": " + splitTimeFromHour[i]+":"+ splitTimeFromMinute[i] +" - "+ splitTimeToHour[i] +":"+ splitTimeToMinute[i]+";");
+            stringBuilder.append(splitDays[i] + ": " + splitTimeFromHour[i] + ":" + splitTimeFromMinute[i] + " - " + splitTimeToHour[i] + ":" + splitTimeToMinute[i] + ";");
         }
 
         return stringBuilder.toString();
@@ -544,6 +548,5 @@ public class ApiController {
 }
 
 
-
-// TODO: 16.12.2021 EDYCJA GRUPY! :)  
+// TODO: 16.12.2021 EDYCJA GRUPY! :)
 // TODO: 16.12.2021 Ceny do osobnej zakładki!!! 
