@@ -203,9 +203,9 @@ public class ApiController {
 
     @GetMapping("optionGroupList")
     public ModelAndView optionGroupList(@AuthenticationPrincipal AppCompany appCompany) {
-
+        List<Prices> allPrices = pricesService.findAllPricesByAppCompany(appCompany);
         ModelAndView mav = new ModelAndView("optionGroupList");
-        mav.addObject("prices", new ArrayList<>());
+        mav.addObject("prices", allPrices);
         mav.addObject("allInfos", new ArrayList<>());
         return mav;
     }

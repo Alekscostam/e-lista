@@ -225,6 +225,11 @@
         </div>
     </div>
 </section>
+
+
+
+
+
 <section id="modals">
 </section>
 <script type="text/javascript">
@@ -298,13 +303,30 @@
     }
 
 
-    function editGroup(idTeam,teamName,place,leaderName,groupSize,description,startDate,endDate,color,convertedTerms,checkedPriceIds,allPrices,allPriceIds) {
-
+    function editGroup(idTeam,teamName,place,leaderName,groupSize,description,startDate,endDate,color,convertedTerms,checkedPriceIds,allPrices,allPriceIds, firstFree) {
         let prices = pricesEditForGroups(allPrices,allPriceIds,checkedPriceIds);
+        var firstFreeChecker = firstFree;
+        console.log( "firstFreeChecker : " + firstFreeChecker)
+
+        if(firstFreeChecker==="true")
+        {
+            firstFreeChecker = '<input  checked id="groupFirstFree" style="width: 20px !important;" name="groupFirstFree" type="checkbox">';
+
+        }
+        else{
+            firstFreeChecker = '<input id="groupFirstFree" style="width: 20px !important;" name="groupFirstFree" type="checkbox">';
+
+        }
 
         var colorHash="#"+color;
         var modalEdit = "exampleModalGroupEdit" + idTeam;
         var modalLabelEdit = "exampleModalLabelGroupEdit" + idTeam;
+
+        var splitTerms = convertedTerms.split("</br>");
+        splitTerms.splice(-1,1);
+        let divTerms = getDivTerms(splitTerms);
+
+
 
         var result =
 
@@ -319,16 +341,16 @@
             '                 </button>\n' +
             '             </div>\n' +
             '             <div id="modal-body-edit' + idTeam + '" class="modal-body">\n' +
-            '                <input hidden value="' + idTeam + '" class="form-control my-1 mr-sm-2" />' +
-            '                <div style="font-size: 0.6em!important; font-weight: 600"> Nazwa grupy</div>       <input value="' + teamName + '" class="form-control my-1 mr-sm-2" />' +
-            '                <div style="font-size: 0.6em!important; font-weight: 600"> Lokalizacja</div>       <input value="' + place + '" class="form-control my-1 mr-sm-2" />' +
-            '                <div style="font-size: 0.6em!important; font-weight: 600"> Prowadzący</div>        <input value="' + leaderName + '" class="form-control my-1 mr-sm-2" />' +
-            '                <div style="font-size: 0.6em!important; font-weight: 600"> Wielkośc grupy</div>    <input value="' + groupSize + '" class="form-control my-1 mr-sm-2" />' +
-            '                <div style="font-size: 0.6em!important; font-weight: 600"> Opis</div>              <input value="' + description + '" class="form-control my-1 mr-sm-2" />' +
-            '                <div style="font-size: 0.6em!important; font-weight: 600"> Data od</div>           <input type="date" value="' + startDate + '" class="form-control my-1 mr-sm-2" />' +
-            '                <div style="font-size: 0.6em!important; font-weight: 600"> Data do</div>           <input type="date" value="' + endDate + '" class="form-control my-1 mr-sm-2" />' +
+            '                <input id="groupEditIdTeam" hidden value="' + idTeam + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Nazwa grupy</div>       <input id="groupEditTeamName" value="' + teamName + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Lokalizacja</div>       <input id="groupEditTeamPlace" value="' + place + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Prowadzący</div>        <input id="groupEditLeaderName" value="' + leaderName + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Wielkośc grupy</div>    <input id="groupEditGroupSize" value="' + groupSize + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Opis</div>              <input id="groupEditDescription" value="' + description + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Data od</div>           <input id="groupEditStartDate" type="date" value="' + startDate + '" class="form-control my-1 mr-sm-2" />' +
+            '                <div style="font-size: 0.6em!important; font-weight: 600"> Data do</div>           <input id="groupEditEndDate" type="date" value="' + endDate + '" class="form-control my-1 mr-sm-2" />' +
             '                <div style="font-size: 0.6em!important; font-weight: 600;"> kolor</div>            ' +
-            '                 <select  style="background-color: ' + colorHash + ';" onchange="changeColor(this)" name="groupColor" class="form-control mr-sm-2 w-100">' +
+            '                 <select id="groupEditColor"  style="background-color: ' + colorHash + ';" onchange="changeColor(this)" name="groupColor" class="form-control mr-sm-2 w-100">' +
             '                       <option style="background-color: ' + colorHash + ';!important" value="' + color + '">' + colorHash + '</option>' +
             '                       <option style="background-color: #6b5b95;!important" value="6b5b95">#6b5b95</option>            ' +
             '                       <option style="background-color: #ff7b25;!important" value="ff7b25">#ff7b25</option>' +
@@ -344,15 +366,20 @@
             '                       <option style="background-color: #e3eaa7;!important" value="e3eaa7">#e3eaa7</option>' +
             '                       <option style="background-color: #f4e1d2;!important" value="f4e1d2">#f4e1d2</option>' +
             '                  </select>' +
-            '                <div class="my-2" style="font-size: 0.6em!important; font-weight: 600"> Ceny</div>              <div class="my-2" style="font-size: 0.6em!important; ">  ' + prices + '   </div>    ' +
+            '                <div class="my-2" style="font-size: 0.6em!important; font-weight: 600"> Ceny</div>              ' +
+            '                 <div class="my-2" style="font-size: 0.6em!important; ">  ' + prices + '   </div>    ' +
             '                 <a class="btn btn-outline-edit w-100 my-2" onclick="addTermToEdit()">Dodaj termin</a>' +
+            '                 <div id="actuallyTerms" >'+divTerms+' <div style="display: flex"></div> </div>' +
             '                 <div id="termEdit"> <div style="display: flex"></div> </div>' +
+            '              <div  class="my-2" style="font-size: 0.7em;">   '+firstFreeChecker+' Pierwsze darmowe wejście  </div>' +
             '             </div>\n' +
             '             <div class="modal-footer">\n' +
             '                 <button id="button-edit-group" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
-            '                         onclick="">Edytuj</button>\n' +
+            '                         onclick="editGroupPost()">Edytuj</button>\n' +
+
             '                 <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 75px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
             '             </div>\n' +
+
             '         </div>\n' +
             '     </div>\n' +
             ' </div>';
@@ -361,6 +388,81 @@
         document.getElementById("editButton").click();
 
 
+    }
+    function editGroupPost(){
+
+        var groupIdTeam= document.getElementById('groupEditIdTeam').value;
+        var groupTeamName= document.getElementById('groupEditTeamName').value;
+        var groupTeamPlace= document.getElementById('groupEditTeamPlace').value;
+        var groupLeaderName= document.getElementById('groupEditLeaderName').value;
+        var groupSize= document.getElementById('groupEditGroupSize').value;
+        var groupStartDate= document.getElementById('groupEditStartDate').value;
+        var groupEndDate= document.getElementById('groupEditEndDate').value;
+        var groupColor= document.getElementById('groupEditColor').value;
+        var groupFirstFree= document.getElementById('groupFirstFree').value;
+        var groupDescription= document.getElementById('groupEditDescription').value;
+
+        if(groupFirstFree==="on"){
+
+        }
+        else{
+            groupFirstFree=null;
+        }
+
+        var allPriceIds= document.getElementsByClassName('priceIds');
+        var priceIdsResult= "";
+        for (let i = 0; i < allPriceIds.length; i++) {
+            if(allPriceIds[i].checked){
+
+                if(i===0){
+                    priceIdsResult = allPriceIds[i].value;
+                }else{
+                    priceIdsResult = priceIdsResult+ "," +allPriceIds[i].value;
+                }
+
+            }
+        }
+
+        let days = "";
+        let toMinute = "";
+        let toHour = "";
+        let fromMinute = "";
+        let fromHour = "";
+        let index = document.getElementsByName("groupDayFor").length;
+
+        for (let i = 0; i < index; i++) {
+            if(i===0){
+                days =  document.getElementsByName("groupDayFor")[i].value;
+                toMinute =  document.getElementsByName("groupTimeToMinute")[i].value;
+                toHour =  document.getElementsByName("groupTimeToHour")[i].value;
+                fromMinute = document.getElementsByName("groupTimeFromMinute")[i].value;
+                fromHour =  document.getElementsByName("groupTimeFromHour")[i].value;
+            }
+            else{
+                days = days+","+ document.getElementsByName("groupDayFor")[i].value;
+                toMinute = toMinute+","+ document.getElementsByName("groupTimeToMinute")[i].value;
+                toHour = toHour+","+ document.getElementsByName("groupTimeToHour")[i].value;
+                fromMinute = fromMinute+","+ document.getElementsByName("groupTimeFromMinute")[i].value;
+                fromHour = fromHour+","+ document.getElementsByName("groupTimeFromHour")[i].value;
+            }
+
+        }
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', "/app/postGroup?groupId=" + groupIdTeam + "&groupName=" + groupTeamName  + "&groupPlace=" +  groupTeamPlace + "&groupSize=" + groupSize  + "&groupLeader=" + groupLeaderName  + "&groupDataFrom=" + groupStartDate  + "&groupDataTo=" + groupEndDate  + "&groupDescription=" +  groupDescription + "&priceIds=" + priceIdsResult  + "&groupDayFor=" + days  + "&groupTimeFromHour=" + fromHour  + "&groupTimeFromMinute=" + fromMinute  + "&groupTimeToHour=" + toHour  + "&groupTimeToMinute=" + toMinute  + "&groupColor=" + groupColor  + "&groupFirstFree=" + groupFirstFree, true);
+
+        xhr.send('');
+        var result = "";
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                result = xhr.responseText;
+                getGroups();
+
+            } else {
+
+            }
+        }
     }
 
     function pricesEditForGroups(allPrices, allPriceIds,checkedPriceIds){
@@ -383,7 +485,7 @@
         for (let i = 0; i < filteredAllPriceIds.length; i++) {
             for (let j = 0; j < filteredCheckedPriceIds.length; j++) {
                 if(filteredAllPriceIds[i]===filteredCheckedPriceIds[j]){
-                 result =result + '<input style="width: 20px !important; " checked type="checkbox" value="' + filteredAllPriceIds[i] + '" />' + filteredAllPrices[i] + '<br>' ;
+                 result =result + '<input class="priceIds" style="width: 20px !important; " checked type="checkbox" value="' + filteredAllPriceIds[i] + '" />' + filteredAllPrices[i] + '<br>' ;
                     foundedElement = false;
                     break;
                 }
@@ -392,11 +494,10 @@
                 }
             }
             if(foundedElement){
-                result = result + '<input style="width: 20px !important; " type="checkbox" value="' + filteredAllPriceIds[i] + '" />' + filteredAllPrices[i] + '<br>' ;
+                result = result + '<input class="priceIds" style="width: 20px !important; " type="checkbox" value="' + filteredAllPriceIds[i] + '" />' + filteredAllPrices[i] + '<br>' ;
 
             }
         }
-        console.log(result);
 
         return result;
     }
@@ -431,19 +532,23 @@
         document.getElementById(nameId).style.display = "none";
     }
 
-    function addTermToEdit() {
+    function addTermToEdit(terms) {
         var termIncrease = document.getElementById("termEdit").innerHTML;
 
-        document.getElementById("termEdit").innerHTML =
-            termIncrease +
+        document.getElementById("termEdit").innerHTML +=
+            getDivTerms(terms);
+    }
+    function addActuallyTerms() {
+        var termIncrease = document.getElementById("actuallyTerms").innerHTML;
+
+        document.getElementById("actuallyTerms").innerHTML +=
             getDivTerms();
     }
 
     function addTerm() {
         var termIncrease = document.getElementById("term").innerHTML;
 
-        document.getElementById("term").innerHTML =
-            termIncrease +
+        document.getElementById("term").innerHTML +=
             getDivTerms();
     }
 
@@ -502,9 +607,9 @@
           var  endDate = "'" + groups[i]['teams']['endDate']  + "'";
           var  color = "'" + groups[i]['teams']['color'] + "'";
           var  colorHash = "#"+groups[i]['teams']['color'];
-          var checkedPriceIds = "'" + checkedPriceIds+ "'";
-          var allPrices  = "'" + allPrices + "'";
-          var allPriceIds  = "'" + allPriceIds + "'";
+          var  checkedPriceIds = "'" + checkedPriceIds+ "'";
+          var  allPrices  = "'" + allPrices + "'";
+          var  allPriceIds  = "'" + allPriceIds + "'";
 
             var modal = "exampleModalGroup"+ groups[i]['teams']['idTeam'];
             var modalLabel="exampleModalLabelGroup"+ groups[i]['teams']['idTeam'];
@@ -555,87 +660,196 @@
 
         document.getElementById("tbody-element-group").innerHTML = result;
     }
-    function getDivTerms(){
-        return '<div style="display: flex;">\n' +
-            '<select name="groupDayFor" class="form-control mr-sm-2 my-2 w-100"  >\n' +
-            '<option value="Poniedziałek" selected>Poniedziałek</option>\n' +
-            '<option value="Wtorek" >Wtorek</option>\n' +
-            '<option value="Środa" >Środa</option>\n' +
-            '<option value="Czwartek" >Czwartek</option>\n' +
-            '<option value="Piątek" >Piątek</option>\n' +
-            '<option value="Sobota" >Sobota</option>\n' +
-            '<option value="Niedziela" >Niedziela</option>\n' +
-            '</select>\n' +
-            '<select name="groupTimeFromHour" class="form-control mr-sm-2 my-2" style="width: auto!important" >\n' +
-            '<option value="06" selected>06</option>\n' +
-            '<option value="07" >07</option>\n' +
-            '<option value="08" >08</option>\n' +
-            '<option value="09" >09</option>\n' +
-            '<option value="10" >10</option>\n' +
-            '<option value="11" >11</option>\n' +
-            '<option value="12" >12</option>\n' +
-            '<option value="13" >13</option>\n' +
-            '<option value="14" >14</option>\n' +
-            '<option value="15" >15</option>\n' +
-            '<option value="16" >16</option>\n' +
-            '<option value="17" >17</option>\n' +
-            '<option value="18" >18</option>\n' +
-            '<option value="19" >19</option>\n' +
-            '<option value="20" >20</option>\n' +
-            '<option value="21" >21</option>\n' +
-            '<option value="22" >22</option>\n' +
-            '<option value="23" >23</option>\n' +
-            '</select>\n' +
-            '<select name="groupTimeFromMinute" class="form-control mr-sm-2 my-2 " style="width: auto!important" >\n' +
-            '<option value="00" selected>00</option>\n' +
-            '<option value="05" >05</option>\n' +
-            '<option value="10" >10</option>\n' +
-            '<option value="15" >15</option>\n' +
-            '<option value="20" >20</option>\n' +
-            '<option value="25" >25</option>\n' +
-            '<option value="30" >30</option>\n' +
-            '<option value="35" >35</option>\n' +
-            '<option value="40" >40</option>\n' +
-            '<option value="45" >45</option>\n' +
-            '<option value="50" >50</option>\n' +
-            '<option value="55" >55</option>\n' +
-            '</select> \n ' +
-            '<select name="groupTimeToHour" class="form-control mr-sm-2 my-2 " style="width: auto!important"  >\n' +
-            '<option value="06" selected>06</option>\n' +
-            '<option value="07" >07</option>\n' +
-            '<option value="08" >08</option>\n' +
-            '<option value="09" >09</option>\n' +
-            '<option value="10" >10</option>\n' +
-            '<option value="11" >11</option>\n' +
-            '<option value="12" >12</option>\n' +
-            '<option value="13" >13</option>\n' +
-            '<option value="14" >14</option>\n' +
-            '<option value="15" >15</option>\n' +
-            '<option value="16" >16</option>\n' +
-            '<option value="17" >17</option>\n' +
-            '<option value="18" >18</option>\n' +
-            '<option value="19" >19</option>\n' +
-            '<option value="20" >20</option>\n' +
-            '<option value="21" >21</option>\n' +
-            '<option value="22" >22</option>\n' +
-            '<option value="23" >23</option>\n' +
-            '</select>\n' +
-            '<select name="groupTimeToMinute" class="form-control mr-sm-2 my-2 " style="width: auto!important" >\n' +
-            '<option value="00" selected>00</option>\n' +
-            '<option value="05" >05</option>\n' +
-            '<option value="10" >10</option>\n' +
-            '<option value="15" >15</option>\n' +
-            '<option value="20" >20</option>\n' +
-            '<option value="25" >25</option>\n' +
-            '<option value="30" >30</option>\n' +
-            '<option value="35" >35</option>\n' +
-            '<option value="40" >40</option>\n' +
-            '<option value="45" >45</option>\n' +
-            '<option value="50" >50</option>\n' +
-            '<option value="55" >55</option>\n' +
-            '</select>\n' +
-            '</div>';
+    function getDivTerms(splitTerms){
+        var result = '';
+        if(splitTerms===null||splitTerms===""||splitTerms===undefined)
+        {
+            return '<div style="display: flex;">\n' +
+                '<select name="groupDayFor" className="groupDayFor" class="form-control mr-sm-2 my-2 w-100"  >\n' +
+                '<option value="brak" >Brak</option>\n' +
+                '<option value="Poniedziałek" >Poniedziałek</option>\n' +
+                '<option value="Wtorek" >Wtorek</option>\n' +
+                '<option value="Środa" >Środa</option>\n' +
+                '<option value="Czwartek" >Czwartek</option>\n' +
+                '<option value="Piątek" >Piątek</option>\n' +
+                '<option value="Sobota" >Sobota</option>\n' +
+                '<option value="Niedziela" >Niedziela</option>\n' +
+                '</select>\n' +
+                '<select name="groupTimeFromHour" class="form-control mr-sm-2 my-2" style="width: auto!important" >\n' +
+                '<option value="06" selected>06</option>\n' +
+                '<option value="07" >07</option>\n' +
+                '<option value="08" >08</option>\n' +
+                '<option value="09" >09</option>\n' +
+                '<option value="10" >10</option>\n' +
+                '<option value="11" >11</option>\n' +
+                '<option value="12" >12</option>\n' +
+                '<option value="13" >13</option>\n' +
+                '<option value="14" >14</option>\n' +
+                '<option value="15" >15</option>\n' +
+                '<option value="16" >16</option>\n' +
+                '<option value="17" >17</option>\n' +
+                '<option value="18" >18</option>\n' +
+                '<option value="19" >19</option>\n' +
+                '<option value="20" >20</option>\n' +
+                '<option value="21" >21</option>\n' +
+                '<option value="22" >22</option>\n' +
+                '<option value="23" >23</option>\n' +
+                '</select>\n' +
+                '<select name="groupTimeFromMinute" class="form-control mr-sm-2 my-2 " style="width: auto!important" >\n' +
+                '<option value="00" selected>00</option>\n' +
+                '<option value="05" >05</option>\n' +
+                '<option value="10" >10</option>\n' +
+                '<option value="15" >15</option>\n' +
+                '<option value="20" >20</option>\n' +
+                '<option value="25" >25</option>\n' +
+                '<option value="30" >30</option>\n' +
+                '<option value="35" >35</option>\n' +
+                '<option value="40" >40</option>\n' +
+                '<option value="45" >45</option>\n' +
+                '<option value="50" >50</option>\n' +
+                '<option value="55" >55</option>\n' +
+                '</select> \n ' +
+                '<select name="groupTimeToHour" class="form-control mr-sm-2 my-2 " style="width: auto!important"  >\n' +
+                '<option value="06" selected>06</option>\n' +
+                '<option value="07" >07</option>\n' +
+                '<option value="08" >08</option>\n' +
+                '<option value="09" >09</option>\n' +
+                '<option value="10" >10</option>\n' +
+                '<option value="11" >11</option>\n' +
+                '<option value="12" >12</option>\n' +
+                '<option value="13" >13</option>\n' +
+                '<option value="14" >14</option>\n' +
+                '<option value="15" >15</option>\n' +
+                '<option value="16" >16</option>\n' +
+                '<option value="17" >17</option>\n' +
+                '<option value="18" >18</option>\n' +
+                '<option value="19" >19</option>\n' +
+                '<option value="20" >20</option>\n' +
+                '<option value="21" >21</option>\n' +
+                '<option value="22" >22</option>\n' +
+                '<option value="23" >23</option>\n' +
+                '</select>\n' +
+                '<select name="groupTimeToMinute" class="form-control mr-sm-2 my-2 " style="width: auto!important" >\n' +
+                '<option value="00" selected>00</option>\n' +
+                '<option value="05" >05</option>\n' +
+                '<option value="10" >10</option>\n' +
+                '<option value="15" >15</option>\n' +
+                '<option value="20" >20</option>\n' +
+                '<option value="25" >25</option>\n' +
+                '<option value="30" >30</option>\n' +
+                '<option value="35" >35</option>\n' +
+                '<option value="40" >40</option>\n' +
+                '<option value="45" >45</option>\n' +
+                '<option value="50" >50</option>\n' +
+                '<option value="55" >55</option>\n' +
+                '</select>\n' +
+                '</div>';
+        }
+        else{
+            for (let i = 0; i < splitTerms.length; i++) {
+
+                let split = termsSplit(splitTerms[i]);
+
+                result = result +
+                    '<div style="display: flex;">\n' +
+                    '<select name="groupDayFor" class="form-control mr-sm-2 my-2 w-100"  >\n' +
+                    '<option value="' + split[0] + '" >' + split[0] + '</option>\n' +
+                    '<option value="brak" >Brak</option>\n' +
+                    '<option value="Poniedziałek" >Poniedziałek</option>\n' +
+                    '<option value="Wtorek" >Wtorek</option>\n' +
+                    '<option value="Środa" >Środa</option>\n' +
+                    '<option value="Czwartek" >Czwartek</option>\n' +
+                    '<option value="Piątek" >Piątek</option>\n' +
+                    '<option value="Sobota" >Sobota</option>\n' +
+                    '<option value="Niedziela" >Niedziela</option>\n' +
+                    '</select>\n' +
+                    '<select name="groupTimeFromHour" class="form-control mr-sm-2 my-2" style="width: auto!important" >\n' +
+                    '<option value="' + split[1] + '" >' + split[1] + '</option>\n' +
+                    '<option value="06" >06</option>\n' +
+                    '<option value="07" >07</option>\n' +
+                    '<option value="08" >08</option>\n' +
+                    '<option value="09" >09</option>\n' +
+                    '<option value="10" >10</option>\n' +
+                    '<option value="11" >11</option>\n' +
+                    '<option value="12" >12</option>\n' +
+                    '<option value="13" >13</option>\n' +
+                    '<option value="14" >14</option>\n' +
+                    '<option value="15" >15</option>\n' +
+                    '<option value="16" >16</option>\n' +
+                    '<option value="17" >17</option>\n' +
+                    '<option value="18" >18</option>\n' +
+                    '<option value="19" >19</option>\n' +
+                    '<option value="20" >20</option>\n' +
+                    '<option value="21" >21</option>\n' +
+                    '<option value="22" >22</option>\n' +
+                    '<option value="23" >23</option>\n' +
+                    '</select>\n' +
+                    '<select name="groupTimeFromMinute" class="form-control mr-sm-2 my-2 " style="width: auto!important" >\n' +
+                    '<option value="' + split[2] + '" >' + split[2] + '</option>\n' +
+                    '<option value="00" >00</option>\n' +
+                    '<option value="05" >05</option>\n' +
+                    '<option value="10" >10</option>\n' +
+                    '<option value="15" >15</option>\n' +
+                    '<option value="20" >20</option>\n' +
+                    '<option value="25" >25</option>\n' +
+                    '<option value="30" >30</option>\n' +
+                    '<option value="35" >35</option>\n' +
+                    '<option value="40" >40</option>\n' +
+                    '<option value="45" >45</option>\n' +
+                    '<option value="50" >50</option>\n' +
+                    '<option value="55" >55</option>\n' +
+                    '</select> \n ' +
+                    '<select name="groupTimeToHour" class="form-control mr-sm-2 my-2 " style="width: auto!important"  >\n' +
+                    '<option value="' + split[3] + '" >' + split[3] + '</option>\n' +
+                    '<option value="06" >06</option>\n' +
+                    '<option value="07" >07</option>\n' +
+                    '<option value="08" >08</option>\n' +
+                    '<option value="09" >09</option>\n' +
+                    '<option value="10" >10</option>\n' +
+                    '<option value="11" >11</option>\n' +
+                    '<option value="12" >12</option>\n' +
+                    '<option value="13" >13</option>\n' +
+                    '<option value="14" >14</option>\n' +
+                    '<option value="15" >15</option>\n' +
+                    '<option value="16" >16</option>\n' +
+                    '<option value="17" >17</option>\n' +
+                    '<option value="18" >18</option>\n' +
+                    '<option value="19" >19</option>\n' +
+                    '<option value="20" >20</option>\n' +
+                    '<option value="21" >21</option>\n' +
+                    '<option value="22" >22</option>\n' +
+                    '<option value="23" >23</option>\n' +
+                    '</select>\n' +
+                    '<select name="groupTimeToMinute" class="form-control mr-sm-2 my-2 " style="width: auto!important" >\n' +
+                    '<option value="' + split[4] + '" >' + split[4] + '</option>\n' +
+                    '<option value="00" >00</option>\n' +
+                    '<option value="05" >05</option>\n' +
+                    '<option value="10" >10</option>\n' +
+                    '<option value="15" >15</option>\n' +
+                    '<option value="20" >20</option>\n' +
+                    '<option value="25" >25</option>\n' +
+                    '<option value="30" >30</option>\n' +
+                    '<option value="35" >35</option>\n' +
+                    '<option value="40" >40</option>\n' +
+                    '<option value="45" >45</option>\n' +
+                    '<option value="50" >50</option>\n' +
+                    '<option value="55" >55</option>\n' +
+                    '</select>\n' +
+                    '</div>';
+
+            }
+        }
+        return result;
+
     }
+
+
+   function termsSplit(splitTerms){
+       let replace = splitTerms.replace(/\s/g, '');
+       replace = replace.replace("-",":")
+       let split = replace.split(':');
+       return split;
+   }
 
 </script>
 
