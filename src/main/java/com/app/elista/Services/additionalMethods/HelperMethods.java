@@ -2,10 +2,13 @@ package com.app.elista.Services.additionalMethods;
 
 import lombok.NoArgsConstructor;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -22,6 +25,49 @@ public class HelperMethods {
 
         } else
             return Collections.emptyList();
+    }
+
+    public  static String getDayWeekName(String date) throws ParseException {
+
+        Date result = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+
+        SimpleDateFormat format = new SimpleDateFormat("EEEE");
+        String formatDate = format.format(result);
+
+       return formatDayWeekName(formatDate);
+
+    }
+
+    public static String formatDayWeekName(String formatDate) {
+
+        switch (formatDate) {
+            case "Monday":
+                formatDate = "Poniedziałek";
+                break;
+            case "Tuesday":
+                formatDate = "Wtorek";
+                break;
+            case "Wednesday":
+                formatDate = "Środa";
+                break;
+            case "Thursday":
+                formatDate = "Czwartek";
+                break;
+            case "Friday":
+                formatDate = "Piątek";
+                break;
+            case "Saturday":
+                formatDate = "Sobota";
+                break;
+            case "Sunday":
+                formatDate = "Niedziela";
+                break;
+            default:
+                formatDate = formatDate.substring(0, 1).toUpperCase() + formatDate.substring(1);
+                break;
+        }
+
+        return formatDate;
     }
 
     public static String stringListsToString(String dayToDivide, String elementToDivideOne, String elementToDivideTwo) {

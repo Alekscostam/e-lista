@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class DatesForGroupsService {
@@ -85,5 +86,22 @@ public class DatesForGroupsService {
         String deleteQuery = "delete from dates_for_groups where id_team = ?";
         jdbcTemplate.update(deleteQuery,id);
         LOGGER.info("Usunieto dane z tabeli dates_for_groups");
+    }
+
+    public void editDatesForGroups(Teams teamById, List<String> days) {
+        String terms = teamById.getTerms();
+        String[] split = terms.split(";");
+    }
+
+    // TODO: 25.12.2021 DODAC JESZCE FILTER NA DATE W PRZOD + EDIT DATEBLI DATE FOR GROUPS 
+    public List<DatesForGroups> findByGroupId(Long idTeam) {
+        List<DatesForGroups> collect = datesForGroupsRepository.findAll().stream()
+                .filter(datesForGroups -> datesForGroups.getTeams().getIdTeam().equals(idTeam)).collect(Collectors.toList());
+
+        return collect;
+    }
+
+    public void deleteFromDatesAndGroups(List<Long> filteredIds) {
+        datesForGroupsRepository.deleteAllById(filteredIds);
     }
 }

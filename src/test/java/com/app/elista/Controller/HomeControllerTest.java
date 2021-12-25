@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -21,16 +22,27 @@ public class HomeControllerTest {
     @Test
     public void home() throws ParseException {
 
-        String date = "2021-12-08";
+//        new Data
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        System.out.println(date);
 
-        String year = date.substring(0,4);
-        String month = date.substring(5,7);
-        String day = date.substring(8,10);
+//        sending data
+        String firstDate = "01-03-2021";
 
-        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        Date result = new SimpleDateFormat("dd-MM-yyyy").parse(firstDate);
 
-        SimpleDateFormat format = new SimpleDateFormat("EEEE");
-        System.out.println(format.format(date1));
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MMM-yyyy");
+        String formatDate = dateFormatter.format(result);
+        System.out.println(result);
 
+
+        if(date.compareTo(result) > 0) {
+            System.out.println("Date 1 occurs after Date 2");
+        } else if(date.compareTo(result)  < 0) {
+            System.out.println("Date 1 occurs before Date 2");
+        } else if(date.compareTo(result)  == 0) {
+            System.out.println("Both dates are equal");
+        }
     }
 }

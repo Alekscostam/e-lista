@@ -40,13 +40,11 @@ public class UsersService {
     }
 
     public Users deleteUser(String userId) {
-        try {
+
             Long id = Long.valueOf(userId);
             usersRepository.deleteById(id);
             LOGGER.info("usunięto użytkownika");
-        } catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), "cos poszlo nie tak przy usuwaniu użytkownika");
-        }
+
         return null;
     }
 

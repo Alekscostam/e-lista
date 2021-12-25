@@ -101,6 +101,15 @@ public class PresencesService {
         }
         return presencesFiltered;
     }
+
+    // TODO: 25.12.2021 DOKONCZYC ZAPYTANIE SUUWAJACE IDSY
+    public void deletePresencesByUserIdAndIdDates(List<Users> allUsers, List<Long> selectedIds) {
+
+//        String deleteQuery = "delete from presences where id_team = ? and";
+//        jdbcTemplate.update(deleteQuery,groupId);
+//        LOGGER.info("Usunieto dane z tabeli groups_prices");
+        
+    }
 }
 
 

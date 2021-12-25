@@ -18,10 +18,8 @@
         <h4>Opcje grupy</h4>
       </div>
       <hr/>
-
       <div class="container-fluid">
         <div class="col-lg-6">
-
         </div>
       </div>
     </div>
@@ -94,7 +92,7 @@
                 placeholder="informacja dodatkowa"
         ></textarea>
         <hr/>
-        <!--                                    window.location.reload();-->
+        <!--window.location.reload();-->
         <span id="alert-edit-save"></span>
         <button
                 id="button-edit-price"
@@ -103,7 +101,6 @@
                 type="submit">
           Edytuj
         </button>
-
         <button id="button-save-price" class="btn btn-outline-success w-100"
                 onclick="addPrice('button-save-price'); "
                 type="submit">
@@ -116,14 +113,11 @@
 </section>
 
 <!-- Modal -->
-
 <script type="text/javascript">
 
   window.onload = function () {
-    // let all = document.getElementById('temporary-value');
     getPrices();
   };
-
 
   function deletePrice(element) {
 
@@ -155,7 +149,7 @@
       idPriceNumber = document.getElementById('id-of-the-new-price').value;
     }
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     let priceName = document.getElementById('name-of-the-new-price').value;
     let priceValue = document.getElementById('value-for-new-price').value;
     let priceCycle = document.getElementById('cycle-for-new-price').value;
@@ -166,14 +160,13 @@
             "&priceValue=" + priceValue +
             "&priceCycle=" + priceCycle +
             "&priceDescription=" + priceDescription, true);
-
     xhr.send('');
     var result = "";
     xhr.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         result = xhr.responseText;
-
-        document.getElementById('alert').result;
+        getPrices();
+        clearTableForm();
       } else {
 
       }
@@ -191,6 +184,13 @@
     document.getElementById("cycle-for-new-price").value = cycle;
     document.getElementById("description-for-new-price").value = description;
   }
+  function clearTableForm(){
+    document.getElementById("id-of-the-new-price").value = "";
+    document.getElementById("name-of-the-new-price").value = "";
+    document.getElementById("value-for-new-price").value = "";
+    document.getElementById("cycle-for-new-price").value = "";
+    document.getElementById("description-for-new-price").value = "";
+  }
 
   function getPrices() {
     var xhr = new XMLHttpRequest();
@@ -207,7 +207,6 @@
     }
   }
 
-
   function  generateTablePrices(prices){
     var result = "";
 
@@ -221,7 +220,6 @@
       var value       = "'" + prices[i]['value'] + "'";
       var cycle       = "'" + prices[i]['cycle'] + "'";
       var description   = "'" + prices[i]['description'] + "'";
-
 
       result = result
               +
@@ -238,27 +236,27 @@
               '<button  class="option-card-button" ' +
               'data-toggle="modal" data-target="#'+modal+'">Usuń</button>' +
               '</td>' +
-              '                            <div class="modal fade" id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
-              '                                <div class="modal-dialog" role="document">\n' +
-              '                                    <div class="modal-content">\n' +
-              '                                        <div class="modal-header">\n' +
-              '                                            <h5 class="modal-title" id="'+modalLabel+'">Usuwanie ceny</h5>\n' +
-              '                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
-              '                                                <span aria-hidden="true">&times;</span>\n' +
-              '                                            </button>\n' +
-              '                                        </div>\n' +
-              '                                        <div class="modal-body">\n' +
-              '                                            Czy napewno chcesz usunąć cenę?\n' +
-              '                                        </div>\n' +
-              '                                        <div class="modal-footer">\n' +
-              '                                            <button class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
-              '                                                    onclick="deletePrice(' + prices[i]['idPrice'] + ')">Tak</button>\n' +
-              '                                            <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
-              '                                        </div>\n' +
-              '                                    </div>\n' +
-              '                                </div>\n' +
-              '                            </div>'
-      '</tr>';
+              ' <div class="modal fade" id="'+modal+'" tabindex="-1" role="dialog" aria-labelledby="'+modalLabel+'" aria-hidden="true">\n' +
+              '     <div class="modal-dialog" role="document">\n' +
+              '         <div class="modal-content">\n' +
+              '             <div class="modal-header">\n' +
+              '                 <h5 class="modal-title" id="'+modalLabel+'">Usuwanie ceny</h5>\n' +
+              '                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
+              '                     <span aria-hidden="true">&times;</span>\n' +
+              '                 </button>\n' +
+              '             </div>\n' +
+              '             <div class="modal-body">\n' +
+              '                 Czy napewno chcesz usunąć cenę?\n' +
+              '             </div>\n' +
+              '             <div class="modal-footer">\n' +
+              '                 <button class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
+              '                         onclick="deletePrice(' + prices[i]['idPrice'] + ')">Tak</button>\n' +
+              '                 <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 100px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
+              '             </div>\n' +
+              '         </div>\n' +
+              '     </div>\n' +
+              ' </div>'
+              '</tr>';
     }
 
     document.getElementById("tbody-element-prices").innerHTML = result;

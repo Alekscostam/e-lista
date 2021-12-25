@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -142,42 +143,7 @@ public class ApiController {
         return dayWeekText.substring(0, 1).toUpperCase() + dayWeekText.substring(1);
     }
 
-    public String getDayWeekName(String date) throws ParseException {
 
-        Date result = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-
-        SimpleDateFormat format = new SimpleDateFormat("EEEE");
-        String formatDate = format.format(result);
-
-        switch (formatDate) {
-            case "Monday":
-                formatDate = "Poniedziałek";
-                break;
-            case "Tuesday":
-                formatDate = "Wtorek";
-                break;
-            case "Wednesday":
-                formatDate = "Środa";
-                break;
-            case "Thursday":
-                formatDate = "Czwartek";
-                break;
-            case "Friday":
-                formatDate = "Piątek";
-                break;
-            case "Saturday":
-                formatDate = "Sobota";
-                break;
-            case "Sunday":
-                formatDate = "Niedziela";
-                break;
-            default:
-                formatDate = formatDate.substring(0, 1).toUpperCase() + formatDate.substring(1);
-                break;
-        }
-
-        return formatDate;
-    }
 
     public String changeFormatDate(String date) {
         String year = date.substring(0, 4);
@@ -275,11 +241,7 @@ public class ApiController {
         Teams team = teamsService.findTeamById(groupId);
 
         Boolean adult;
-        if (userOfAge == "true") {
-            adult = true;
-        } else {
-            adult = false;
-        }
+        adult = Objects.equals(userOfAge, "true");
 
         Users user = new Users(appCompany, userName, userSurname, Integer.valueOf(userPhone), userEmail, adult, price.getIdPrice(), price.getName(), price.getValue(), price.getCycle(), price.getDescription(), "", "", getLocalDateTime(), team);
 
@@ -475,7 +437,7 @@ public class ApiController {
                                   String groupTimeFromMinute,
                                   String groupTimeToHour,
                                   String groupTimeToMinute,
-                                  String groupColor, String groupFirstFree) {
+                                  String groupColor, String groupFirstFree) throws ParseException {
 
         String[] splitTimeFromHour = groupTimeFromHour.split(",");
         String[] splitTimeFromMinute = groupTimeFromMinute.split(",");
@@ -488,16 +450,23 @@ public class ApiController {
         }
 
         List<String> listsPriceIds = divideStringToList(priceIds);
+        List<String> convertedPriceIds = new ArrayList<>();
 
+        for (String listsPriceId : listsPriceIds) {
+            if (listsPriceId.equals("")) {
+            } else {
+                convertedPriceIds.add(listsPriceId);
+            }
+        }
         boolean resultFirstFree = Boolean.TRUE;
 
         if (groupFirstFree == null) {
             resultFirstFree = Boolean.FALSE;
         }
+
         String addedTerms = "";
         if (!groupDayFor.isEmpty()) {
             addedTerms = splitDaysAndTimes(splitTimeFromHour, splitTimeFromMinute, splitTimeToHour, splitTimeToMinute, splitDays);
-
         }
 
         if (groupSize.isEmpty()) {
@@ -507,7 +476,8 @@ public class ApiController {
         Teams team;
 
         if (groupId != null && !(groupId.isEmpty())) {
-            team = teamsService.findTeamById(groupId);
+            Teams teamById = teamsService.findTeamById(groupId);
+            team = teamById;
             team.setTeamName(groupName);
             team.setLeaderName(groupLeader);
             team.setPlace(groupPlace);
@@ -518,32 +488,75 @@ public class ApiController {
             team.setDescription(groupDescription);
             team.setFirstFree(resultFirstFree);
             team.setTerms(addedTerms);
+            List<String> days = splitDays(splitDays);
+            String localDateTime = getLocalDateTime();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+            List<DatesForGroups> byGroupId = datesForGroupsService.findByGroupId(teamById.getIdTeam());
+            List<Long> idDates = byGroupId.stream().map(DatesForGroups::getIdDates).collect(Collectors.toList());
+            List<Long> idsToDelete= new ArrayList<>();
+
+            for (int i = 0; i < idDates.size(); i++) {
+                idsToDelete.add(datesService.findDatesUnderActuallyDateByDataId(idDates.get(i),days))  ;
+            }
+
+            List<DatesForGroups> filteredDates = new ArrayList<>();
+
+            for (int i = 0; i < byGroupId.size(); i++) {
+                for (int i1 = 0; i1 < idsToDelete.size(); i1++) {
+                 if(byGroupId.get(i).getIdDates().equals(idsToDelete.get(i1))){
+                     filteredDates.add(byGroupId.get(i));
+                 }
+                }
+            }
+            List<Long> selectedIds = filteredDates.stream().map(DatesForGroups::getIdDatesForGroups).collect(Collectors.toList());
+            datesForGroupsService.deleteFromDatesAndGroups(selectedIds);
+            List<Users> allUsers = usersService.findAllUsersByGroupId(groupId);
+            presencesService.deletePresencesByUserIdAndIdDates(allUsers,selectedIds);
+            datesForGroupsService.editDatesForGroups(teamById,days);
 
         } else {
             team = new Teams(groupName, groupLeader, groupPlace, groupDataFrom, groupDataTo, (short) 0, Short.valueOf(groupSize), groupColor, resultFirstFree, groupDescription, addedTerms, appCompany);
         }
-
         team = teamsService.saveTeam(team);
-        if (!listsPriceIds.isEmpty()) {
-            List<Prices> allPricesByPriceIds = pricesService.findAllByPriceIds(listsPriceIds);
+
+        if (!convertedPriceIds.isEmpty()){
+                List<Prices> allPricesByPriceIds = pricesService.findAllByPriceIds(convertedPriceIds);
+                teamsPricesService.deleteFromGroupsPricesByIdGroup(team.getIdTeam());
+                teamsPricesService.insertToGP(team, allPricesByPriceIds);
+        }else{
             teamsPricesService.deleteFromGroupsPricesByIdGroup(team.getIdTeam());
-            teamsPricesService.insertToGP(team, allPricesByPriceIds);
         }
         return new ModelAndView("redirect:/app/optionGroupList");
     }
 
-    private String splitDaysAndTimes(String[] splitTimeFromHour, String[] splitTimeFromMinute, String[] splitTimeToHour, String[] splitTimeToMinute, String[] splitDays) {
 
+    private String splitDaysAndTimes(String[] splitTimeFromHour, String[] splitTimeFromMinute, String[] splitTimeToHour, String[] splitTimeToMinute, String[] splitDays) {
         StringBuilder stringBuilder = new StringBuilder();
 
-
         for (int i = 0; i < splitDays.length; i++) {
-            stringBuilder.append(splitDays[i] + ": " + splitTimeFromHour[i] + ":" + splitTimeFromMinute[i] + " - " + splitTimeToHour[i] + ":" + splitTimeToMinute[i] + ";");
-        }
+            if(splitDays[i].contains("brak")){
 
+            }else{
+                stringBuilder.append(splitDays[i] + ": " + splitTimeFromHour[i] + ":" + splitTimeFromMinute[i] + " - " + splitTimeToHour[i] + ":" + splitTimeToMinute[i] + ";");
+            }
+        }
         return stringBuilder.toString();
 
+    }
 
+
+    private List<String> splitDays(String[] splitDays) {
+        List<String>  days = new ArrayList<>();
+
+        for (String splitDay : splitDays) {
+            if (splitDay.contains("brak")) {
+
+            } else {
+                days.add(splitDay);
+            }
+        }
+        return days;
     }
 }
 

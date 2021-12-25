@@ -1,5 +1,6 @@
 package com.app.elista.Services;
 
+import com.app.elista.Services.additionalMethods.HelperMethods;
 import com.app.elista.model.Dates;
 import com.app.elista.model.Teams;
 import com.app.elista.repositories.DatesRepository;
@@ -14,6 +15,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static com.app.elista.Services.additionalMethods.HelperMethods.*;
 
 @Service
 public class DatesService {
@@ -97,6 +102,38 @@ public class DatesService {
         Optional<Dates> byDate = datesRepository.findByDate(date);
         return byDate.orElse(null);
 
+
+    }
+
+    public  Long  findDatesUnderActuallyDateByDataId(Long idDates, List<String> days) throws ParseException {
+        Long idsToDelete = 0L;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+
+        Dates dates1 = datesRepository
+                .findAll()
+                .stream()
+                .filter(dates -> dates.getIdDates().equals(idDates))
+                .findFirst().get();
+
+        Date result = new SimpleDateFormat("dd-MM-yyyy").parse(dates1.getDatesGroup());
+
+        if(date.compareTo(result) > 0) {
+
+        } else if(date.compareTo(result)  < 0) {
+            SimpleDateFormat format = new SimpleDateFormat("EEEE");
+            String formatDate = format.format(result);
+            String weekName = formatDayWeekName(formatDate);
+
+            if (!(days.contains(weekName))) {
+                idsToDelete = idDates;
+            }
+
+        } else if(date.compareTo(result)  >= 0) {
+        }
+
+        return idsToDelete;
 
     }
 }
