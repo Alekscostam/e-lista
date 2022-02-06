@@ -1,5 +1,6 @@
 package com.app.elista.Services;
 
+import com.app.elista.Services.additionalMethods.HelperMethods;
 import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.Prices;
 import com.app.elista.model.Teams;
@@ -127,6 +128,9 @@ public class UsersService {
         for (Users user : allUsersFilteredByCompany) {
             try{
             if (user.getIndividualPriceId().equals(price.getIdPrice())) {
+                List<String> dataFromDataTo = HelperMethods.dataFromDataTo(user.getTeams().getTerms(), (int) price.getCycle());
+                user.setCurrentPaymentDate(dataFromDataTo.get(0));
+                user.setNextPaymentDate(dataFromDataTo.get(1));
                 user.setIndividualPriceName(price.getName());
                 user.setIndividualPriceValue(price.getValue());
                 user.setIndividualPriceCycle(price.getCycle());
@@ -146,5 +150,14 @@ public class UsersService {
         List<Long> collect = allValues.stream().map(Long::valueOf).collect(Collectors.toList());
 
         return usersRepository.findAllById(collect);
+    }
+
+    public List<Users> findAllUsersByGroupIdWithAppCompany(String groupId) {
+        List<Users> users = usersRepository.findAll().stream()
+                .filter(u -> u.getTeams().getIdTeam().equals(Long.valueOf(groupId)))
+                .collect(Collectors.toList());
+
+
+        return users;
     }
 }

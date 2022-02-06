@@ -11,7 +11,6 @@
 <div class="text">
     <div class="hello">
         <br><br>
-
         <div class="container-fluid hello" style="">
             <div class="">
             <span class="my-4">
@@ -23,10 +22,7 @@
               </h4>
             </span>
                 <hr/>
-
                 <div id="day-form" class="form-inline my-0 my-lg-0" style="font-size: 0.9em;">
-                    <!--                    <form lang="pl" class="form-inline my-0 my-lg-0">-->
-                    <!--                    <label for="group" style="font-weight: bold"></label>-->
                     <input
                             class="form-control my-1 mr-sm-2"
                             type="search"
@@ -96,13 +92,13 @@
                 >
                     Konkretne miesiące
                 </button>
-                <button
-                        class="navigation-card-button"
-                        onclick="changePanel('group-add')"
-                        type="submit"
-                >
-                    Statystyki
-                </button>
+                <!--                <button-->
+                <!--                        class="navigation-card-button"-->
+                <!--                        onclick="changePanel('group-add')"-->
+                <!--                        type="submit"-->
+                <!--                >-->
+                <!--                    Statystyki-->
+                <!--                </button>-->
             </div>
         </div>
 
@@ -110,6 +106,9 @@
 </div>
 
 <section id="attendanceList" class="container-fluid container-custom  right-panel  text-center scrollit">
+    <div id="alert-presences-success" style="display: none" class="alert alert-success alert-dismissible fade show"
+         role="alert">
+    </div>
     <table style="padding: 5px" class="table ">
         <thead>
         <tr>
@@ -127,8 +126,6 @@
         </thead>
         <tbody id="tbody-element">
         </tbody>
-
-
     </table>
     <button
             class="navigation-card-button"
@@ -391,14 +388,13 @@
         xhr.onreadystatechange = function () {
             var users;
             if (this.readyState === 4 && this.status === 200) {
-                // users = JSON.parse(xhr.responseText);
-                // console.log(users);
                 moreInformation("noOption");
                 clearingInputsAddUser();
-                // getUsers(selectedOptionGroupId);
             }
         }
     }
+
+
 
     function clearingInputsAddUser() {
         document.getElementById("user-name").value = "";
@@ -521,7 +517,7 @@
                 '<td >' + user[i]['user']['phone'] + '</td>' +
                 '<td >' + user[i]['user']['dateOfRecording'] + '</td>' +
                 '<td data-label="info.">' +
-                '<Button type="button" class="option-card-button" onclick="editUser(' + name + ',' + surname + ',' + individualPriceId + ',' + individualPriceName + ',' + individualPriceValue + ',' + individualPriceCycle + ',' + individualPriceDesc + ',' + currentPaymentDate + ',' + nextPaymentDate + ',' + teamName + ',' + dateOfRecording + ',' + email + ',' + phone + ',' + idUser + ')">Edytuj</Button>&nbsp;' +
+                '<Button type="button" class="option-card-button" onclick="userToEdit(' + name + ',' + surname + ',' + individualPriceId + ',' + individualPriceName + ',' + individualPriceValue + ',' + individualPriceCycle + ',' + individualPriceDesc + ',' + currentPaymentDate + ',' + nextPaymentDate + ',' + teamName + ',' + dateOfRecording + ',' + email + ',' + phone + ',' + idUser + ')">Edytuj</Button>&nbsp;' +
                 '<Button  class="option-card-button" data-toggle="modal" data-target="#' + modal + '" >Usuń</Button>' +
                 '</td>' +
                 ' <div class="modal fade" id="' + modal + '" tabindex="-1" role="dialog" aria-labelledby="' + modalLabel + '" aria-hidden="true">\n' +
@@ -554,8 +550,14 @@
                                individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate,
                                teamName, dateOfRecording, email, phone, idUser, teamsPrices) {
 
+        console.log("currentPaymentDate" + currentPaymentDate)
         var modalEdit = "exampleModalPriceEdit" + idUser;
         var modalLabelEdit = "exampleModalLabelPriceEdit" + idUser;
+
+
+        currentPaymentDate = yyyyMMdd(currentPaymentDate);
+        nextPaymentDate = yyyyMMdd(nextPaymentDate);
+
 
         var userIdentifier = "user-edit-identifier";
         userIdentifier = "'" + userIdentifier + "'";
@@ -569,7 +571,6 @@
         }
 
         var result =
-
             '<Button  id="editButton" hidden  class="option-card-button" data-toggle="modal" data-target="#' + modalEdit + '" >Usuń</Button>' +
             '<div class="modal fade" id="' + modalEdit + '" tabindex="-1" role="dialog" aria-labelledby="' + modalLabelEdit + '" aria-hidden="true">\n' +
             '     <div class="modal-dialog" role="document">\n' +
@@ -581,32 +582,78 @@
             '                 </button>\n' +
             '             </div>\n' +
             '             <div id="modal-body-edit' + idUser + '" class="modal-body">\n' +
-            '               <input hidden value="' + idUser + '" class="form-control my-1 mr-sm-2" />' +
-            '               <input hidden value="' + individualPriceId + '" class="form-control my-1 mr-sm-2" />' +
-            '  <div style="font-size: 0.6em!important; font-weight: 600"> Imię</div>            <input value="' + name + '" class="form-control my-1 mr-sm-2" />' +
-            '  <div style="font-size: 0.6em!important; font-weight: 600"> Nazwisko</div>         <input value="' + surname + '" class="form-control my-1 mr-sm-2" />' +
+            '               <input id="modalUserId" hidden value="' + idUser + '" class="form-control my-1 mr-sm-2" />' +
+            '               <input id="individualPriceId" hidden value="' + individualPriceId + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div  style="font-size: 0.6em!important; font-weight: 600"> Imię</div>            <input id="modalUserName"  value="' + name + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div  style="font-size: 0.6em!important; font-weight: 600"> Nazwisko</div>         <input  id="modalUserSurname" value="' + surname + '" class="form-control my-1 mr-sm-2" />' +
             '                                                                                    <input disabled value="' + teamName + '" class="form-control my-1 mr-sm-2" />' +
-            '              <select onchange="moreInformationForEdit(this,' + userIdentifier + ',' + userClasses + ');" class="form-control select-input mr-sm-2 ' + userClasses + '" name="groupId">' + options + '</select>' +
+            '  <select id="modalUserGroupId" onchange="moreInformationForEdit(this,' + userIdentifier + ',' + userClasses + ');" class="form-control select-input mr-sm-2 ' + userClasses + '" name="groupId">' + options + '</select>' +
             '                                                                                       <div id="user-edit-identifier"  class="my-2"></div>' +
-            '  <div style="font-size: 0.6em!important; font-weight: 600"> Cykl rozliczeniowy(dni)</div>               <input value="' + individualPriceCycle + '" class="form-control my-1 mr-sm-2" />' +
-            '  <div style="font-size: 0.6em!important; font-weight: 600"> Aktualna data wpłaty</div>         <input value="' + currentPaymentDate + '" class="form-control my-2" type="date" id="" name="" />' +
-            '  <div style="font-size: 0.6em!important; font-weight: 600"> Nastepna data wpłaty</div>          <input value="' + nextPaymentDate + '" class="form-control my-2" type="date" id="" name="" />' +
-            '  <div style="font-size: 0.6em!important; font-weight: 600"> Rozliczenie(zł)</div>      <input value="' + individualPriceValue + '" class="form-control my-1 mr-sm-2" placeholder="Rozliczenie"/>' +
-            '  <div style="font-size: 0.6em!important; font-weight: 600"> Email</div>                <input value="' + email + '" class="form-control my-1 mr-sm-2" />' +
-            '  <div style="font-size: 0.6em!important; font-weight: 600"> Numer telefonu</div>             <input value="' + phone + '" class="form-control my-1 mr-sm-2" />' +
-            '  <div style="font-size: 0.6em!important; font-weight: 600"> Data zapisu</div>             <input disabled value="' + dateOfRecording + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div  style="font-size: 0.6em!important; font-weight: 600"> Email</div>                <input id="modalUserEmail" value="' + email + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div  style="font-size: 0.6em!important; font-weight: 600"> Numer telefonu</div>             <input id="modalUserPhoneNumber" value="' + phone + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div  style="font-size: 0.6em!important; font-weight: 600"> Data zapisu</div>             <input disabled value="' + dateOfRecording + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div  style="font-size: 0.6em!important; font-weight: 600"> Aktualna data wpłaty</div>         <input id="currentPaymentDate" value="' + currentPaymentDate + '" class="form-control my-2" type="date" onchange="changeDate(this);" name="" />' +
+            '  <div  style="font-size: 0.6em!important; font-weight: 600"> Nastepna data wpłaty</div>          <input id="nextPaymentDate" disabled value="' + nextPaymentDate + '" class="form-control my-2" type="date"  name="" />' +
+            '  <br>             ' +
+            '  <div style="font-size: 0.8em!important; font-weight: 600">' +
+            '  <input type="checkbox" style="max-width: 20px; font-size: 2em" id="input-individual-informations" onclick="showOrHide(\'input-individual-informations\',\'individual-informations\')"/> Rozliczenie indywidualne <a href="#" class=""> <i style="font-size: 1.2em!important;" class="bx bxs-info-circle info"> </i></a></div>             ' +
+            '  <div id="individual-informations" style="display:none;" >' +
+            '  <hr/>' +
+            ' <input id="individualPriceId" hidden  value="' + individualPriceId + '" class="form-control my-1 mr-sm-2" />' +
+            '<div style="font-size: 0.6em!important; font-weight: 600"> Nazwa karnetu</div>             <input id="individualPriceName" value="' + individualPriceName + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Cykl rozliczeniowy(dni)</div>              <input id="individualPriceCycle" onchange="changeDate()"  value="' + individualPriceCycle + '" class="form-control my-1 mr-sm-2" />' +
+            '  <div style="font-size: 0.6em!important; font-weight: 600"> Rozliczenie(zł)</div>      <input id="individualPriceValue" value="' + individualPriceValue + '" class="form-control my-1 mr-sm-2" placeholder="Rozliczenie"/> ' +
+            '  </div>' +
             '             </div>\n' +
             '             <div class="modal-footer">\n' +
             '                 <button id="button-edit-price" class="option-card-button btnShow" data-dismiss="modal" style="font-size: 0.9em!important;  min-width: 75px!important; height: auto!important"\n' +
-            '                         onclick="">Edytuj</button>\n' +
+            '                         onclick="editUser()">Edytuj</button>\n' +
             '                 <button type="button" class="option-card-button" style="font-size: 0.9em!important; min-width: 75px!important; height: auto!important" data-dismiss="modal">Anuluj</button>\n' +
             '             </div>\n' +
             '         </div>\n' +
             '     </div>\n' +
             ' </div>';
-
         document.getElementById("modals").innerHTML = result;
         document.getElementById("editButton").click();
+    }
+
+    function changeDate() {
+        let currentPaymentDate = document.getElementById('currentPaymentDate').value;
+        var actuallyPaymentDate = new Date(currentPaymentDate);
+        let cycle = document.getElementById('individualPriceCycle').value;
+
+        actuallyPaymentDate.setDate(actuallyPaymentDate.getDate() + parseInt(cycle));
+
+        var month = ["01", "02", "03", "04", "05", "06",
+            "07", "08", "09", "10", "11", "12"][actuallyPaymentDate.getMonth()];
+
+        var day = actuallyPaymentDate.getDate();
+
+        if (day < 10)
+            day = "0" + day.toString();
+
+        document.getElementById('nextPaymentDate').value = actuallyPaymentDate.getFullYear() + '-' + month + '-' + day;
+    }
+
+    function yyyyMMdd(ddMMyyyy) {
+
+        var dd = ddMMyyyy.substring(0, 2);
+        var MM = ddMMyyyy.substring(3, 5);
+        var yyyy = ddMMyyyy.substring(6, 10);
+
+        return yyyy + "-" + MM + "-" + dd;
+
+    }
+
+    function ddMMyyyy(date) {
+    }
+
+    function showOrHide(element, nameId) {
+        if (document.getElementById(element).checked) {
+            document.getElementById(nameId).style.display = "block";
+            return;
+        }
+        document.getElementById(nameId).style.display = "none";
     }
 
     function deleteUser(idTeam, idUser) {
@@ -677,7 +724,6 @@
         }
     }
 
-
     function generatedDivPricesForEdit(prices, ids, classes) {
 
         var result = "";
@@ -688,7 +734,7 @@
                 +
                 '<div class="part-prices-edit">\n' +
                 '<div class="' + classes + ' " style="display: flex;color:black; font-size: 0.6em!important;">\n' +
-                '<input style="width: 20px !important;" type="radio"   value="' + prices['prices'][i]['idPrice'] + '" name="priceId"/>\n' +
+                '<input class="radioIdPrices"  style="width: 20px !important;" type="radio"   value="' + prices['prices'][i]['idPrice'] + '" name="priceId"/>\n' +
                 ' <b>' + "Nazwa:&nbsp;" + '</b>' + prices['prices'][i]['name'] + ", &nbsp;" +
                 ' <b>' + "Cena:&nbsp;" + '</b>' + prices['prices'][i]['value'] + "zł, &nbsp;" +
                 ' <b>' + "Rozliczenie:&nbsp;" + '</b>' + prices['prices'][i]['cycle'] + "dni, &nbsp;" +
@@ -700,7 +746,8 @@
         showOrHidePrices("block", "part-prices-edit");
     }
 
-    function editUser(name, surname, individualPriceId, individualPriceName, individualPriceValue, individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate, teamName, dateOfRecording, email, phone, idUser) {
+
+    function userToEdit(name, surname, individualPriceId, individualPriceName, individualPriceValue, individualPriceCycle, individualPriceDesc, currentPaymentDate, nextPaymentDate, teamName, dateOfRecording, email, phone, idUser) {
 
         var xhr = new XMLHttpRequest();
 
@@ -899,14 +946,52 @@
         xhr.send('');
 
         xhr.onreadystatechange = function () {
-            var presences;
             if (this.readyState === 4 && this.status === 200) {
-                presences = JSON.parse(xhr.responseText);
-                // generateTable(presences);
+                var presences = xhr.responseText;
+                document.getElementById('alert-presences-success').style.display = "block";
+                document.getElementById('alert-presences-success').innerText = presences;
             }
         }
     }
+    function editUser() {
 
+        let modalUserId = document.getElementById('modalUserId').value;
+        let modalUserName = document.getElementById('modalUserName').value;
+        let modalUserSurname = document.getElementById('modalUserSurname').value;
+        let individualPriceId = document.getElementById('individualPriceId').value;
+        let modalUserGroupId = document.getElementById('modalUserGroupId').value;
+        let modalUserEmail = document.getElementById('modalUserEmail').value;
+        let modalUserPhoneNumber = document.getElementById('modalUserPhoneNumber').value;
+        let currentPaymentDate = document.getElementById('currentPaymentDate').value;
+        let nextPaymentDate = document.getElementById('nextPaymentDate').value;
+        let individualPriceName = document.getElementById('individualPriceName').value;
+        let individualPriceCycle = document.getElementById('individualPriceCycle').value;
+        let individualPriceValue = document.getElementById('individualPriceValue').value;
+
+        let idPrice=""
+
+        if (modalUserGroupId!=="") {
+            let elementsPrices = document.getElementsByClassName('radioIdPrices');
+            for (var i = 0; i < elementsPrices.length; i++) {
+                let isChecked = document.getElementsByClassName('radioIdPrices')[i].checked;
+                if (isChecked)
+                {
+                    idPrice = document.getElementsByClassName('radioIdPrices')[i].value;
+
+                }
+            }
+        }
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('GET', "/app/getTeamsAndPrices", true);
+        xhr.send('');
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {}
+        }
+
+    }
 </script>
 </body>
 </html>

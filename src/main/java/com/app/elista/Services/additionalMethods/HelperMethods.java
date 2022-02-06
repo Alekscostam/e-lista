@@ -4,12 +4,10 @@ import lombok.NoArgsConstructor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 public class HelperMethods {
@@ -88,5 +86,79 @@ public class HelperMethods {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
+    }
+
+
+    public static List<String> dataFromDataTo(String stringWithDates, Integer cycle){
+
+//String stringWithDates, Integer cycle
+        LocalDate today = LocalDate.now();
+        Map<LocalDate,String> ld= new HashMap<>();
+
+            List<String> listDataFromDataTo = new ArrayList<>();
+
+
+        for (int i = 0; i < 7; i++) {
+            LocalDate daysLater = today.plusDays(i);
+            String dayOfWeek = daysLater.getDayOfWeek().toString();
+            dayOfWeek = dayOfWeek.substring(0,1).toUpperCase()+dayOfWeek.substring(1).toLowerCase();
+            String dayName = HelperMethods.formatDayWeekName(dayOfWeek);
+
+            if(stringWithDates.contains(dayName)){
+                ld.put(daysLater,dayName);
+
+            }
+        }
+
+
+        LocalDate firstDate = null;
+        for (Map.Entry<LocalDate, String> entry : ld.entrySet()) {
+            firstDate = entry.getKey();
+        }
+
+        String dayFirst="";
+        if (firstDate.getDayOfMonth()<10)
+            dayFirst = "0" + firstDate.getDayOfMonth();
+        else
+            dayFirst =String.valueOf(firstDate.getDayOfMonth());
+
+
+        String monthFirst="";
+        if (firstDate.getMonthValue()<10)
+            monthFirst = "0" + firstDate.getMonthValue();
+        else
+            monthFirst =String.valueOf(firstDate.getMonthValue());
+
+        int yearFirst = firstDate.getYear();
+
+
+        String firstDateConverted = dayFirst+"-"+monthFirst+"-"+ yearFirst;
+
+
+        LocalDate lastDate = firstDate.plusDays(cycle);
+
+
+        String dayLast="";
+        if (lastDate.getDayOfMonth()<10)
+            dayLast = "0" + lastDate.getDayOfMonth();
+        else
+            dayLast =String.valueOf(lastDate.getDayOfMonth());
+
+
+        String monthLast="";
+        if (lastDate.getMonthValue()<10)
+            monthLast = "0" + lastDate.getMonthValue();
+        else
+            monthLast =String.valueOf(lastDate.getMonthValue());
+
+
+        int yearLast = lastDate.getYear();
+
+        String lastDateConverted = dayLast+"-"+monthLast+"-"+ yearLast;
+
+        listDataFromDataTo.add(firstDateConverted);
+        listDataFromDataTo.add(lastDateConverted);
+
+        return listDataFromDataTo;
     }
 }

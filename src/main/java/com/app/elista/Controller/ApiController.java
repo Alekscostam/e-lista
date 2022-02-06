@@ -1,6 +1,7 @@
 package com.app.elista.Controller;
 
 import com.app.elista.Services.*;
+import com.app.elista.Services.additionalMethods.HelperMethods;
 import com.app.elista.appcompany.AppCompany;
 import com.app.elista.model.*;
 import com.app.elista.model.extended.AllInfo;
@@ -240,14 +241,23 @@ public class ApiController {
 
         Teams team = teamsService.findTeamById(groupId);
 
-        Boolean adult;
+        List<String> dataFromDataTo = dataFromDataTo(team.getTerms(), (int) price.getCycle());
+
+        boolean adult;
         adult = Objects.equals(userOfAge, "true");
 
-        Users user = new Users(appCompany, userName, userSurname, Integer.valueOf(userPhone), userEmail, adult, price.getIdPrice(), price.getName(), price.getValue(), price.getCycle(), price.getDescription(), "", "", getLocalDateTime(), team);
+        Users user = new Users(appCompany, userName, userSurname, Integer.valueOf(userPhone), userEmail, adult, price.getIdPrice(), price.getName(), price.getValue(), price.getCycle(), price.getDescription(),dataFromDataTo.get(0) , dataFromDataTo.get(1), getLocalDateTime(), team);
 
         usersService.saveUser(user);
         team.setFreeSpace((short) (team.getFreeSpace() + (short) 1));
         teamsService.saveTeam(team);
+
+    }
+    @ResponseBody
+    @PostMapping("editUser")
+    public void editUser(String groupId, String priceId, String userName, String userSurname, String userPhone, String userEmail, String userOfAge, @AuthenticationPrincipal AppCompany appCompany) {
+
+
 
     }
 
@@ -353,6 +363,7 @@ public class ApiController {
 
         if (idPriceNumber != null && !(idPriceNumber.isEmpty())) {
             Prices price = pricesService.findByPriceId(idPriceNumber);
+
             price.setName(priceName);
             price.setValue(priceValue);
             price.setDescription(priceDescription);
@@ -392,7 +403,7 @@ public class ApiController {
             Dates foundDate = datesService.saveDate(changedDate);
             presencesService.savePresences(foundDate.getIdDates(), checkedValues, allUsersByUserIds);
 
-            return "zapisano";
+            return "Zapisano!";
         }
 
     }
@@ -489,30 +500,29 @@ public class ApiController {
             team.setFirstFree(resultFirstFree);
             team.setTerms(addedTerms);
             List<String> days = splitDays(splitDays);
-            String localDateTime = getLocalDateTime();
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
             List<DatesForGroups> byGroupId = datesForGroupsService.findByGroupId(teamById.getIdTeam());
             List<Long> idDates = byGroupId.stream().map(DatesForGroups::getIdDates).collect(Collectors.toList());
             List<Long> idsToDelete= new ArrayList<>();
 
-            for (int i = 0; i < idDates.size(); i++) {
-                idsToDelete.add(datesService.findDatesUnderActuallyDateByDataId(idDates.get(i),days))  ;
+            for (Long idDate : idDates) {
+                idsToDelete.add(datesService.findDatesUnderActuallyDateByDataId(idDate, days));
             }
 
             List<DatesForGroups> filteredDates = new ArrayList<>();
 
-            for (int i = 0; i < byGroupId.size(); i++) {
-                for (int i1 = 0; i1 < idsToDelete.size(); i1++) {
-                 if(byGroupId.get(i).getIdDates().equals(idsToDelete.get(i1))){
-                     filteredDates.add(byGroupId.get(i));
-                 }
+            for (DatesForGroups datesForGroups : byGroupId) {
+                for (Long aLong : idsToDelete) {
+                    if (datesForGroups.getIdDates().equals(aLong)) {
+                        filteredDates.add(datesForGroups);
+                    }
                 }
             }
             List<Long> selectedIds = filteredDates.stream().map(DatesForGroups::getIdDatesForGroups).collect(Collectors.toList());
+            List<Long> selectedIdDates = filteredDates.stream().map(DatesForGroups::getIdDates).collect(Collectors.toList());
             datesForGroupsService.deleteFromDatesAndGroups(selectedIds);
-            List<Users> allUsers = usersService.findAllUsersByGroupId(groupId);
-            presencesService.deletePresencesByUserIdAndIdDates(allUsers,selectedIds);
+            List<Users> allUsers = usersService.findAllUsersByGroupIdWithAppCompany(groupId);
+            presencesService.deletePresencesByUserIdAndIdDates(allUsers,selectedIdDates);
             datesForGroupsService.editDatesForGroups(teamById,days);
 
         } else {
